@@ -1,0 +1,23 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package FacultyAdvisement;
+
+import java.sql.SQLException;
+import java.util.Dictionary;
+import javax.sql.DataSource;
+
+/**
+ *
+ * @author abilb
+ */
+public interface CRUDHandler {
+    
+    void create(DataSource ds) throws SQLException;
+    Object read (DataSource ds, String key) throws SQLException; 
+    Dictionary readAll (DataSource ds) throws SQLException;
+    void update (DataSource ds, Object object) throws SQLException;
+    void delete (DataSource ds, String key) throws SQLException; 
+}
