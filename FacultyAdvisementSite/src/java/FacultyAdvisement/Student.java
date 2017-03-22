@@ -8,6 +8,7 @@ package FacultyAdvisement;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Dictionary;
 import java.util.logging.Level;
@@ -72,8 +73,7 @@ public class Student implements CRUDHandler {
                 + "VALUES (?, ?, ?, ?)";
         String userSQL = "INSERT INTO USERTABLE(PASSWORD, EMAIL)) VALUES (?,?)";
         
-        String grouptable = "INSERT INTO Grouptable(groupname, email) "
-                + "VALUES ('studentgroup', ?)"; 
+        String groupSQL = "INSERT INTO GROUPTABLE(GROUPNAME, USERNAME) VALUES (CUSTOMERGROUP, ?)";
        
             if (ds == null) {
                 throw new SQLException("ds is null; Can't get data source");
@@ -109,14 +109,13 @@ public class Student implements CRUDHandler {
                 Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            sqlStatement.setString(1, this.username);
+            sqlStatement.setString(2, this.username);
             sqlStatement.execute();
             
-            //Group Table 
-            PreparedStatement groupStatement = conn.prepareStatement(grouptable);
-            groupStatement.setString(1, this.username);
-            groupStatement.executeUpdate();
-            
+            //Group Table
+            sqlStatement = conn.prepareStatement(groupSQL);
+            sqlStatement.setString(1, this.username);
+            sqlStatement.execute();
             } finally {
             conn.close();
                }
@@ -129,18 +128,95 @@ public class Student implements CRUDHandler {
     }
 
     @Override
-    public void update(DataSource ds, Object object) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(DataSource ds) throws SQLException {
+        String studentSQL = "UPDATE Book SET STUID= ?, MAJORCODE = ?, PASSWORD = ?, PHONENUMBER = ?, WHERE STUID = ?";
+        String userSQL = "UPDATE USERTABLE SET PASSWORD = ?";
+        
+       
+            if (ds == null) {
+                throw new SQLException("ds is null; Can't get data source");
+            }
+
+            Connection conn = ds.getConnection();
+
+            if (conn == null) {
+                throw new SQLException("conn is null; Can't get db connection");
+            }
+
+            try {
+          
+           //Here we execute three SQL statements
+            //Student Information
+            PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
+            //sqlStatement.setString(1, Integer.toString(books.size() + 1)); //Integer.toString(this.getBooks().size() + 1));
+            sqlStatement.setString(1, Integer.toString(this.id));
+            sqlStatement.setString(3, Integer.toString(this.majorCode));
+            sqlStatement.setString(4, this.phoneNumber);
+            sqlStatement.setString(5, Integer.toString(this.id));
+          
+            sqlStatement.executeUpdate();
+
+            //user credentials
+            sqlStatement = conn.prepareStatement(userSQL);
+            
+            try {
+                //Encrypt the pssword into SHA-256
+                sqlStatement.setString(1, Encrypt.encrypt(this.password));
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+          
+            sqlStatement.execute();
+            
+            
+            } finally {
+            conn.close();
+               }
     }
 
+    
     @Override
     public void delete(DataSource ds, String key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Object read(DataSource ds, String key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void read(DataSource ds, String key) throws SQLException {
+        String studentSQL = "SElECT FROM STUDENT WHERE STUID = ?";
+          
+       
+            if (ds == null) {
+                throw new SQLException("ds is null; Can't get data source");
+            }
+
+            Connection conn = ds.getConnection();
+
+            if (conn == null) {
+                throw new SQLException("conn is null; Can't get db connection");
+            }
+
+            try {
+          
+           //Here we execute three SQL statements
+            //Student Information
+            PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
+            //sqlStatement.setString(1, Integer.toString(books.size() + 1)); //Integer.toString(this.getBooks().size() + 1));
+            sqlStatement.setString(1,key);
+          
+            ResultSet result = sqlStatement.executeQuery();
+ 
+             this.id = result.getInt("STUID");
+             this.majorCode = result.getInt("MAJORCODE");
+             this.password = result.getString("password");
+             this.username = result.getString(key);
+             this.phoneNumber = result.getString("phone");
+            
+            } finally {
+            conn.close();
+               }
+    
+            
     }
 
    

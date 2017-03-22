@@ -16,8 +16,8 @@ import javax.sql.DataSource;
 public interface CRUDHandler {
     
     void create(DataSource ds) throws SQLException;
-    Object read (DataSource ds, String key) throws SQLException; 
+    void read (DataSource ds, String key) throws SQLException; 
     Dictionary readAll (DataSource ds) throws SQLException;
-    void update (DataSource ds, Object object) throws SQLException;
+    void update (DataSource ds) throws SQLException;
     void delete (DataSource ds, String key) throws SQLException; 
 }
