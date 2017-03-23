@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Dictionary;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -131,7 +132,7 @@ public class Student implements CRUDHandler {
     }
 
       @Override
-    public Dictionary readAll(DataSource ds) throws SQLException {
+    public Map readAll(DataSource ds) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
