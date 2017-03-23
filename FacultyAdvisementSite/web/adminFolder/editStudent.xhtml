@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Edit Student</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:dataTable value="#{studentBean.students.entrySet()}" var="student"
+                         headerClass="header" rowClasses="evenRow, oddRow">
+                
+                <h:column>
+                    <f:facet name="header">Student ID</f:facet>
+                    <h:outputText value="#{student.key}"/>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Email</f:facet>
+                    <h:inputText id="author" value="#{student.value.email}"
+                                 rendered="#{student.value.editable}"/>
+                    <h:message for="author" errorStyle="color: red" />
+                    <h:outputText value="#{student.value.email}" 
+                                  rendered="#{not student.value.editable}"/>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Major</f:facet>
+                    <h:inputText id="price" value="#{student.value.major}"
+                                 rendered="#{student.value.editable}"/>
+                    <h:message for="price" errorStyle="color: red" />
+                    <h:outputText value="#{student.value.major}" 
+                                  rendered="#{not student.value.editable}"/>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Phone Number</f:facet>
+                    <h:inputText id="year" value="#{student.value.phone}"
+                                 rendered="#{student.value.editable}"/>
+                    <h:message for="year" errorStyle="color: red" />
+                    <h:outputText value="#{student.value.phone}" 
+                                  rendered="#{not student.value.editable}"/>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Edit/Save</f:facet>
+                    <h:commandButton value="Save" action="#{student.value.setEditable(false)}"
+                                     rendered="#{student.value.editable}">
+                        
+                    </h:commandButton>
+                    <h:commandButton value="Edit" action="#{student.value.setEditable(true)}"
+                                     rendered="#{not student.value.editable}"/>
+                </h:column>
+                
+                <h:column>
+                    <f:facet name="header">Delete</f:facet>
+                    
+                </h:column>
+                
+            </h:dataTable>
+        </h:form>
+        <h:link value="Go Back" outcome="/adminFolder/adminhome" /><br />
+    </h:body>
+</html>
+

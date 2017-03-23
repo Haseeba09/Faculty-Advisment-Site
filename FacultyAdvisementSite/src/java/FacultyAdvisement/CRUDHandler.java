@@ -6,7 +6,7 @@
 package FacultyAdvisement;
 
 import java.sql.SQLException;
-import java.util.Dictionary;
+import java.util.Map;
 import javax.sql.DataSource;
 
 /**
@@ -17,7 +17,7 @@ public interface CRUDHandler {
     
     void create(DataSource ds) throws SQLException;
     void read (DataSource ds, String key) throws SQLException; 
-    Dictionary readAll (DataSource ds) throws SQLException;
+    Map readAll (DataSource ds) throws SQLException;
     void update (DataSource ds) throws SQLException;
     void delete (DataSource ds, String key) throws SQLException; 
 }
