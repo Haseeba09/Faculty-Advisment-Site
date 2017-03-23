@@ -8,18 +8,18 @@
          <link rel="stylesheet" href="p3css.css" />
     </h:head> 
     <h:body>
-        <h1>User Profile</h1>
-        <br />
-        <h2>Hello! #{facesContext.externalContext.userPrincipal.name}</h2>
+        
         <h2>Hi! #{userBean.username}</h2>
-        <br />
+       
         <h:link value="Go home" outcome="/index" /><br />
         
         <h:link value="Logout" outcome="/logout" /> <br />
+        <b:container>
+        <b:jumbotron>    
         <b:form id="studentForm">
-            
+             <h:panelGrid columns="3" cellpadding="5">
              <b:inputText id="password" value="#{userBean.student.password}" rendered="#{userBean.student.edit}" />
-              <h:panelGrid columns="3" cellpadding="5">
+            
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
                         <h:outputText value="#{userBean.student.password}" rendered="#{!userBean.student.edit}" />
@@ -35,9 +35,10 @@
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
                         <h:outputText value="#{userBean.student.phoneNumber}" rendered="#{!userBean.student.edit}" />       
-                        </h:panelGrid>
+            </h:panelGrid>
         </b:form> 
-        
+        </b:jumbotron>    
+        </b:container>
     </h:body>
 </html>
 

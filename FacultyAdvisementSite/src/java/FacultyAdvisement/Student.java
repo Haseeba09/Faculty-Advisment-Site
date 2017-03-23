@@ -191,7 +191,7 @@ public class Student implements CRUDHandler {
 
     @Override
     public void read(DataSource ds, String key) throws SQLException {
-        String studentSQL = "SElECT FROM STUDENT WHERE STUID = ?";
+        String studentSQL = "SElECT * FROM STUDENT WHERE EMAIL = ?";
         this.edit = false; 
        
             if (ds == null) {
@@ -206,19 +206,18 @@ public class Student implements CRUDHandler {
 
             try {
           
-           //Here we execute three SQL statements
-            //Student Information
+     
             PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
-            //sqlStatement.setString(1, Integer.toString(books.size() + 1)); //Integer.toString(this.getBooks().size() + 1));
-            sqlStatement.setString(1,key);
+  
+            sqlStatement.setString(1, key);
           
             ResultSet result = sqlStatement.executeQuery();
  
-             this.id = result.getInt("STUID");
-             this.majorCode = result.getInt("MAJORCODE");
-             this.password = result.getString("password");
-             this.username = result.getString(key);
-             this.phoneNumber = result.getString("phone");
+             //this.id = Integer.parseInt(result.getString("STUID"));
+            // this.majorCode = Integer.parseInt(result.getString("majorcode"));
+            // this.password = result.getString("password");
+             this.username = key;
+            // this.phoneNumber = result.getString("phone");
             
             } finally {
             conn.close();

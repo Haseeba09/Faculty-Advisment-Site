@@ -40,6 +40,7 @@ public class UserBean implements Serializable {
         } catch (SQLException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
     }
 
     public String getUsername() {
