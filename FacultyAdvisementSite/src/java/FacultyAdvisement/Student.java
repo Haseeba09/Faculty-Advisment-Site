@@ -26,7 +26,15 @@ public class Student implements CRUDHandler {
     private int id; 
     private int majorCode;
     private String phoneNumber; 
-    
+    private boolean edit = false; 
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
     public String getUsername() {
         return username;
     }
@@ -184,7 +192,7 @@ public class Student implements CRUDHandler {
     @Override
     public void read(DataSource ds, String key) throws SQLException {
         String studentSQL = "SElECT FROM STUDENT WHERE STUID = ?";
-          
+        this.edit = false; 
        
             if (ds == null) {
                 throw new SQLException("ds is null; Can't get data source");
