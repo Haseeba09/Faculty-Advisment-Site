@@ -15,7 +15,7 @@ import javax.sql.DataSource;
  */
 public interface CRUDHandler {
     
-    void create(DataSource ds) throws SQLException;
+    void create (DataSource ds) throws SQLException;
     void read (DataSource ds, String key) throws SQLException; 
     Map readAll (DataSource ds) throws SQLException;
     void update (DataSource ds) throws SQLException;
