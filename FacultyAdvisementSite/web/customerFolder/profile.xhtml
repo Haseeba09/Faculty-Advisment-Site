@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:b="http://bootsfaces.net/ui"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
     <h:head>
         <title>user home</title>
-         <link rel="stylesheet" href="p3css.css" />
+        <link rel="stylesheet" href="p3css.css" />
     </h:head> 
     <h:body>
         <h1>User Profile</h1>
@@ -14,30 +14,30 @@
         <h2>Hi! #{userBean.username}</h2>
         <br />
         <h:link value="Go home" outcome="/index" /><br />
-        
+
         <h:link value="Logout" outcome="/logout" /> <br />
         <b:form id="studentForm">
-            
-             <b:inputText id="password" value="#{userBean.student.password}" rendered="#{userBean.student.edit}" />
-              <h:panelGrid columns="3" cellpadding="5">
-                        <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
-                        <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
-                        <h:outputText value="#{userBean.student.password}" rendered="#{!userBean.student.edit}" />
-             <b:inputText id="id" value="#{userBean.student.id}" rendered="#{userBean.student.edit}" />
-                        <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
-                        <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
-                        <h:outputText value="#{userBean.student.id}" rendered="#{!userBean.student.edit}" />
-            <b:inputText id="majorCode" value="#{userBean.student.majorCode}" rendered="#{student.edit}" />
-                        <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
-                        <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
-                        <h:outputText value="#{userBean.student.majorCode}" rendered="#{!userBean.student.edit}" />
-            <b:inputText id="phoneNumber" value="#{userBean.student.phoneNumber}" rendered="#{student.edit}" />
-                        <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
-                        <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
-                        <h:outputText value="#{userBean.student.phoneNumber}" rendered="#{!userBean.student.edit}" />       
-                        </h:panelGrid>
+
+            <b:inputText id="password" value="#{userBean.student.password}" rendered="#{userBean.student.edit}" />
+            <h:panelGrid columns="3" cellpadding="5">
+                <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
+                <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
+                <h:outputText value="#{userBean.student.password}" rendered="#{!userBean.student.edit}" />
+                <b:inputText id="id" value="#{userBean.student.id}" rendered="#{userBean.student.edit}" />
+                <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
+                <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
+                <h:outputText value="#{userBean.student.id}" rendered="#{!userBean.student.edit}" />
+                <b:inputText id="majorCode" value="#{userBean.student.majorCode}" rendered="#{student.edit}" />
+                <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
+                <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
+                <h:outputText value="#{userBean.student.majorCode}" rendered="#{!userBean.student.edit}" />
+                <b:inputText id="phoneNumber" value="#{userBean.student.phoneNumber}" rendered="#{student.edit}" />
+                <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
+                <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
+                <h:outputText value="#{userBean.student.phoneNumber}" rendered="#{!userBean.student.edit}" />       
+            </h:panelGrid>
         </b:form> 
-        
+
     </h:body>
 </html>
 

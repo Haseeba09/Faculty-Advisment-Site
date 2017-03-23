@@ -16,9 +16,8 @@ import javax.sql.DataSource;
 @SessionScoped
 public class UserBean implements Serializable {
 
-    
     private String username;
-    private Student student; 
+    private Student student;
 
     public Student getStudent() {
         return student;
@@ -27,14 +26,15 @@ public class UserBean implements Serializable {
     public void setStudent(Student student) {
         this.student = student;
     }
-       @Resource(name = "jdbc/ds_wsp")
-      private DataSource ds;
+    @Resource(name = "jdbc/ds_wsp")
+    private DataSource ds;
+
     @PostConstruct
     public void init() {
         FacesContext fc = FacesContext.getCurrentInstance();
         Principal p = fc.getExternalContext().getUserPrincipal();
         username = p.getName();
-        student = new Student(); 
+        student = new Student();
         try {
             student.read(ds, username);
         } catch (SQLException ex) {

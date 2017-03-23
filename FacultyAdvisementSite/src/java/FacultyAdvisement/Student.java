@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Dictionary;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -20,13 +20,14 @@ import javax.sql.DataSource;
  * @author abilb
  */
 public class Student implements CRUDHandler {
+
     //the username takes the format of an email
-    private String username; 
-    private String password; 
-    private int id; 
+    private String username;
+    private String password;
+    private int id;
     private int majorCode;
-    private String phoneNumber; 
-    private boolean edit = false; 
+    private String phoneNumber;
+    private boolean edit = false;
 
     public boolean isEdit() {
         return edit;
@@ -35,6 +36,7 @@ public class Student implements CRUDHandler {
     public void setEdit(boolean edit) {
         this.edit = edit;
     }
+
     public String getUsername() {
         return username;
     }
@@ -74,28 +76,28 @@ public class Student implements CRUDHandler {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-   
+
     @Override
     public void create(DataSource ds) throws SQLException {
         String studentSQL = "INSERT INTO STUDENT(STUID, EMAIL, MAJORCODE, PHONE) "
                 + "VALUES (?, ?, ?, ?)";
         String userSQL = "INSERT INTO USERTABLE(PASSWORD, EMAIL)) VALUES (?,?)";
-        
+
         String groupSQL = "INSERT INTO GROUPTABLE(GROUPNAME, USERNAME) VALUES (CUSTOMERGROUP, ?)";
-       
-            if (ds == null) {
-                throw new SQLException("ds is null; Can't get data source");
-            }
 
-            Connection conn = ds.getConnection();
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
 
-            if (conn == null) {
-                throw new SQLException("conn is null; Can't get db connection");
-            }
+        Connection conn = ds.getConnection();
 
-            try {
-          
-           //Here we execute three SQL statements
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        try {
+
+            //Here we execute three SQL statements
             //Student Information
             PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
             //sqlStatement.setString(1, Integer.toString(books.size() + 1)); //Integer.toString(this.getBooks().size() + 1));
@@ -103,35 +105,34 @@ public class Student implements CRUDHandler {
             sqlStatement.setString(2, this.username);
             sqlStatement.setString(3, Integer.toString(this.majorCode));
             sqlStatement.setString(4, this.phoneNumber);
-           
-          
+
             sqlStatement.executeUpdate();
 
             //user credentials
             sqlStatement = conn.prepareStatement(userSQL);
-            
+
             try {
                 //Encrypt the pssword into SHA-256
                 sqlStatement.setString(1, Encrypt.encrypt(this.password));
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             sqlStatement.setString(2, this.username);
             sqlStatement.execute();
-            
+
             //Group Table
             sqlStatement = conn.prepareStatement(groupSQL);
             sqlStatement.setString(1, this.username);
             sqlStatement.execute();
-            } finally {
+        } finally {
             conn.close();
-               }
-            
+        }
+
     }
 
-      @Override
-    public Dictionary readAll(DataSource ds) throws SQLException {
+    @Override
+    public Map readAll(DataSource ds) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -139,21 +140,20 @@ public class Student implements CRUDHandler {
     public void update(DataSource ds) throws SQLException {
         String studentSQL = "UPDATE Book SET STUID= ?, MAJORCODE = ?, PASSWORD = ?, PHONENUMBER = ?, WHERE STUID = ?";
         String userSQL = "UPDATE USERTABLE SET PASSWORD = ?";
-        
-       
-            if (ds == null) {
-                throw new SQLException("ds is null; Can't get data source");
-            }
 
-            Connection conn = ds.getConnection();
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
 
-            if (conn == null) {
-                throw new SQLException("conn is null; Can't get db connection");
-            }
+        Connection conn = ds.getConnection();
 
-            try {
-          
-           //Here we execute three SQL statements
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        try {
+
+            //Here we execute three SQL statements
             //Student Information
             PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
             //sqlStatement.setString(1, Integer.toString(books.size() + 1)); //Integer.toString(this.getBooks().size() + 1));
@@ -161,29 +161,26 @@ public class Student implements CRUDHandler {
             sqlStatement.setString(3, Integer.toString(this.majorCode));
             sqlStatement.setString(4, this.phoneNumber);
             sqlStatement.setString(5, Integer.toString(this.id));
-          
+
             sqlStatement.executeUpdate();
 
             //user credentials
             sqlStatement = conn.prepareStatement(userSQL);
-            
+
             try {
                 //Encrypt the pssword into SHA-256
                 sqlStatement.setString(1, Encrypt.encrypt(this.password));
             } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-          
+
             sqlStatement.execute();
-            
-            
-            } finally {
+
+        } finally {
             conn.close();
-               }
+        }
     }
 
-    
     @Override
     public void delete(DataSource ds, String key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -191,43 +188,39 @@ public class Student implements CRUDHandler {
 
     @Override
     public void read(DataSource ds, String key) throws SQLException {
-        String studentSQL = "SElECT FROM STUDENT WHERE STUID = ?";
-        this.edit = false; 
-       
-            if (ds == null) {
-                throw new SQLException("ds is null; Can't get data source");
-            }
+        String studentSQL = "SELECT FROM STUDENT WHERE STUID = ?";
+        this.edit = false;
 
-            Connection conn = ds.getConnection();
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
 
-            if (conn == null) {
-                throw new SQLException("conn is null; Can't get db connection");
-            }
+        Connection conn = ds.getConnection();
 
-            try {
-          
-           //Here we execute three SQL statements
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        try {
+
+            //Here we execute three SQL statements
             //Student Information
             PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
             //sqlStatement.setString(1, Integer.toString(books.size() + 1)); //Integer.toString(this.getBooks().size() + 1));
-            sqlStatement.setString(1,key);
-          
+            sqlStatement.setString(1, key);
+
             ResultSet result = sqlStatement.executeQuery();
- 
-             this.id = result.getInt("STUID");
-             this.majorCode = result.getInt("MAJORCODE");
-             this.password = result.getString("password");
-             this.username = result.getString(key);
-             this.phoneNumber = result.getString("phone");
-            
-            } finally {
+
+            this.id = result.getInt("STUID");
+            this.majorCode = result.getInt("MAJORCODE");
+            this.password = result.getString("password");
+            this.username = result.getString(key);
+            this.phoneNumber = result.getString("phone");
+
+        } finally {
             conn.close();
-               }
-    
-            
+        }
+
     }
 
-   
-    
-    
 }
