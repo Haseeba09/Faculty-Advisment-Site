@@ -10,12 +10,12 @@
         <h:form>
             <h:dataTable value="#{studentBean.students.entrySet()}" var="student"
                          headerClass="header" rowClasses="evenRow, oddRow">
-                
+
                 <h:column>
                     <f:facet name="header">Student ID</f:facet>
                     <h:outputText value="#{student.key}"/>
                 </h:column>
-                
+
                 <h:column>
                     <f:facet name="header">Email</f:facet>
                     <h:inputText id="author" value="#{student.value.email}"
@@ -24,7 +24,7 @@
                     <h:outputText value="#{student.value.email}" 
                                   rendered="#{not student.value.editable}"/>
                 </h:column>
-                
+
                 <h:column>
                     <f:facet name="header">Major</f:facet>
                     <h:inputText id="price" value="#{student.value.major}"
@@ -33,7 +33,7 @@
                     <h:outputText value="#{student.value.major}" 
                                   rendered="#{not student.value.editable}"/>
                 </h:column>
-                
+
                 <h:column>
                     <f:facet name="header">Phone Number</f:facet>
                     <h:inputText id="year" value="#{student.value.phone}"
@@ -42,22 +42,29 @@
                     <h:outputText value="#{student.value.phone}" 
                                   rendered="#{not student.value.editable}"/>
                 </h:column>
-                
+
+                <h:column>
+                    <f:facet name="header">Reset Password</f:facet>
+                    <h:selectBooleanCheckbox id="password" value="#{student.value.resetPassword}"
+                                             disabled="#{not student.value.editable}"/>
+                </h:column>
+
                 <h:column>
                     <f:facet name="header">Edit/Save</f:facet>
                     <h:commandButton value="Save" action="#{student.value.setEditable(false)}"
                                      rendered="#{student.value.editable}">
-                        
+                        <f:actionListener binding="#{studentBean.update(student.key)}"/>
                     </h:commandButton>
                     <h:commandButton value="Edit" action="#{student.value.setEditable(true)}"
                                      rendered="#{not student.value.editable}"/>
                 </h:column>
-                
+
                 <h:column>
                     <f:facet name="header">Delete</f:facet>
-                    
+                    <h:commandButton value="Delete" action="#{studentBean.delete(student.key)}"
+                                     rendered="#{not student.value.editable}"/>
                 </h:column>
-                
+
             </h:dataTable>
         </h:form>
         <h:link value="Go Back" outcome="/adminFolder/adminhome" /><br />

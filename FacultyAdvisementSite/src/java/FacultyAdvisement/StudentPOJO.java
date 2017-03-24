@@ -10,6 +10,7 @@ public class StudentPOJO {
     private String email;
     private String major;
     private String phone;
+    private boolean resetPassword;
     private boolean editable;
 
     public String getSid() {
@@ -44,6 +45,14 @@ public class StudentPOJO {
         this.phone = phone;
     }
 
+    public boolean isResetPassword() {
+        return resetPassword;
+    }
+
+    public void setResetPassword(boolean resetPassword) {
+        this.resetPassword = resetPassword;
+    }
+    
     public boolean isEditable() {
         return editable;
     }
