@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.faces.model.SelectItem;
 import javax.sql.DataSource;
 
 /**
@@ -30,16 +31,53 @@ public class StudentBean implements Serializable {
     private DataSource ds;
 
     private HashMap<String, StudentPOJO> students = new HashMap<>();
-
+    private List<SelectItem> majors = new ArrayList<>();
+    
     @PostConstruct
     public void init() {
         try {
             students = (HashMap<String, StudentPOJO>) readAll();
+            majors = getAvailableMajors();
         } catch (SQLException ex) {
             Logger.getLogger(StudentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public List<SelectItem> getAvailableMajors() throws SQLException {
+        
+        List<SelectItem> list = new ArrayList<>();
+        
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
+
+        Connection conn = ds.getConnection();
+
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "select * from AVAILABLEMAJOR"
+            );
+
+            // retrieve customer data from database
+            ResultSet result = ps.executeQuery();
+
+            while (result.next()) {
+                String s = result.getString("MAJORCODE");
+                list.add(new SelectItem(s));
+            }
+
+        } finally {
+            conn.close();
+        }
+        
+        return list;
+        
+    }
+    
     public HashMap<String, StudentPOJO> getStudents() {
         return students;
     }

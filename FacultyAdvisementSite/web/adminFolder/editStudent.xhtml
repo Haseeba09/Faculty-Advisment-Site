@@ -18,27 +18,28 @@
 
                 <h:column>
                     <f:facet name="header">Email</f:facet>
-                    <h:inputText id="author" value="#{student.value.email}"
+                    <h:inputText id="email" value="#{student.value.email}"
                                  rendered="#{student.value.editable}"/>
-                    <h:message for="author" errorStyle="color: red" />
+                    <h:message for="email" errorStyle="color: red" />
                     <h:outputText value="#{student.value.email}" 
                                   rendered="#{not student.value.editable}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Major</f:facet>
-                    <h:inputText id="price" value="#{student.value.major}"
-                                 rendered="#{student.value.editable}"/>
-                    <h:message for="price" errorStyle="color: red" />
+                    <h:selectOneMenu id="major" value="#{student.value.major}" rendered="#{student.value.editable}">
+                        <f:selectItems value="#{studentBean.availableMajors}"/>
+                    </h:selectOneMenu>
+                    <h:message for="major" errorStyle="color: red" />
                     <h:outputText value="#{student.value.major}" 
                                   rendered="#{not student.value.editable}"/>
                 </h:column>
 
                 <h:column>
                     <f:facet name="header">Phone Number</f:facet>
-                    <h:inputText id="year" value="#{student.value.phone}"
+                    <h:inputText id="phone" value="#{student.value.phone}"
                                  rendered="#{student.value.editable}"/>
-                    <h:message for="year" errorStyle="color: red" />
+                    <h:message for="phone" errorStyle="color: red" />
                     <h:outputText value="#{student.value.phone}" 
                                   rendered="#{not student.value.editable}"/>
                 </h:column>

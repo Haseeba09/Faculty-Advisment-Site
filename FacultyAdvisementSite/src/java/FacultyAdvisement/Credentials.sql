@@ -1,6 +1,7 @@
 drop table student;
 drop table USERTABLE;
 drop table GROUPTABLE;
+drop table AVAILABLEMAJOR;
 
 create table STUDENT(
     STUID varchar(8),
@@ -22,6 +23,11 @@ create table GROUPTABLE (
     GROUPNAME varchar(255),
     USERNAME varchar(255),
     primary key (id)
+);
+
+create table AVAILABLEMAJOR (
+    MAJORCODE varchar(4),
+    primary key (MAJORCODE)
 );
 
 /* username is root@uco.edu
@@ -53,3 +59,9 @@ insert into USERTABLE (username, password)
     values ('student4@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student4@uco.edu');
 insert into STUDENT(STUID, email, majorcode, phone) values ('00000004', 'student4@uco.edu', '6660', '4055550004');
+
+insert into AVAILABLEMAJOR (majorcode) values ('6100');
+insert into AVAILABLEMAJOR (majorcode) values ('6101');
+insert into AVAILABLEMAJOR (majorcode) values ('6102');
+insert into AVAILABLEMAJOR (majorcode) values ('6110');
+insert into AVAILABLEMAJOR (majorcode) values ('6660');
