@@ -2,12 +2,47 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>Edit Student</title>
     </h:head>
     <h:body>
-        <h:form>
+        <b:form>
+            <b:dataTable value="#{studentBean.students.entrySet()}" var="student">
+                <b:dataTableColumn label="Student ID" value="#{student.key}" order="asc"/>
+                <b:dataTableColumn label="Email">
+                    <b:inputText id="email" value="#{student.value.email}" rendered="#{student.value.editable}"/>
+                    <h:outputText value="#{student.value.email}" rendered="#{not student.value.editable}"/>
+                </b:dataTableColumn>
+                <b:dataTableColumn label="Major">
+                    <b:selectOneMenu id="major" value="#{student.value.major}" rendered="#{student.value.editable}">
+                        <f:selectItems value="#{studentBean.availableMajors}"/>
+                    </b:selectOneMenu>
+                    <h:outputText value="#{student.value.major}" rendered="#{not student.value.editable}"/>
+                </b:dataTableColumn>
+                <b:dataTableColumn label="Phone">
+                    <b:inputText id="phone" value="#{student.value.phone}" rendered="#{student.value.editable}"/>
+                    <h:outputText value="#{student.value.phone}" rendered="#{not student.value.editable}"/>
+                </b:dataTableColumn>
+                <b:dataTableColumn label="Reset Password" orderable="false">
+                    <b:selectBooleanCheckbox id="password" value="#{student.value.resetPassword}"
+                                             disabled="#{not student.value.editable}"/>
+                </b:dataTableColumn>
+                <b:dataTableColumn label="Edit/Save" orderable="false">
+                    <b:commandButton value="Save" iconAwesome="floppy-o" action="#{student.value.setEditable(false)}"
+                                     rendered="#{student.value.editable}">
+                        <f:actionListener binding="#{studentBean.update(student.key)}"/>
+                    </b:commandButton>
+                    <b:commandButton value="Edit" iconAwesome="pencil-square-o" action="#{student.value.setEditable(true)}"
+                                     rendered="#{not student.value.editable}"/>
+                </b:dataTableColumn>
+                <b:dataTableColumn label="Delete" orderable="false">
+                    <b:commandButton value="Delete" iconAwesome="trash-o" action="#{studentBean.delete(student.key)}"
+                                     rendered="#{not student.value.editable}"/>
+                </b:dataTableColumn>
+            </b:dataTable>
+
             <h:dataTable value="#{studentBean.students.entrySet()}" var="student"
                          headerClass="header" rowClasses="evenRow, oddRow">
 
@@ -52,7 +87,7 @@
 
                 <h:column>
                     <f:facet name="header">Edit/Save</f:facet>
-                    <h:commandButton value="Save" action="#{student.value.setEditable(false)}"
+                    <h:commandButton value="Save" action="#{studentBean.update(student.key)}"
                                      rendered="#{student.value.editable}">
                         <f:actionListener binding="#{studentBean.update(student.key)}"/>
                     </h:commandButton>
@@ -67,7 +102,7 @@
                 </h:column>
 
             </h:dataTable>
-        </h:form>
+        </b:form>
         <h:link value="Go Back" outcome="/adminFolder/adminhome" /><br />
     </h:body>
 </html>
