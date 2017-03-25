@@ -80,9 +80,9 @@ public class Student implements CRUDHandler {
     public void create(DataSource ds) throws SQLException {
         String studentSQL = "INSERT INTO STUDENT(STUID, EMAIL, MAJORCODE, PHONE) "
                 + "VALUES (?, ?, ?, ?)";
-        String userSQL = "INSERT INTO USERTABLE(PASSWORD, EMAIL)) VALUES (?,?)";
+        String userSQL = "INSERT INTO USERTABLE(PASSWORD, USERNAME) VALUES (?,?)"; //haseeb was here
         
-        String groupSQL = "INSERT INTO GROUPTABLE(GROUPNAME, USERNAME) VALUES (CUSTOMERGROUP, ?)";
+        String groupSQL = "INSERT INTO GROUPTABLE(GROUPNAME, USERNAME) VALUES (\'customergroup\', ?)";
        
             if (ds == null) {
                 throw new SQLException("ds is null; Can't get data source");

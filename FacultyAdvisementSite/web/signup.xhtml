@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <b:container>
+            <b:form id="registration_form">
+                <b:panelGrid columns="3">
+                    Email:
+                    <b:inputText id="email" value="#{registrationBean.student.username}"
+                             validatorMessage = "must be a uco email address"
+                             required = "true"
+                             requiredMessage = "Must enter a value">
+                    <f:validateRegex pattern="..+@uco\.edu" />
+                    </b:inputText>
+                    <h:message for="email" errorStyle="color: red" infoStyle="color: green" />
+                    Password:
+                    <b:inputSecret  id="password" value="#{registrationBean.student.password}"
+                                 validatorMessage ="must be 5 or more characters"
+                                 required ="true"
+                                 requiredMessage ="Must enter a value">
+                        <f:validateRegex pattern="[\S][\S][\S][\S][\S]+" />
+                    </b:inputSecret>
+                    <h:message for="password" errorStyle="color: red" infoStyle="color: green" />
+                    
+                    Student ID:
+                    <b:inputText  id="stuid" value="#{registrationBean.idToEdit}"
+                                 validatorMessage ="can only contain alphabetical characters"
+                                 required ="true"
+                                 requiredMessage ="Must enter a value">
+                        <f:validateRegex pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" />
+                    </b:inputText>
+                    <h:message for="stuid" errorStyle="color: red" infoStyle="color: green" />
+                    Phone:
+                    <b:inputText  id="phone" value="#{registrationBean.student.phoneNumber}"
+                                 validatorMessage ="enter only numbers : ##########"
+                                 required ="true"
+                                 requiredMessage ="Must enter a value">
+                        <f:validateRegex pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" />
+                    </b:inputText>
+                    <h:message for="phone" errorStyle="color: red" infoStyle="color: green" />
+                    Major Code:
+                    <b:selectOneMenu id="major" value="#{registrationBean.majorCodeToEdit}">
+                        <f:selectItem itemLabel="6100" value="6100"/>
+                        <f:selectItem itemLabel="6101" value="6101"/>
+                        <f:selectItem itemLabel="6102" value="6102"/>
+                        <f:selectItem itemLabel="6110" value="6110"/>
+                        <f:selectItem itemLabel="6660" value="6660"/>
+                    </b:selectOneMenu>
+                </b:panelGrid>
+                <b:commandButton action="#{registrationBean.insertStudent()}" value="Add" />
+            </b:form>
+        </b:container>
+        
+    </h:body>
+</html>
+
