@@ -8,102 +8,53 @@
         <title>Edit Student</title>
     </h:head>
     <h:body>
-        <b:form>
-            <b:dataTable value="#{studentBean.students.entrySet()}" var="student">
-                <b:dataTableColumn label="Student ID" value="#{student.key}" order="asc"/>
-                <b:dataTableColumn label="Email">
-                    <b:inputText id="email" value="#{student.value.email}" rendered="#{student.value.editable}"/>
-                    <h:outputText value="#{student.value.email}" rendered="#{not student.value.editable}"/>
-                </b:dataTableColumn>
-                <b:dataTableColumn label="Major">
-                    <b:selectOneMenu id="major" value="#{student.value.major}" rendered="#{student.value.editable}">
-                        <f:selectItems value="#{studentBean.availableMajors}"/>
-                    </b:selectOneMenu>
-                    <h:outputText value="#{student.value.major}" rendered="#{not student.value.editable}"/>
-                </b:dataTableColumn>
-                <b:dataTableColumn label="Phone">
-                    <b:inputText id="phone" value="#{student.value.phone}" rendered="#{student.value.editable}"/>
-                    <h:outputText value="#{student.value.phone}" rendered="#{not student.value.editable}"/>
-                </b:dataTableColumn>
-                <b:dataTableColumn label="Reset Password" orderable="false">
-                    <b:selectBooleanCheckbox id="password" value="#{student.value.resetPassword}"
-                                             disabled="#{not student.value.editable}"/>
-                </b:dataTableColumn>
-                <b:dataTableColumn label="Edit/Save" orderable="false">
-                    <b:commandButton value="Save" iconAwesome="floppy-o" action="#{student.value.setEditable(false)}"
-                                     rendered="#{student.value.editable}">
-                        <f:actionListener binding="#{studentBean.update(student.key)}"/>
-                    </b:commandButton>
-                    <b:commandButton value="Edit" iconAwesome="pencil-square-o" action="#{student.value.setEditable(true)}"
-                                     rendered="#{not student.value.editable}"/>
-                </b:dataTableColumn>
-                <b:dataTableColumn label="Delete" orderable="false">
-                    <b:commandButton value="Delete" iconAwesome="trash-o" action="#{studentBean.delete(student.key)}"
-                                     rendered="#{not student.value.editable}"/>
-                </b:dataTableColumn>
-            </b:dataTable>
+        <b:container>
+            <b:form>
+                <b:dataTable value="#{studentBean.students.entrySet()}" var="student">
 
-            <h:dataTable value="#{studentBean.students.entrySet()}" var="student"
-                         headerClass="header" rowClasses="evenRow, oddRow">
+                    <b:dataTableColumn label="Student ID" value="#{student.key}" order="asc"/>
 
-                <h:column>
-                    <f:facet name="header">Student ID</f:facet>
-                    <h:outputText value="#{student.key}"/>
-                </h:column>
+                    <b:dataTableColumn label="Email">
+                        <b:inputText id="email" value="#{studentBean.email}" rendered="#{student.value.editable}"/>
+                        <h:outputText value="#{student.value.email}" rendered="#{not student.value.editable}"/>
+                    </b:dataTableColumn>
 
-                <h:column>
-                    <f:facet name="header">Email</f:facet>
-                    <h:inputText id="email" value="#{student.value.email}"
-                                 rendered="#{student.value.editable}"/>
-                    <h:message for="email" errorStyle="color: red" />
-                    <h:outputText value="#{student.value.email}" 
-                                  rendered="#{not student.value.editable}"/>
-                </h:column>
+                    <b:dataTableColumn label="Major">
+                        <b:selectOneMenu id="major" value="#{studentBean.major}" rendered="#{student.value.editable}">
+                            <f:selectItems value="#{studentBean.availableMajors}"/>
+                        </b:selectOneMenu>
+                        <h:outputText value="#{student.value.major}" rendered="#{not student.value.editable}"/>
+                    </b:dataTableColumn>
 
-                <h:column>
-                    <f:facet name="header">Major</f:facet>
-                    <h:selectOneMenu id="major" value="#{student.value.major}" rendered="#{student.value.editable}">
-                        <f:selectItems value="#{studentBean.availableMajors}"/>
-                    </h:selectOneMenu>
-                    <h:message for="major" errorStyle="color: red" />
-                    <h:outputText value="#{student.value.major}" 
-                                  rendered="#{not student.value.editable}"/>
-                </h:column>
+                    <b:dataTableColumn label="Phone">
+                        <b:inputText id="phone" value="#{studentBean.phone}" rendered="#{student.value.editable}"/>
+                        <h:outputText value="#{student.value.phone}" rendered="#{not student.value.editable}"/>
+                    </b:dataTableColumn>
 
-                <h:column>
-                    <f:facet name="header">Phone Number</f:facet>
-                    <h:inputText id="phone" value="#{student.value.phone}"
-                                 rendered="#{student.value.editable}"/>
-                    <h:message for="phone" errorStyle="color: red" />
-                    <h:outputText value="#{student.value.phone}" 
-                                  rendered="#{not student.value.editable}"/>
-                </h:column>
+                    <b:dataTableColumn label="Reset Password" orderable="false">
+                        <b:selectBooleanCheckbox id="password" value="#{studentBean.resetPassword}"
+                                                 disabled="#{not student.value.editable}"/>
+                    </b:dataTableColumn>
 
-                <h:column>
-                    <f:facet name="header">Reset Password</f:facet>
-                    <h:selectBooleanCheckbox id="password" value="#{student.value.resetPassword}"
-                                             disabled="#{not student.value.editable}"/>
-                </h:column>
+                    <b:dataTableColumn label="Edit/Save" orderable="false">
+                        <b:commandButton value="Save" iconAwesome="floppy-o" action="#{student.value.setEditable(false)}"
+                                         rendered="#{student.value.editable}">
+                            <f:actionListener binding="#{studentBean.update()}"/>
+                        </b:commandButton>
+                        <b:commandButton value="Edit" iconAwesome="pencil-square-o" action="#{student.value.setEditable(true)}"
+                                         rendered="#{not student.value.editable}">
+                            <f:actionListener binding="#{studentBean.edit(student.key)}"/>
+                        </b:commandButton>
+                    </b:dataTableColumn>
 
-                <h:column>
-                    <f:facet name="header">Edit/Save</f:facet>
-                    <h:commandButton value="Save" action="#{studentBean.update(student.key)}"
-                                     rendered="#{student.value.editable}">
-                        <f:actionListener binding="#{studentBean.update(student.key)}"/>
-                    </h:commandButton>
-                    <h:commandButton value="Edit" action="#{student.value.setEditable(true)}"
-                                     rendered="#{not student.value.editable}"/>
-                </h:column>
+                    <b:dataTableColumn label="Delete" orderable="false">
+                        <b:commandButton value="Delete" iconAwesome="trash-o" action="#{studentBean.delete(student.key)}"
+                                         rendered="#{not student.value.editable}"/>
+                    </b:dataTableColumn>
 
-                <h:column>
-                    <f:facet name="header">Delete</f:facet>
-                    <h:commandButton value="Delete" action="#{studentBean.delete(student.key)}"
-                                     rendered="#{not student.value.editable}"/>
-                </h:column>
-
-            </h:dataTable>
-        </b:form>
-        <h:link value="Go Back" outcome="/adminFolder/adminhome" /><br />
+                </b:dataTable>
+            </b:form>
+            <h:link value="Go Back" outcome="/adminFolder/adminhome" /><br />
+        </b:container>
     </h:body>
 </html>
-

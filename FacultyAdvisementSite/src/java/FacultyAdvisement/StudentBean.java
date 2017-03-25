@@ -30,23 +30,67 @@ public class StudentBean implements Serializable {
     @Resource(name = "jdbc/ds_wsp")
     private DataSource ds;
 
+    private String sid;
+    private String email;
+    private String major;
+    private String phone;
+    private boolean resetPassword;
+
     private HashMap<String, StudentPOJO> students = new HashMap<>();
-    private List<SelectItem> majors = new ArrayList<>();
-    
+
     @PostConstruct
     public void init() {
         try {
             students = (HashMap<String, StudentPOJO>) readAll();
-            majors = getAvailableMajors();
         } catch (SQLException ex) {
             Logger.getLogger(StudentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isResetPassword() {
+        return resetPassword;
+    }
+
+    public void setResetPassword(boolean resetPassword) {
+        this.resetPassword = resetPassword;
+    }
+
     public List<SelectItem> getAvailableMajors() throws SQLException {
-        
+
         List<SelectItem> list = new ArrayList<>();
-        
+
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
         }
@@ -73,21 +117,22 @@ public class StudentBean implements Serializable {
         } finally {
             conn.close();
         }
-        
+
         return list;
-        
+
     }
-    
+
     public HashMap<String, StudentPOJO> getStudents() {
         return students;
     }
 
-    public void create(DataSource ds) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void read(DataSource ds, String key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void edit(String key) {
+        StudentPOJO s = students.get(key);
+        this.sid = s.getSid();
+        this.email = s.getEmail();
+        this.major = s.getMajor();
+        this.phone = s.getPhone();
+        this.resetPassword = s.isResetPassword();
     }
 
     public Map readAll() throws SQLException {
@@ -127,31 +172,30 @@ public class StudentBean implements Serializable {
         return list;
     }
 
-    public void update(String key) throws SQLException {
+    public void update() throws SQLException {
         Connection conn = ds.getConnection();
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
         }
         try {
-            StudentPOJO s = students.get(key);
             PreparedStatement ps;
             ps = conn.prepareStatement(
                     "Update STUDENT set EMAIL=?, MAJORCODE=?, PHONE=? "
                     + "where STUID=?"
             );
-            ps.setString(1, s.getEmail());
-            ps.setString(2, s.getMajor());
-            ps.setString(3, s.getPhone());
-            ps.setString(4, s.getSid());
+            ps.setString(1, this.email);
+            ps.setString(2, this.major);
+            ps.setString(3, this.phone);
+            ps.setString(4, this.sid);
             ps.executeUpdate();
-            if (s.isResetPassword()) {
+            if (this.resetPassword) {
                 String defaultPassword = "password";
                 defaultPassword = SHA256Encrypt.encrypt(defaultPassword);
                 ps = conn.prepareStatement(
                         "Update USERTABLE set PASSWORD=? where USERNAME=?"
                 );
                 ps.setString(1, defaultPassword);
-                ps.setString(2, s.getEmail());
+                ps.setString(2, this.email);
                 ps.executeUpdate();
             }
         } finally {
