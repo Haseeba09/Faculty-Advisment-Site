@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.model.SelectItem;
 import javax.sql.DataSource;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -31,8 +32,10 @@ public class StudentBean implements Serializable {
     private DataSource ds;
 
     private String sid;
+    @Pattern(regexp = "[a-zA-Z0-9]{3,20}@uco.edu", message = "Local-part of email must be 3 to 20 alphanumeric characters long and end with @uco.edu")
     private String email;
     private String major;
+    @Pattern(regexp = "[0-9]{10}", message = "Phone must be 10 numbers long.")
     private String phone;
     private boolean resetPassword;
 
@@ -172,21 +175,33 @@ public class StudentBean implements Serializable {
         return list;
     }
 
-    public void update() throws SQLException {
+    public void update(String key) throws SQLException {
         Connection conn = ds.getConnection();
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
         }
         try {
+            StudentPOJO s = students.get(key);
             PreparedStatement ps;
             ps = conn.prepareStatement(
-                    "Update STUDENT set EMAIL=?, MAJORCODE=?, PHONE=? "
-                    + "where STUID=?"
+                    "Update STUDENT set EMAIL=?, MAJORCODE=?, PHONE=? where STUID=?"
             );
             ps.setString(1, this.email);
             ps.setString(2, this.major);
             ps.setString(3, this.phone);
             ps.setString(4, this.sid);
+            ps.executeUpdate();
+            ps = conn.prepareStatement(
+                    "Update USERTABLE set USERNAME=? where USERNAME=?"
+            );
+            ps.setString(1, this.email);
+            ps.setString(2, s.getEmail());
+            ps.executeUpdate();
+            ps = conn.prepareStatement(
+                    "Update GROUPTABLE set USERNAME=? where USERNAME=?"
+            );
+            ps.setString(1, this.email);
+            ps.setString(2, s.getEmail());
             ps.executeUpdate();
             if (this.resetPassword) {
                 String defaultPassword = "password";

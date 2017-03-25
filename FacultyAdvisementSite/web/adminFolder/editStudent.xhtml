@@ -16,6 +16,8 @@
 
                     <b:dataTableColumn label="Email">
                         <b:inputText id="email" value="#{studentBean.email}" rendered="#{student.value.editable}"/>
+                        <h:panelGroup rendered="#{student.value.editable}"><br /></h:panelGroup>
+                        <h:message for="email" errorStyle="color: red" rendered="#{student.value.editable}" />
                         <h:outputText value="#{student.value.email}" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
@@ -28,18 +30,20 @@
 
                     <b:dataTableColumn label="Phone">
                         <b:inputText id="phone" value="#{studentBean.phone}" rendered="#{student.value.editable}"/>
-                        <h:outputText value="#{student.value.phone}" rendered="#{not student.value.editable}"/>
+                        <h:panelGroup rendered="#{student.value.editable}"><br /></h:panelGroup>
+                        <h:message for="phone" errorStyle="color: red" rendered="#{student.value.editable}" />
+                        <h:outputText value="#{student.value.phone}" converter="phoneConverter" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
                     <b:dataTableColumn label="Reset Password" orderable="false">
                         <b:selectBooleanCheckbox id="password" value="#{studentBean.resetPassword}"
-                                                 disabled="#{not student.value.editable}"/>
+                                                 rendered="#{student.value.editable}"/>
                     </b:dataTableColumn>
 
                     <b:dataTableColumn label="Edit/Save" orderable="false">
                         <b:commandButton value="Save" iconAwesome="floppy-o" action="#{student.value.setEditable(false)}"
                                          rendered="#{student.value.editable}">
-                            <f:actionListener binding="#{studentBean.update()}"/>
+                            <f:actionListener binding="#{studentBean.update(student.key)}"/>
                         </b:commandButton>
                         <b:commandButton value="Edit" iconAwesome="pencil-square-o" action="#{student.value.setEditable(true)}"
                                          rendered="#{not student.value.editable}">
