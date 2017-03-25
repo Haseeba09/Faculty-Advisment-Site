@@ -3,12 +3,14 @@ package FacultyAdvisement;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
@@ -46,5 +48,68 @@ public class UserBean implements Serializable {
     public String getUsername() {
         return username;
     }
+    public String validateForm() throws NoSuchAlgorithmException {
+
+       boolean flag = true; 
+
+        if (student.getPhoneNumber().isEmpty() || student.getPhoneNumber().matches("\\(?(\\d{3})\\)?-?(\\d{3})-(\\d{4})")) {
+            FacesContext.getCurrentInstance().addMessage("studentForm:phoneNumber",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Please enter a propery phone number, ddd-ddd-dddd.", null));
+            flag = false;
+        }  
+
+         if (student.getMajorCode() == 0) {
+            FacesContext.getCurrentInstance().addMessage("studentForm:majorCode",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Select a major code!", null));
+            flag = false;
+        }  
+
+        
+            if (student.getId() < 9999999 || student.getId() > 99999999) {
+            FacesContext.getCurrentInstance().addMessage("studentForm:id",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Enter a valid UCO ID number!", null));
+            flag = false;
+        }  
+      
+        if (student.getPassword().length() < 3) {
+            FacesContext.getCurrentInstance().addMessage("studentForm:password",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "This password is too weak, it must have at least three (3) characters.", null));
+           flag = false;
+        }  
+        
+        
+        if(flag==true)
+        {
+            
+           try {
+               this.student.update(ds);
+           } catch (SQLException ex) {
+               Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+           }
+           
+             FacesContext.getCurrentInstance().addMessage("studentForm:save",
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "User Information Updated", null));
+           try {
+               student.update(ds);
+               student.setEdit(false);
+           } catch (SQLException ex) {
+               Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+           }
+            
+            return null;
+        }
+        
+         FacesContext.getCurrentInstance().addMessage("regForm:register",
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "Something went wrong!", null));
+         student.setEdit(true);
+         
+        return null;
+    } 
 
 }

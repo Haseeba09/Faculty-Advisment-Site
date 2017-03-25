@@ -2,42 +2,67 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
         xmlns:b="http://bootsfaces.net/ui"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+        xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>user home</title>
+        <title>Student Profile</title>
          <link rel="stylesheet" href="p3css.css" />
     </h:head> 
     <h:body>
         
-        <h2>Hi! #{userBean.username}</h2>
-       
-        <h:link value="Go home" outcome="/index" /><br />
         
-        <h:link value="Logout" outcome="/logout" /> <br />
         <b:container>
-        <b:jumbotron>    
-        <b:form id="studentForm">
-             <h:panelGrid columns="3" cellpadding="5">
-             <b:inputText id="password" value="#{userBean.student.password}" rendered="#{userBean.student.edit}" />
+        <b:jumbotron>   
+            <h2>Hi! #{userBean.username}</h2>
+            <p>Student Information</p>
+        <b:form id="studentForm" >
+             <h:panelGrid columns="2" cellpadding="5" >
+             
             
-                        <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
-                        <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
-                        <h:outputText value="#{userBean.student.password}" rendered="#{!userBean.student.edit}" />
+             <h:panelGroup rendered="#{userBean.student.edit}"> 
+             <p>Password:</p>
+             </h:panelGroup>
+             <b:inputText id="password" value="*********"  rendered="#{userBean.student.edit}" />
+             <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
+             <h:message rendered="#{userBean.student.edit}" for="title" errorStyle="color: red" />
+                        
+             
+             <p>ID: </p>
              <b:inputText id="id" value="#{userBean.student.id}" rendered="#{userBean.student.edit}" />
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
                         <h:outputText value="#{userBean.student.id}" rendered="#{!userBean.student.edit}" />
-            <b:inputText id="majorCode" value="#{userBean.student.majorCode}" rendered="#{student.edit}" />
+             <p>Major Code: </p>
+             <b:selectOneMenu id="majorCode" value="#{userBean.student.majorCode}" required="true" rendered="#{userBean.student.edit}">
+                 <f:selectItem itemLabel="#{userBean.student.majorCode}" itemValue="0"/>
+                 <f:selectItem itemLabel="6100" itemValue="1"/>
+                 <f:selectItem itemLabel="6101" itemValue="2"/>
+                 <f:selectItem itemLabel="6102" itemValue="3"/>
+                 <f:selectItem itemLabel="6110" itemValue="4"/>
+                 <f:selectItem itemLabel="6660" itemValue="5"/>
+             </b:selectOneMenu>
+              
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
+                        
                         <h:outputText value="#{userBean.student.majorCode}" rendered="#{!userBean.student.edit}" />
-            <b:inputText id="phoneNumber" value="#{userBean.student.phoneNumber}" rendered="#{student.edit}" />
+            <p>Phone Number: </p>
+            <b:inputText id="phoneNumber" value="#{userBean.student.phoneNumber}" rendered="#{userBean.student.edit}" />
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
+                        
                         <h:outputText value="#{userBean.student.phoneNumber}" rendered="#{!userBean.student.edit}" />       
             </h:panelGrid>
-        </b:form> 
-        </b:jumbotron>    
+            <b:commandButton value="Edit" iconAwesome="pencil-square-o" id="edit" action="#{userBean.student.setEdit(true)}"
+                                     rendered="#{!userBean.student.edit}"> </b:commandButton>
+            <b:commandButton value="Save" iconAwesome="floppy-o" id="save" action="#{userBean.validateForm()}"
+                             rendered="#{userBean.student.edit}">
+            </b:commandButton>
+        </b:form>
+        
+        </b:jumbotron>  
+           <h:link value="Go home" outcome="/index" /><br />
+        <h:link value="Logout" outcome="/logout" /> <br />      
         </b:container>
     </h:body>
 </html>

@@ -138,7 +138,7 @@ public class Student implements CRUDHandler {
 
     @Override
     public void update(DataSource ds) throws SQLException {
-        String studentSQL = "UPDATE Book SET STUID= ?, MAJORCODE = ?, PASSWORD = ?, PHONENUMBER = ?, WHERE STUID = ?";
+        String studentSQL = "UPDATE STUDENT SET STUID= ?, MAJORCODE = ?, PHONE = ? WHERE EMAIL = ?";
         String userSQL = "UPDATE USERTABLE SET PASSWORD = ?";
         
        
@@ -159,9 +159,9 @@ public class Student implements CRUDHandler {
             PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
             //sqlStatement.setString(1, Integer.toString(books.size() + 1)); //Integer.toString(this.getBooks().size() + 1));
             sqlStatement.setString(1, Integer.toString(this.id));
-            sqlStatement.setString(3, Integer.toString(this.majorCode));
-            sqlStatement.setString(4, this.phoneNumber);
-            sqlStatement.setString(5, Integer.toString(this.id));
+            sqlStatement.setString(2, Integer.toString(this.majorCode));
+            sqlStatement.setString(3, this.phoneNumber);
+            sqlStatement.setString(4, this.getUsername());
           
             sqlStatement.executeUpdate();
 
@@ -192,7 +192,7 @@ public class Student implements CRUDHandler {
 
     @Override
     public void read(DataSource ds, String key) throws SQLException {
-        String studentSQL = "SElECT * FROM STUDENT WHERE EMAIL = ?";
+        String studentSQL = "SElECT * FROM STUDENT JOIN USERTABLE on EMAIL = USERNAME WHERE EMAIL = ?";
         this.edit = false; 
        
             if (ds == null) {
@@ -213,12 +213,15 @@ public class Student implements CRUDHandler {
             sqlStatement.setString(1, key);
           
             ResultSet result = sqlStatement.executeQuery();
- 
-             //this.id = Integer.parseInt(result.getString("STUID"));
-            // this.majorCode = Integer.parseInt(result.getString("majorcode"));
-            // this.password = result.getString("password");
-             this.username = key;
-            // this.phoneNumber = result.getString("phone");
+             while(result.next())
+             {
+                 this.id = Integer.parseInt(result.getString("STUID"));
+                 this.majorCode = Integer.parseInt(result.getString("majorcode"));
+                 this.phoneNumber = result.getString("phone");
+                 this.username = key;
+                 this.password = result.getString("password");
+             }  
+            
             
             } finally {
             conn.close();
