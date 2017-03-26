@@ -139,9 +139,10 @@ public class Student implements CRUDHandler {
     @Override
     public void update(DataSource ds) throws SQLException {
         String studentSQL = "UPDATE STUDENT SET STUID= ?, MAJORCODE = ?, PHONE = ? WHERE EMAIL = ?";
-        String userSQL = "UPDATE USERTABLE SET PASSWORD = ?";
+        String userSQL = "UPDATE USERTABLE SET PASSWORD = ? WHERE USERNAME = ?";
         
-       
+            
+            
             if (ds == null) {
                 throw new SQLException("ds is null; Can't get data source");
             }
@@ -151,7 +152,7 @@ public class Student implements CRUDHandler {
             if (conn == null) {
                 throw new SQLException("conn is null; Can't get db connection");
             }
-
+                
             try {
           
            //Here we execute three SQL statements
@@ -168,14 +169,12 @@ public class Student implements CRUDHandler {
             //user credentials
             sqlStatement = conn.prepareStatement(userSQL);
             
-            try {
+             
                 //Encrypt the pssword into SHA-256
-                sqlStatement.setString(1, Encrypt.encrypt(this.password));
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(Student.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            sqlStatement.setString(1, SHA256Encrypt.encrypt(this.password));
+             
             
-          
+            sqlStatement.setString(2, this.username);
             sqlStatement.execute();
             
             

@@ -16,13 +16,13 @@
             <h2>Hi! #{userBean.username}</h2>
             <p>Student Information</p>
         <b:form id="studentForm" >
-             <h:panelGrid columns="2" cellpadding="5" >
+             <h:panelGrid columns="2" cellpadding="10" >
              
             
              <h:panelGroup rendered="#{userBean.student.edit}"> 
              <p>Password:</p>
              </h:panelGroup>
-             <b:inputText id="password" value="*********"  rendered="#{userBean.student.edit}" />
+             <b:inputText id="password" label=" " value="#{userBean.newPassword}"  rendered="#{userBean.student.edit}" />
              <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
              <h:message rendered="#{userBean.student.edit}" for="title" errorStyle="color: red" />
                         
@@ -34,24 +34,24 @@
                         <h:outputText value="#{userBean.student.id}" rendered="#{!userBean.student.edit}" />
              <p>Major Code: </p>
              <b:selectOneMenu id="majorCode" value="#{userBean.student.majorCode}" required="true" rendered="#{userBean.student.edit}">
-                 <f:selectItem itemLabel="#{userBean.student.majorCode}" itemValue="0"/>
-                 <f:selectItem itemLabel="6100" itemValue="1"/>
-                 <f:selectItem itemLabel="6101" itemValue="2"/>
-                 <f:selectItem itemLabel="6102" itemValue="3"/>
-                 <f:selectItem itemLabel="6110" itemValue="4"/>
-                 <f:selectItem itemLabel="6660" itemValue="5"/>
+                 <f:selectItem itemLabel="#{userBean.student.majorCode}" itemValue="#{userBean.student.majorCode}"/>
+                 <f:selectItem itemLabel="6100" itemValue="6100"/>
+                 <f:selectItem itemLabel="6101" itemValue="6101"/>
+                 <f:selectItem itemLabel="6102" itemValue="6102"/>
+                 <f:selectItem itemLabel="6110" itemValue="6110"/>
+                 <f:selectItem itemLabel="6660" itemValue="6660"/>
              </b:selectOneMenu>
               
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
                         
-                        <h:outputText value="#{userBean.student.majorCode}" rendered="#{!userBean.student.edit}" />
+                        <h:outputText style=" font-size : large; " value="#{userBean.student.majorCode}" rendered="#{!userBean.student.edit}" />
             <p>Phone Number: </p>
             <b:inputText id="phoneNumber" value="#{userBean.student.phoneNumber}" rendered="#{userBean.student.edit}" />
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
                         
-                        <h:outputText value="#{userBean.student.phoneNumber}" rendered="#{!userBean.student.edit}" />       
+                        <h:outputText   value="#{userBean.student.phoneNumber}" rendered="#{!userBean.student.edit}" />       
             </h:panelGrid>
             <b:commandButton value="Edit" iconAwesome="pencil-square-o" id="edit" action="#{userBean.student.setEdit(true)}"
                                      rendered="#{!userBean.student.edit}"> </b:commandButton>

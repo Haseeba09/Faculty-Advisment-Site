@@ -20,7 +20,17 @@ public class UserBean implements Serializable {
 
     private String username;
     private Student student;
+    private String newPassword; 
 
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
+    
+    
     public Student getStudent() {
         return student;
     }
@@ -37,6 +47,7 @@ public class UserBean implements Serializable {
         Principal p = fc.getExternalContext().getUserPrincipal();
         username = p.getName();
         student = new Student();
+        newPassword = ""; 
         try {
             student.read(ds, username);
         } catch (SQLException ex) {
@@ -74,7 +85,7 @@ public class UserBean implements Serializable {
             flag = false;
         }  
       
-        if (student.getPassword().length() < 3) {
+        if (newPassword.isEmpty() || newPassword.length() < 3) {
             FacesContext.getCurrentInstance().addMessage("studentForm:password",
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "This password is too weak, it must have at least three (3) characters.", null));
@@ -95,6 +106,7 @@ public class UserBean implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "User Information Updated", null));
            try {
+               student.setPassword(newPassword);
                student.update(ds);
                student.setEdit(false);
            } catch (SQLException ex) {
@@ -104,7 +116,7 @@ public class UserBean implements Serializable {
             return null;
         }
         
-         FacesContext.getCurrentInstance().addMessage("regForm:register",
+         FacesContext.getCurrentInstance().addMessage("studentForm:edit",
                     new FacesMessage(FacesMessage.SEVERITY_FATAL,
                             "Something went wrong!", null));
          student.setEdit(true);
