@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 
 @Named(value = "registrationBean")
 @SessionScoped
-public class RegistrationBean implements Serializable, ICRUDHanlder {
+public class RegistrationBean implements Serializable {
     
     @PostConstruct
     public void init() {
@@ -33,7 +33,6 @@ public class RegistrationBean implements Serializable, ICRUDHanlder {
         }
     }
     
-    @Override
     public void create() throws SQLException {
         
         String studentSQL = "INSERT INTO STUDENT(STUID, email, majorcode, phone) VALUES(?, ?, ?, ?)";
@@ -79,12 +78,10 @@ public class RegistrationBean implements Serializable, ICRUDHanlder {
         }
     }
 
-    @Override
     public void read() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    @Override
     public Map readAll() throws SQLException {
         if (dataSource == null) {
             throw new SQLException("datasource is null; Can't get data source");
@@ -108,10 +105,10 @@ public class RegistrationBean implements Serializable, ICRUDHanlder {
 
             while (result.next()) {
                 Student student = new Student();
-                student.setStudentID(Integer.parseInt(result.getString("STUID")));
+                student.setId(Integer.parseInt(result.getString("STUID")));
                 student.setUsername(result.getString("email"));
                 student.setMajorCode(Integer.parseInt(result.getString("majorcode")));
-                student.setPhone(result.getString("phone"));
+                student.setPhoneNumber(result.getString("phone"));
                 temporaryStudents.put(student.getUsername(), student);
             }
         } finally {
@@ -121,12 +118,10 @@ public class RegistrationBean implements Serializable, ICRUDHanlder {
         return temporaryStudents;
     }
 
-    @Override
     public void update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
     public void delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
