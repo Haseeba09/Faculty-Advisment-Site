@@ -1,22 +1,59 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>login error</title>
+        <style>
+            #submitButton{
+                text-align: center;
+                background-color: #337AB7;
+                color: #ffffff;
+                align-content: center;
+                display: inline-block;
+                width: 27%;
+                padding-top: 4px;
+                padding-bottom: 4px;
+                margin-left: 13px;
+                margin-top: 5px;
+            }
+        </style>
     </h:head>
     <h:body>
         <h2 style="color: red">Login Error! Please Login Again!</h2>
+        <b:container style="width: 600px;">
         <form action="j_security_check" method="POST">
-            <h:panelGrid columns="2">
-                <h:outputText value="Username" />
-                <input type="text" name="j_username" />
-                <h:outputText value="Password" />
-                <input type="password" name="j_password" />
-                <h:panelGroup />
-                <input type="submit" value="Login" />
-            </h:panelGrid>
+            
+                <b:panel collapsible="false" title="login" look="primary">
+                    <b:row>
+                        <b:column medium-screen="2">
+                            <h:outputText value="Username" />
+                        </b:column>
+                        <b:column>
+                            <input type="text" name="j_username" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column>
+                            <h:outputText value="Password" />
+                        </b:column>
+                        <b:column>
+                            <input type="password" name="j_password" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <input id="submitButton" type="submit" value="Login" />
+                    </b:row>
+                    
+                
+                
+                
+            </b:panel>
+             
         </form>
+           
+           </b:container>
     </h:body>
 </html>
 
