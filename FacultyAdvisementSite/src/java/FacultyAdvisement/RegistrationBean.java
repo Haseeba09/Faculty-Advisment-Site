@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 @Named(value = "registrationBean")
 @SessionScoped
 public class RegistrationBean implements Serializable {
-    
+
     @PostConstruct
     public void init() {
         try {
@@ -32,9 +32,9 @@ public class RegistrationBean implements Serializable {
             java.util.logging.Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void create() throws SQLException {
-        
+
         String studentSQL = "INSERT INTO STUDENT(STUID, email, majorcode, phone) VALUES(?, ?, ?, ?)";
         String userSQL = "INSERT INTO USERTABLE(USERNAME, PASSWORD) VALUES(?, ?)";
         String groupSQL = "INSERT INTO GROUPTABLE(groupname, username) VALUES(?, ?)";
@@ -59,11 +59,11 @@ public class RegistrationBean implements Serializable {
             studentSQLStatement.setString(3, String.valueOf(this.majorCode));
             studentSQLStatement.setString(4, this.phone);
             studentSQLStatement.execute();
-            
+
             userSQLStatement.setString(1, this.username);
             userSQLStatement.setString(2, SHA256Encrypt.encrypt(this.password));
             userSQLStatement.execute();
-            
+
             groupSQLStatement.setString(1, "customergroup");
             groupSQLStatement.setString(2, this.username);
             groupSQLStatement.execute();
@@ -81,7 +81,7 @@ public class RegistrationBean implements Serializable {
     public void read() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public Map readAll() throws SQLException {
         if (dataSource == null) {
             throw new SQLException("datasource is null; Can't get data source");
@@ -125,24 +125,28 @@ public class RegistrationBean implements Serializable {
     public void delete() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public void validate() {
         try {
             if (students.containsKey(this.username)) {
                 FacesContext.getCurrentInstance().addMessage("signUp:username",
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Username has already been taken", null));
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Username has already been taken", null));
             } else {
                 create();
+                FacesContext.getCurrentInstance().addMessage("signUp:buttontest",
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Success! An account has been created.", null));
             }
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public String returnHome() {
         return "index";
     }
+
     private void refresh() {
         try {
             students = readAll();
@@ -150,7 +154,6 @@ public class RegistrationBean implements Serializable {
             java.util.logging.Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
     public String getUsername() {
         return username;
@@ -191,24 +194,24 @@ public class RegistrationBean implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
+
     private Map<String, Student> students;
 
     @Resource(name = "jdbc/ds_wsp")
     private DataSource dataSource;
-    
+
     @Pattern(regexp = ".{3,}@uco.edu$", message = "Username should be in the format xxx@uco.edu (where xxx is minimum 3 characters).")
     private String username;
-    
+
     @Size(min = 3, message = "Minimum of 3 characters is required.")
     private String password;
-    
+
     @Max(99999999)
     @Min(10000000)
     private int studentID;
-    
+
     private int majorCode;
-    
+
     @Pattern(regexp = "\\d{10}", message = "Phone should be in the form dddddddddd (where d is digit).")
-    private String phone; 
+    private String phone;
 }

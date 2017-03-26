@@ -106,9 +106,13 @@
                     </b:row>
                     <b:row>
                         <b:column span="5" offset="2">
-                            <b:commandButton action="#{registrationBean.validate()}"
+                            <b:commandButton id="buttontest"
+                                action="#{registrationBean.validate()}"
                                              iconAwesome="user-plus" value="Sign Up" 
                                              look="primary" style="width:100%" />
+                        </b:column>
+                        <b:column medium-screen="5" styleClass="message">
+                            <h:message for="buttontest" errorStyle="color: Green" />
                         </b:column>
                     </b:row>
                     <b:row>
