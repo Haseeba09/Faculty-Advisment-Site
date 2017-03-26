@@ -1,62 +1,126 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title>Student Sign Up</title>
     </h:head>
     <h:body>
-        <b:container>
-            <b:form id="registration_form">
-                <b:panelGrid columns="3">
-                    Email:
-                    <b:inputText id="email" value="#{registrationBean.student.username}"
-                             validatorMessage = "must be a uco email address"
-                             required = "true"
-                             requiredMessage = "Must enter a value">
-                    <f:validateRegex pattern="..+@uco\.edu" />
-                    </b:inputText>
-                    <h:message for="email" errorStyle="color: red" infoStyle="color: green" />
-                    Password:
-                    <b:inputSecret  id="password" value="#{registrationBean.student.password}"
-                                 validatorMessage ="must be 5 or more characters"
-                                 required ="true"
-                                 requiredMessage ="Must enter a value">
-                        <f:validateRegex pattern="[\S][\S][\S][\S][\S]+" />
-                    </b:inputSecret>
-                    <h:message for="password" errorStyle="color: red" infoStyle="color: green" />
-                    
-                    Student ID:
-                    <b:inputText  id="stuid" value="#{registrationBean.idToEdit}"
-                                 validatorMessage ="can only contain alphabetical characters"
-                                 required ="true"
-                                 requiredMessage ="Must enter a value">
-                        <f:validateRegex pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" />
-                    </b:inputText>
-                    <h:message for="stuid" errorStyle="color: red" infoStyle="color: green" />
-                    Phone:
-                    <b:inputText  id="phone" value="#{registrationBean.student.phoneNumber}"
-                                 validatorMessage ="enter only numbers : ##########"
-                                 required ="true"
-                                 requiredMessage ="Must enter a value">
-                        <f:validateRegex pattern="[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]" />
-                    </b:inputText>
-                    <h:message for="phone" errorStyle="color: red" infoStyle="color: green" />
-                    Major Code:
-                    <b:selectOneMenu id="major" value="#{registrationBean.majorCodeToEdit}">
-                        <f:selectItem itemLabel="6100" value="6100"/>
-                        <f:selectItem itemLabel="6101" value="6101"/>
-                        <f:selectItem itemLabel="6102" value="6102"/>
-                        <f:selectItem itemLabel="6110" value="6110"/>
-                        <f:selectItem itemLabel="6660" value="6660"/>
-                    </b:selectOneMenu>
-                </b:panelGrid>
-                <b:commandButton action="#{registrationBean.insertStudent()}" value="Add" />
-            </b:form>
-        </b:container>
-        
+        <h:form id="signUp">
+            <p style="text-align:center;"><img src="resources/UCO_banner.png"/></p>   
+            <b:container style="width: 600px;">
+                <b:panel collapsible="false" title="Student Sign Up" look="primary">
+                    <b:row>
+                        <b:column medium-screen="2">
+                            <h:outputText value="Username:" />
+                        </b:column>
+                        <b:column medium-screen="5">
+                            <b:inputText id="username" placeholder="Username" 
+                                         required="true" value="#{registrationBean.username}" 
+                                         requiredMessage="This field should not left blank.">
+                                <f:facet name="prepend">
+                                    <b:icon name="user" />
+                                </f:facet>
+                            </b:inputText>
+                        </b:column>
+                        <b:column medium-screen="5" style-class="message">
+                            <h:message for="username" errorStyle="color: red" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column medium-screen="2">
+                            <h:outputText value="Password:" />
+                        </b:column>
+                        <b:column medium-screen="5">
+                            <b:inputSecret id="password" placeholder="Password"
+                                           required="true" value="#{registrationBean.password}"
+                                           requiredMessage="This field should not left blank.">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="key" />
+                                </f:facet>
+                            </b:inputSecret>
+                        </b:column>
+                        <b:column medium-screen="5" styleClass="message">
+                            <h:message for="password" errorStyle="color: red" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column medium-screen="2">
+                            <h:outputText value="UCO ID:" />
+                        </b:column>
+                        <b:column medium-screen="5">
+                            <b:inputText id="studentID" placeholder="Student ID"
+                                         required="true" value="#{registrationBean.studentID}"
+                                         requiredMessage="This field should not left blank."
+                                         type="number">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="id-card" />
+                                </f:facet>
+                            </b:inputText>
+                        </b:column>
+                        <b:column medium-screen="5" styleClass="message">
+                            <h:message for="studentID" errorStyle="color: red" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column medium-screen="2">
+                            <h:outputText value="Major Code:" />
+                        </b:column>
+                        <b:column medium-screen="5">
+                            <b:selectOneMenu id="majorCode" value="#{registrationBean.majorCode}"
+                                             required="#{param['signUp:home']==null}"
+                                             requiredMessage="This field should have one item selected.">
+                                <f:selectItem itemLabel="- please select - " />
+                                <f:selectItem itemLabel="6100" />
+                                <f:selectItem itemLabel="6101" />
+                                <f:selectItem itemLabel="6102" />
+                                <f:selectItem itemLabel="6110" />
+                                <f:selectItem itemLabel="6660" />
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="graduation-cap" />
+                                </f:facet>
+                            </b:selectOneMenu>
+                        </b:column>
+                        <b:column medium-screen="5" styleClass="message">
+                            <h:message for="majorCode" errorStyle="color: red" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column medium-screen="2">
+                            <h:outputText value="Phone:" />
+                        </b:column>
+                        <b:column medium-screen="5">
+                            <b:inputText id="phone" placeholder="Phone"
+                                         required="true" value="#{registrationBean.phone}"
+                                         requiredMessage="This field should not left blank.">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="phone" />
+                                </f:facet>
+                            </b:inputText>
+                        </b:column>
+                        <b:column medium-screen="5" styleClass="message">
+                            <h:message for="phone" errorStyle="color: red" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="5" offset="2">
+                            <b:commandButton action="#{registrationBean.validate()}"
+                                             iconAwesome="user-plus" value="Sign Up" 
+                                             look="primary" style="width:100%" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="5" offset="2">
+                            <b:commandButton action="#{registrationBean.returnHome()}"
+                                             id="home" iconAwesome="home" 
+                                             immediate="true" value="Return Home" 
+                                             look="primary" style="width:100%" />
+                        </b:column>
+                    </b:row>
+                </b:panel>
+            </b:container>
+        </h:form>
     </h:body>
 </html>
-

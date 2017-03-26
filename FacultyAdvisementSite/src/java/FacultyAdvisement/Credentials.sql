@@ -7,7 +7,7 @@ create table STUDENT(
     STUID varchar(8),
     email varchar(255) not null unique,
     majorcode varchar(4),
-    phone varchar(11),
+    phone varchar(12),
     primary key (STUID)
 );
 
