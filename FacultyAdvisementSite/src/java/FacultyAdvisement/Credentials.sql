@@ -1,7 +1,9 @@
+drop table appointment;
 drop table student;
 drop table USERTABLE;
 drop table GROUPTABLE;
 drop table AVAILABLEMAJOR;
+
 
 create table STUDENT(
     STUID varchar(8),
@@ -13,7 +15,7 @@ create table STUDENT(
 
 create table USERTABLE (
     ID INT NOT NULL AUTO_INCREMENT,
-    USERNAME varchar(255),
+    USERNAME varchar(255) not null unique,
     PASSWORD char(64), /* SHA-256 encryption */
     primary key (id)
 );
@@ -30,9 +32,20 @@ create table AVAILABLEMAJOR (
     primary key (MAJORCODE)
 );
 
+create table APPOINTMENT (
+    ID INT NOT NULL AUTO_INCREMENT,
+    SID varchar(8),
+    stime datetime,
+    foreign key(SID) references student(stuid),
+    primary key (ID)
+       
+);
+
 /* username is root@uco.edu
     password is ppp
 */
+
+
 
 insert into USERTABLE (username, password)
     values ('root@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
@@ -65,3 +78,5 @@ insert into AVAILABLEMAJOR (majorcode) values ('6101');
 insert into AVAILABLEMAJOR (majorcode) values ('6102');
 insert into AVAILABLEMAJOR (majorcode) values ('6110');
 insert into AVAILABLEMAJOR (majorcode) values ('6660');
+
+insert into APPOINTMENT (SID, stime) values ('00000001', '2017-03-28 16:30:00');
