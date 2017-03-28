@@ -105,9 +105,9 @@ public class RegistrationBean implements Serializable {
 
             while (result.next()) {
                 Student student = new Student();
-                student.setId(Integer.parseInt(result.getString("STUID")));
+                student.setId(result.getString("STUID"));
                 student.setUsername(result.getString("email"));
-                student.setMajorCode(Integer.parseInt(result.getString("majorcode")));
+                student.setMajorCode(result.getString("majorcode"));
                 student.setPhoneNumber(result.getString("phone"));
                 temporaryStudents.put(student.getUsername(), student);
             }

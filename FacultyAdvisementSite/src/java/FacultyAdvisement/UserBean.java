@@ -49,7 +49,7 @@ public class UserBean implements Serializable {
         student = new Student();
         newPassword = ""; 
         try {
-            student.read(ds, username);
+            student = StudentRepository.read(ds, username);
         } catch (SQLException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -70,7 +70,7 @@ public class UserBean implements Serializable {
             flag = false;
         }  
 
-         if (student.getMajorCode() == 0) {
+         if (student.getMajorCode().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage("studentForm:majorCode",
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Select a major code!", null));
@@ -78,7 +78,7 @@ public class UserBean implements Serializable {
         }  
 
         
-            if (student.getId() < 9999999 || student.getId() > 99999999) {
+            if (student.getId().matches("")) {
             FacesContext.getCurrentInstance().addMessage("studentForm:id",
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Enter a valid UCO ID number!", null));
@@ -97,7 +97,11 @@ public class UserBean implements Serializable {
         {
             
            try {
-               this.student.update(ds);
+               //this.student.update(ds);
+                 student.setPassword(newPassword);
+                 
+               StudentRepository.update(ds, student);
+               student.setEdit(false);
            } catch (SQLException ex) {
                Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -105,13 +109,7 @@ public class UserBean implements Serializable {
              FacesContext.getCurrentInstance().addMessage("studentForm:save",
                     new FacesMessage(FacesMessage.SEVERITY_INFO,
                             "User Information Updated", null));
-           try {
-               student.setPassword(newPassword);
-               student.update(ds);
-               student.setEdit(false);
-           } catch (SQLException ex) {
-               Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
-           }
+          
             
             return null;
         }
