@@ -6,13 +6,23 @@
     <h:head>
         <title>login error</title>
         <style>
-            #submitButton{
+           #submitButton{
                 text-align: center;
                 background-color: #337AB7;
                 color: #ffffff;
                 align-content: center;
                 display: inline-block;
-                width: 27%;
+                width: 83%;
+                padding-top: 4px;
+                padding-bottom: 4px;
+                margin-left: 13px;
+                margin-top: 5px;
+            }
+            #registerButton{
+                text-align: center;
+                align-content: center;
+                display: inline-block;
+                width: 83%;
                 padding-top: 4px;
                 padding-bottom: 4px;
                 margin-left: 13px;
@@ -22,10 +32,10 @@
     </h:head>
     <h:body>
         <h2 style="color: red">Login Error! Please Login Again!</h2>
-        <b:container style="width: 600px;">
-        <form action="j_security_check" method="POST">
+        <b:container style="width: 215px; ">
+        <form action="j_security_check" method="POST" >
             
-                <b:panel collapsible="false" title="login" look="primary">
+                <b:panel collapsible="false" title="login" look="primary" >
                     <b:row>
                         <b:column medium-screen="2">
                             <h:outputText value="Username" />
@@ -45,6 +55,9 @@
                     <b:row>
                         <input id="submitButton" type="submit" value="Login" />
                     </b:row>
+                    <b:row>
+                        <b:button value="Register" outcome="signup" id="registerButton"/>
+                    </b:row>
                     
                 
                 
@@ -53,8 +66,10 @@
              
         </form>
            
+           
            </b:container>
-        <h:link value="Register" outcome="/signup" /> <br/>
+              
+       
         <h:link value="Admin login" outcome="/adminFolder/adminhome" /> <br />
     </h:body>
 </html>
