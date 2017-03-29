@@ -144,7 +144,7 @@ public class RegistrationBean implements Serializable {
     }
 
     public String returnHome() {
-        return "customerFolder/profile";
+        return "newjsf";
     }
 
     private void refresh() {
