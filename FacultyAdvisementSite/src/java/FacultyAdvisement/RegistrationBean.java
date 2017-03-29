@@ -144,7 +144,7 @@ public class RegistrationBean implements Serializable {
     }
 
     public String returnHome() {
-        return "newjsf";
+        return "newjsf"; //this goes nowhere
     }
 
     private void refresh() {
