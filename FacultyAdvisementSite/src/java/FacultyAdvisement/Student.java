@@ -5,16 +5,7 @@
  */
 package FacultyAdvisement;
 
-import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Dictionary;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sql.DataSource;
+import java.util.List;
 
 /**
  *
@@ -26,7 +17,27 @@ public class Student  {
     private String password; 
     private String id; 
     private String majorCode;
-    private String phoneNumber; 
+    private String phoneNumber;
+    private List<Course> completedCourses;
+    private boolean advised; 
+
+    public List<Course> getCompletedCourses() {
+        return completedCourses;
+    }
+
+    public void setCompletedCourses(List<Course> completedCourses) {
+        this.completedCourses = completedCourses;
+    }
+    
+    
+    
+    public boolean isAdvised() {
+        return advised;
+    }
+
+    public void setAdvised(boolean advised) {
+        this.advised = advised;
+    }
     private boolean edit = false; 
 
     public boolean isEdit() {

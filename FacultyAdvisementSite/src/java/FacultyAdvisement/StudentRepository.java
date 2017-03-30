@@ -20,8 +20,8 @@ import javax.sql.DataSource;
 public class StudentRepository {
     
     public static void create(DataSource ds, Student student) throws SQLException {
-        String studentSQL = "INSERT INTO STUDENT(STUID, EMAIL, MAJORCODE, PHONE) "
-                + "VALUES (?, ?, ?, ?)";
+        String studentSQL = "INSERT INTO STUDENT(STUID, EMAIL, MAJORCODE, PHONE, ADVISED) "
+                + "VALUES (?, ?, ?, ?, \'false\')";
         String userSQL = "INSERT INTO USERTABLE(PASSWORD, USERNAME) VALUES (?,?)"; //haseeb was here
         
         String groupSQL = "INSERT INTO GROUPTABLE(GROUPNAME, USERNAME) VALUES (\'customergroup\', ?)";
