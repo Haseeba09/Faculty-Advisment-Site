@@ -18,6 +18,16 @@
                 margin-left: 13px;
                 margin-top: 5px;
             }
+            #resetPasswordButton{
+                text-align: center;
+                align-content: center;
+                display: inline-block;
+                width: 83%;
+                padding-top: 4px;
+                padding-bottom: 4px;
+                margin-left: 13px;
+                margin-top: 5px;
+            }
             #registerButton{
                 text-align: center;
                 align-content: center;
@@ -53,6 +63,9 @@
                     </b:row>
                     <b:row>
                         <input id="submitButton" type="submit" value="Login" />
+                    </b:row>
+                    <b:row>
+                        <b:button value="Forgot Password?" outcome="resetPassword" id="resetPasswordButton"/>
                     </b:row>
                     <b:row>
                         <b:button value="Register" outcome="signup" id="registerButton"/>

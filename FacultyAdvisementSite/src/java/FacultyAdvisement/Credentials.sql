@@ -81,3 +81,10 @@ insert into AVAILABLEMAJOR (majorcode) values ('6110');
 insert into AVAILABLEMAJOR (majorcode) values ('6660');
 
 insert into APPOINTMENT (SID, stime) values ('00000001', '2017-03-28 16:30:00');
+
+/* 
+Used to test email
+*/
+insert into USERTABLE (username, password)
+    values ('uco.student1@gmail.com', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'uco.student1@gmail.com');
