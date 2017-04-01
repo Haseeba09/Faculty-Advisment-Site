@@ -18,21 +18,21 @@
                         <b:inputText id="email" value="#{studentBean.email}" rendered="#{student.value.editable}"/>
                         <h:panelGroup rendered="#{student.value.editable}"><br /></h:panelGroup>
                         <h:message for="email" errorStyle="color: red" rendered="#{student.value.editable}" />
-                        <h:outputText value="#{student.value.email}" rendered="#{not student.value.editable}"/>
+                        <h:outputText value="#{student.value.username}" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
                     <b:dataTableColumn label="Major">
                         <b:selectOneMenu id="major" value="#{studentBean.major}" rendered="#{student.value.editable}">
                             <f:selectItems value="#{utility.availableMajors}"/>
                         </b:selectOneMenu>
-                        <h:outputText value="#{student.value.major}" rendered="#{not student.value.editable}"/>
+                        <h:outputText value="#{student.value.majorCode}" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
                     <b:dataTableColumn label="Phone">
                         <b:inputText id="phone" value="#{studentBean.phone}" rendered="#{student.value.editable}"/>
                         <h:panelGroup rendered="#{student.value.editable}"><br /></h:panelGroup>
                         <h:message for="phone" errorStyle="color: red" rendered="#{student.value.editable}" />
-                        <h:outputText value="#{student.value.phone}" converter="phoneConverter" rendered="#{not student.value.editable}"/>
+                        <h:outputText value="#{student.value.phoneNumber}" converter="phoneConverter" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
                     <b:dataTableColumn label="Reset Password" orderable="false">

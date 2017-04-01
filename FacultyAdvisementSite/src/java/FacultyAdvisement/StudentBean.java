@@ -36,12 +36,12 @@ public class StudentBean implements Serializable {
     private String phone;
     private boolean resetPassword;
 
-    private HashMap<String, StudentPOJO> students = new HashMap<>();
+    private HashMap<String, Student> students = new HashMap<>();
 
     @PostConstruct
     public void init() {
         try {
-            students = (HashMap<String, StudentPOJO>) readAll();
+            students = (HashMap<String, Student>) readAll();
         } catch (SQLException ex) {
             Logger.getLogger(StudentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -87,16 +87,16 @@ public class StudentBean implements Serializable {
         this.resetPassword = resetPassword;
     }
 
-    public HashMap<String, StudentPOJO> getStudents() {
+    public HashMap<String, Student> getStudents() {
         return students;
     }
 
     public void edit(String key) {
-        StudentPOJO s = students.get(key);
-        this.sid = s.getSid();
-        this.email = s.getEmail();
-        this.major = s.getMajor();
-        this.phone = s.getPhone();
+        Student s = students.get(key);
+        this.sid = s.getId();
+        this.email = s.getUsername();
+        this.major = s.getMajorCode();
+        this.phone = s.getPhoneNumber();
         this.resetPassword = s.isResetPassword();
     }
 
@@ -111,7 +111,7 @@ public class StudentBean implements Serializable {
             throw new SQLException("conn is null; Can't get db connection");
         }
 
-        HashMap<String, StudentPOJO> list = new HashMap<>();
+        HashMap<String, Student> list = new HashMap<>();
 
         try {
             PreparedStatement ps = conn.prepareStatement(
@@ -122,12 +122,12 @@ public class StudentBean implements Serializable {
             ResultSet result = ps.executeQuery();
 
             while (result.next()) {
-                StudentPOJO s = new StudentPOJO();
-                s.setSid(result.getString("STUID"));
-                s.setEmail(result.getString("EMAIL"));
-                s.setMajor(result.getString("MAJORCODE"));
-                s.setPhone(result.getString("PHONE"));
-                list.put(s.getSid(), s);
+                Student s = new Student();
+                s.setId(result.getString("STUID"));
+                s.setUsername(result.getString("EMAIL"));
+                s.setMajorCode(result.getString("MAJORCODE"));
+                s.setPhoneNumber(result.getString("PHONE"));
+                list.put(s.getId(), s);
             }
 
         } finally {
@@ -143,7 +143,7 @@ public class StudentBean implements Serializable {
             throw new SQLException("conn is null; Can't get db connection");
         }
         try {
-            StudentPOJO s = students.get(key);
+            Student s = students.get(key);
             PreparedStatement ps;
             ps = conn.prepareStatement(
                     "Update STUDENT set EMAIL=?, MAJORCODE=?, PHONE=? where STUID=?"
@@ -157,13 +157,13 @@ public class StudentBean implements Serializable {
                     "Update USERTABLE set USERNAME=? where USERNAME=?"
             );
             ps.setString(1, this.email);
-            ps.setString(2, s.getEmail());
+            ps.setString(2, s.getUsername());
             ps.executeUpdate();
             ps = conn.prepareStatement(
                     "Update GROUPTABLE set USERNAME=? where USERNAME=?"
             );
             ps.setString(1, this.email);
-            ps.setString(2, s.getEmail());
+            ps.setString(2, s.getUsername());
             ps.executeUpdate();
             if (this.resetPassword) {
                 String defaultPassword = "password";
@@ -179,7 +179,7 @@ public class StudentBean implements Serializable {
             conn.close();
         }
 
-        students = (HashMap<String, StudentPOJO>) readAll(); // reload the updated info
+        students = (HashMap<String, Student>) readAll(); // reload the updated info
     }
 
     public void delete(String key) throws SQLException {
@@ -188,28 +188,28 @@ public class StudentBean implements Serializable {
             throw new SQLException("conn is null; Can't get db connection");
         }
         try {
-            StudentPOJO s = students.get(key);
+            Student s = students.get(key);
             PreparedStatement ps;
             ps = conn.prepareStatement(
                     "Delete from STUDENT where EMAIL=?"
             );
-            ps.setString(1, s.getEmail());
+            ps.setString(1, s.getUsername());
             ps.executeUpdate();
             ps = conn.prepareStatement(
                     "Delete from USERTABLE where USERNAME=?"
             );
-            ps.setString(1, s.getEmail());
+            ps.setString(1, s.getUsername());
             ps.executeUpdate();
             ps = conn.prepareStatement(
                     "Delete from GROUPTABLE where USERNAME=?"
             );
-            ps.setString(1, s.getEmail());
+            ps.setString(1, s.getUsername());
             ps.executeUpdate();
         } finally {
             conn.close();
         }
 
-        students = (HashMap<String, StudentPOJO>) readAll(); // reload the updated info
+        students = (HashMap<String, Student>) readAll(); // reload the updated info
     }
 
 }

@@ -18,61 +18,14 @@ import javax.sql.DataSource;
  * @author abilb
  */
 public class StudentRepository {
-    
+
     public static void create(DataSource ds, Student student) throws SQLException {
         String studentSQL = "INSERT INTO STUDENT(STUID, EMAIL, MAJORCODE, PHONE, ADVISED) "
                 + "VALUES (?, ?, ?, ?, \'false\')";
         String userSQL = "INSERT INTO USERTABLE(PASSWORD, USERNAME) VALUES (?,?)"; //haseeb was here
-        
+
         String groupSQL = "INSERT INTO GROUPTABLE(GROUPNAME, USERNAME) VALUES (\'customergroup\', ?)";
-       
-            if (ds == null) {
-                throw new SQLException("ds is null; Can't get data source");
-            }
 
-            Connection conn = ds.getConnection();
-
-            if (conn == null) {
-                throw new SQLException("conn is null; Can't get db connection");
-            }
-
-            try {
-          
-           //Here we execute three SQL statements
-            //Student Information
-            PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
-             
-            sqlStatement.setString(1, student.getId());
-            sqlStatement.setString(2, student.getUsername());
-            sqlStatement.setString(3, student.getMajorCode());
-            sqlStatement.setString(4, student.getPhoneNumber());
-           
-          
-            sqlStatement.executeUpdate();
-
-            //user credentials
-            sqlStatement = conn.prepareStatement(userSQL);
-            
-            
-                //Encrypt the pssword into SHA-256
-                sqlStatement.setString(1, SHA256Encrypt.encrypt(student.getPassword()));
-           
-            
-            sqlStatement.setString(2, student.getUsername());
-            sqlStatement.execute();
-            
-            //Group Table
-            sqlStatement = conn.prepareStatement(groupSQL);
-            sqlStatement.setString(1, student.getUsername());
-            sqlStatement.execute();
-            } finally {
-            conn.close();
-               }
-            
-    }
-
-      
-     public static Map readAll(DataSource ds) throws SQLException {
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
         }
@@ -83,7 +36,50 @@ public class StudentRepository {
             throw new SQLException("conn is null; Can't get db connection");
         }
 
-        HashMap<String, StudentPOJO> list = new HashMap<>();
+        try {
+
+            //Here we execute three SQL statements
+            //Student Information
+            PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
+
+            sqlStatement.setString(1, student.getId());
+            sqlStatement.setString(2, student.getUsername());
+            sqlStatement.setString(3, student.getMajorCode());
+            sqlStatement.setString(4, student.getPhoneNumber());
+
+            sqlStatement.executeUpdate();
+
+            //user credentials
+            sqlStatement = conn.prepareStatement(userSQL);
+
+            //Encrypt the pssword into SHA-256
+            sqlStatement.setString(1, SHA256Encrypt.encrypt(student.getPassword()));
+
+            sqlStatement.setString(2, student.getUsername());
+            sqlStatement.execute();
+
+            //Group Table
+            sqlStatement = conn.prepareStatement(groupSQL);
+            sqlStatement.setString(1, student.getUsername());
+            sqlStatement.execute();
+        } finally {
+            conn.close();
+        }
+
+    }
+
+    public static Map readAll(DataSource ds) throws SQLException {
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
+
+        Connection conn = ds.getConnection();
+
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        HashMap<String, Student> list = new HashMap<>();
 
         try {
             PreparedStatement ps = conn.prepareStatement(
@@ -94,12 +90,12 @@ public class StudentRepository {
             ResultSet result = ps.executeQuery();
 
             while (result.next()) {
-                StudentPOJO s = new StudentPOJO();
-                s.setSid(result.getString("STUID"));
-                s.setEmail(result.getString("EMAIL"));
-                s.setMajor(result.getString("MAJORCODE"));
-                s.setPhone(result.getString("PHONE"));
-                list.put(s.getSid(), s);
+                Student s = new Student();
+                s.setId(result.getString("STUID"));
+                s.setUsername(result.getString("EMAIL"));
+                s.setMajorCode(result.getString("MAJORCODE"));
+                s.setPhoneNumber(result.getString("PHONE"));
+                list.put(s.getId(), s);
             }
 
         } finally {
@@ -109,14 +105,13 @@ public class StudentRepository {
         return list;
     }
 
-     
-      public static void adminUpdate(String key, DataSource ds, Student student, boolean resetPassword) throws SQLException {
+    public static void adminUpdate(String key, DataSource ds, Student student, boolean resetPassword) throws SQLException {
         Connection conn = ds.getConnection();
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
         }
         try {
-             
+
             PreparedStatement ps;
             ps = conn.prepareStatement(
                     "Update STUDENT set EMAIL=?, MAJORCODE=?, PHONE=? where STUID=?"
@@ -155,26 +150,23 @@ public class StudentRepository {
         //students = (HashMap<String, StudentPOJO>) readAll(); // reload the updated info
     }
 
-    
     public static void update(DataSource ds, Student student) throws SQLException {
         String studentSQL = "UPDATE STUDENT SET STUID= ?, MAJORCODE = ?, PHONE = ? WHERE EMAIL = ?";
         String userSQL = "UPDATE USERTABLE SET PASSWORD = ? WHERE USERNAME = ?";
-        
-            
-            
-            if (ds == null) {
-                throw new SQLException("ds is null; Can't get data source");
-            }
 
-            Connection conn = ds.getConnection();
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
 
-            if (conn == null) {
-                throw new SQLException("conn is null; Can't get db connection");
-            }
-                
-            try {
-          
-           //Here we execute three SQL statements
+        Connection conn = ds.getConnection();
+
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        try {
+
+            //Here we execute three SQL statements
             //Student Information
             PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
             //sqlStatement.setString(1, Integer.toString(books.size() + 1)); //Integer.toString(this.getBooks().size() + 1));
@@ -182,35 +174,30 @@ public class StudentRepository {
             sqlStatement.setString(2, student.getMajorCode());
             sqlStatement.setString(3, student.getPhoneNumber());
             sqlStatement.setString(4, student.getUsername());
-          
+
             sqlStatement.executeUpdate();
 
             //user credentials
             sqlStatement = conn.prepareStatement(userSQL);
-            
-             
-                //Encrypt the pssword into SHA-256
+
+            //Encrypt the pssword into SHA-256
             sqlStatement.setString(1, SHA256Encrypt.encrypt(student.getPassword()));
-             
-            
+
             sqlStatement.setString(2, student.getUsername());
             sqlStatement.execute();
-            
-            
-            } finally {
+
+        } finally {
             conn.close();
-               }
+        }
     }
 
-    
- 
     public static void delete(String key, DataSource ds, Student student) throws SQLException {
         Connection conn = ds.getConnection();
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
         }
         try {
-             
+
             PreparedStatement ps;
             ps = conn.prepareStatement(
                     "Delete from STUDENT where EMAIL=?"
@@ -234,46 +221,40 @@ public class StudentRepository {
         //students = (HashMap<String, StudentPOJO>) readAll(); // reload the updated info
     }
 
-   
     public static Student read(DataSource ds, String key) throws SQLException {
-            String studentSQL = "SElECT * FROM STUDENT JOIN USERTABLE on EMAIL = USERNAME WHERE EMAIL = ?";
-        Student student = new Student(); 
-       
-            if (ds == null) {
-                throw new SQLException("ds is null; Can't get data source");
-            }
+        String studentSQL = "SElECT * FROM STUDENT JOIN USERTABLE on EMAIL = USERNAME WHERE EMAIL = ?";
+        Student student = new Student();
 
-            Connection conn = ds.getConnection();
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
 
-            if (conn == null) {
-                throw new SQLException("conn is null; Can't get db connection");
-            }
+        Connection conn = ds.getConnection();
 
-            try {
-          
-     
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        try {
+
             PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
-  
+
             sqlStatement.setString(1, key);
-          
+
             ResultSet result = sqlStatement.executeQuery();
-             while(result.next())
-             {
-                 student.setId(result.getString("STUID"));
-                 student.setMajorCode(result.getString("majorcode"));
-                 student.setPhoneNumber(result.getString("phone"));
-                 student.setUsername(key); 
-                 student.setPassword(result.getString("password"));
-             }  
-            
-            
-            } finally {
+            while (result.next()) {
+                student.setId(result.getString("STUID"));
+                student.setMajorCode(result.getString("majorcode"));
+                student.setPhoneNumber(result.getString("phone"));
+                student.setUsername(key);
+                student.setPassword(result.getString("password"));
+            }
+
+        } finally {
             conn.close();
-               }
-    
-            return student; 
+        }
+
+        return student;
     }
 
-   
-    
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package FacultyAdvisement;
 
 import java.util.List;
@@ -18,8 +13,10 @@ public class Student  {
     private String id; 
     private String majorCode;
     private String phoneNumber;
+    private boolean resetPassword;
+    private boolean editable;
     private List<Course> completedCourses;
-    private boolean advised; 
+    private boolean advised;
 
     public List<Course> getCompletedCourses() {
         return completedCourses;
@@ -85,6 +82,22 @@ public class Student  {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isResetPassword() {
+        return resetPassword;
+    }
+
+    public void setResetPassword(boolean resetPassword) {
+        this.resetPassword = resetPassword;
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
    
     
