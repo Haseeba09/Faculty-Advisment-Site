@@ -102,30 +102,56 @@
                 </h:form>    
                 </b:panel>
                 <b:panel id="panel3" title="Selected Course Information"> 
-                <h:form>
-                    <b:dataTable value="#{userBean.courseWithRequisites.prerequisites}" var="course">
+                <h:form id="courseinfo" >
+                    <h3 style="text-align: center;">Prerequisite Courses</h3>
+                    <b:dataTable  value="#{userBean.courseWithRequisites.prerequisites}" var="course">
                     <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
                     <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
                     <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
                     <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                     </b:dataTable>
+                    <h3 style="text-align: center;">Corequisite Courses</h3>
                     <b:dataTable value="#{userBean.courseWithRequisites.corequisite}" var="course">
                     <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
                     <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
                     <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
                     <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                     </b:dataTable>
+                    <h3 style="text-align: center;">Suggested Courses</h3>
                     <b:dataTable value="#{userBean.courseWithRequisites.suggested}" var="course">
                     <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
                     <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
                     <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
                     <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                     </b:dataTable>
+                     
+                    <b:commandButton id="desired" value="Add to Desired Classes" iconAwesome="check" action="#{userBean.addToDesired()}"
+                                         />
+                        
+                      
                 </h:form>    
                 </b:panel>
             </b:accordion>
+            <h:message for="desired" errorStyle="color: red"   />
         </b:container>
-        
+        <b:container>
+            <b:jumbotron>
+            <h:form >
+                    <h3 style="text-align: center;">Schedule Appointment</h3>
+                     <b:dateTimePicker></b:dateTimePicker>
+                    <h3 style="text-align: center;">Desired Courses</h3>
+                    <b:dataTable  value="#{userBean.desiredCoureses}" var="course">
+                    <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                    <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                    <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                    <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                    </b:dataTable>
+                    
+                  
+                </h:form>  
+                
+            </b:jumbotron>
+        </b:container>
         <h:link value="Logout" outcome="/logout" /> <br />  
     </h:body>
 </html>

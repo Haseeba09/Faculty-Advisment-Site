@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +28,15 @@ public class UserBean implements Serializable {
     private CourseWithRequisites courseWithRequisites;  
     private List<Course> completedCourses; 
     private List<Course> availableCourses;
+    private List<Course> desiredCoureses; 
 
+    public List<Course> getDesiredCoureses() {
+        return desiredCoureses;
+    }
+
+    public void setDesiredCoureses(List<Course> desiredCoureses) {
+        this.desiredCoureses = desiredCoureses;
+    }
     public CourseWithRequisites getCourseWithRequisites() {
         return courseWithRequisites;
     }
@@ -75,7 +84,7 @@ public class UserBean implements Serializable {
         username = p.getName();
         student = new Student();
         newPassword = ""; 
-       
+        desiredCoureses = new ArrayList<>();
         try {
             student = StudentRepository.read(ds, username);
         } catch (SQLException ex) {
@@ -180,4 +189,81 @@ public class UserBean implements Serializable {
     
     }
     
+    public void addToDesired()
+    {
+        if(this.courseWithRequisites == null)
+        {
+         FacesContext.getCurrentInstance().addMessage("courseinfo:desired",
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "Please select a course!", null));
+                                return;
+        }
+        
+        boolean flag = true;
+        for(int i = 0; i < this.courseWithRequisites.getPrerequisites().size(); i++)
+        {
+            flag = false;
+            for(int j = 0; j < this.completedCourses.size(); j++)
+            {
+                if(this.courseWithRequisites.getPrerequisites().get(i).getName() == null ? this.completedCourses.get(j).getName() == null : this.courseWithRequisites.getPrerequisites().get(i).getName().equals(this.completedCourses.get(j).getName()))
+                {
+                    flag = true;
+                }
+            }
+        }
+        
+        if(flag == false)
+        {
+             FacesContext.getCurrentInstance().addMessage("courseinfo:desired",
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "You are missing a prerequisite course!", null));
+             
+             return;
+        }
+        
+        for(int i = 0; i < this.courseWithRequisites.getPrerequisites().size(); i++)
+        {
+            if(!this.desiredCoureses.contains(this.courseWithRequisites.getPrerequisites().get(i)))
+            {
+                flag = false;
+            }
+        }
+        if(this.courseWithRequisites.getCorequisite().isEmpty())
+        {
+            flag = true;
+        }
+        if(flag == false)
+        {
+             FacesContext.getCurrentInstance().addMessage("courseinfo:desired",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "You are missing a corequisite course!", null));
+             
+              
+        }
+        
+        for(int i = 0; i < this.courseWithRequisites.getPrerequisites().size(); i++)
+        {
+            if(!this.desiredCoureses.contains(this.courseWithRequisites.getPrerequisites().get(i)) || this.completedCourses.contains(this.courseWithRequisites.getPrerequisites().get(i)))
+            {
+                flag = false;
+            }
+        }
+        
+        if(this.courseWithRequisites.getSuggested().isEmpty())
+        {
+            flag = true; 
+        }
+        
+         if(flag == false)
+        {
+             FacesContext.getCurrentInstance().addMessage("courseinfo:desired",
+                    new FacesMessage(FacesMessage.SEVERITY_WARN,
+                            "Consider taking the suggested courses!", null));
+             
+             
+        }
+         
+        this.desiredCoureses.add(this.courseWithRequisites.getCourse());
+        
+    }
 }

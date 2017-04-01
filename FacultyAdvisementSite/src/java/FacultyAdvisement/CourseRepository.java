@@ -53,20 +53,28 @@ public class CourseRepository {
          List<Course> suggested = new ArrayList<Course>();
         try {
             PreparedStatement ps = conn.prepareStatement(
-                  ""
+                  "select course_number, course_name, subject, credits FROM Course \n" +
+"            Join(select prereq_subject, prereq_number from Course as c \n" +
+"            JOIN prerequisite as p on subject = p.course_subject and c.course_number = p.course_number \n" +
+"            where c.subject= ? and c.course_number = ?) as req\n" +
+"            on subject = prereq_subject and course_number = prereq_number;"
  
             );
 
             // retrieve customer data from database
             ps.setString(1, course.getSubject());
             ps.setString(2, course.getNumber());
-            ps.execute();
-            ResultSet result = ps.getResultSet();
+           
+            ResultSet result = ps.executeQuery();
             
             handleListResult(result, prerequisites); 
             
            ps = conn.prepareStatement(
-                     "select * from Course as c JOIN corequisite as p on subject = p.course_subject and c.course_number = p.course_number where c.subject= ? and c.course_number =? "
+                    "select course_number, course_name, subject, credits FROM Course \n" +
+"            Join(select coreq_subject, coreq_number from Course as c \n" +
+"            JOIN corequisite as p on subject = p.course_subject and c.course_number = p.course_number \n" +
+"            where c.subject= ? and c.course_number = ?) as req\n" +
+"            on subject = coreq_subject and course_number = coreq_number;"
             );
 
             // retrieve customer data from database
@@ -77,7 +85,11 @@ public class CourseRepository {
             handleListResult(result, corequisites); 
            
              ps = conn.prepareStatement(
-                      "select * from Course as c JOIN suggested as p on subject = p.course_subject and c.course_number = p.course_number where c.subject= ? and c.course_number =? "
+                       "select course_number, course_name, subject, credits FROM Course \n" +
+"            Join(select suggested_subject, suggested_number from Course as c \n" +
+"            JOIN suggested as p on subject = p.course_subject and c.course_number = p.course_number \n" +
+"            where c.subject= ? and c.course_number = ?) as req\n" +
+"            on subject = suggested_subject and course_number = suggested_number;"
             );
 
             // retrieve customer data from database
