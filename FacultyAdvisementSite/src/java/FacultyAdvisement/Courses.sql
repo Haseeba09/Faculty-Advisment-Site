@@ -58,6 +58,7 @@ CREATE TABLE Suggested
     );
 
    
+    
     INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Programming I', 'CMSC', '1613', '3');
 
@@ -65,4 +66,5 @@ CREATE TABLE Suggested
         values ('Programming II', 'CMSC', '1621', '3');
     INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
         values ('CMSC', '1621', 'CMSC', '1613');
-    
+    INSERT INTO Completed (STUID, subject, course_number) 
+        values ('11111112','CMSC', '1613');

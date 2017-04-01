@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -18,10 +19,36 @@ import javax.sql.DataSource;
 @SessionScoped
 public class UserBean implements Serializable {
 
+    
+
     private String username;
     private Student student;
     private String newPassword; 
+    private CourseWithRequisites courseWithRequisites;  
+    private List<Course> completedCourses; 
+    private List<Course> availableCourses;
 
+    public CourseWithRequisites getCourseWithRequisites() {
+        return courseWithRequisites;
+    }
+
+    public void setCourseWithRequisites(CourseWithRequisites courseWithRequisites) {
+        this.courseWithRequisites = courseWithRequisites;
+    }
+    public List<Course> getAvailableCourses() {
+        return availableCourses;
+    }
+
+    public void setAvailableCourses(List<Course> availableCourses) {
+        this.availableCourses = availableCourses;
+    }
+    public List<Course> getCompletedCourses() {
+        return completedCourses;
+    }
+
+    public void setCompletedCourses(List<Course> completedCourses) {
+        this.completedCourses = completedCourses;
+    }
     public String getNewPassword() {
         return newPassword;
     }
@@ -48,8 +75,19 @@ public class UserBean implements Serializable {
         username = p.getName();
         student = new Student();
         newPassword = ""; 
+       
         try {
             student = StudentRepository.read(ds, username);
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+           completedCourses = CourseRepository.readCompletedCourses(ds, student.getId());
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            availableCourses = CourseRepository.readAllCourses(ds);
         } catch (SQLException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -121,5 +159,25 @@ public class UserBean implements Serializable {
          
         return null;
     } 
-
+    
+    public void removeCompletedCourse(Course course) throws SQLException
+    {
+        completedCourses.remove(course);
+        CourseRepository.deleteCompleted(ds, student.getId(), course.subject, course.number);
+         availableCourses = CourseRepository.readAllCourses(ds);
+    }
+    
+    public void addCompletedCourse(Course course) throws SQLException
+    {
+        completedCourses.add(course);
+        CourseRepository.createCompletedCourse(ds, student.getId(), course.subject, course.number);
+       availableCourses = CourseRepository.readAllCourses(ds);
+    }
+    
+    public void lookupCourse(Course course) throws SQLException
+    {
+        this.setCourseWithRequisites(CourseRepository.readCourseWithRequisites(ds, course));
+    
+    }
+    
 }

@@ -11,7 +11,7 @@ package FacultyAdvisement;
  */
 public class Course {
     String name; 
-    String numnber; 
+    String number; 
     String subject; 
     int credits;
     
@@ -25,12 +25,12 @@ public class Course {
         this.name = name;
     }
 
-    public String getNumnber() {
-        return numnber;
+    public String getNumber() {
+        return number;
     }
 
-    public void setNumnber(String numnber) {
-        this.numnber = numnber;
+    public void setNumber(String numnber) {
+        this.number = numnber;
     }
 
     public String getSubject() {
