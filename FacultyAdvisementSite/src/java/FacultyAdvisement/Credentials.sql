@@ -1,11 +1,12 @@
-drop table appointment;
-drop table student;
+drop table APPOINTMENT;
 drop table USERTABLE;
 drop table GROUPTABLE;
 drop table AVAILABLEMAJOR;
+drop table COMPLETED;
+drop table TOKENVERIFICATION;
+drop table STUDENT;
 
-
-create table STUDENT(
+create table STUDENT (
     STUID varchar(8),
     email varchar(255) not null unique,
     majorcode varchar(4),
@@ -40,6 +41,13 @@ create table APPOINTMENT (
     foreign key(SID) references student(stuid),
     primary key (ID)
        
+);
+
+create table TOKENVERIFICATION (
+    TOKEN varchar(64),
+    EMAIL varchar(255),
+    EXPIRATION timestamp,
+    primary key (TOKEN)
 );
 
 /* username is root@uco.edu
@@ -88,3 +96,4 @@ Used to test email
 insert into USERTABLE (username, password)
     values ('uco.student1@gmail.com', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'uco.student1@gmail.com');
+insert into STUDENT(STUID, email, majorcode, phone, advised) values ('99999999', 'uco.student1@gmail.com', '6100', '4050000000', 'false');

@@ -7,15 +7,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.faces.model.SelectItem;
 import javax.sql.DataSource;
 import javax.validation.constraints.Pattern;
 
@@ -88,41 +85,6 @@ public class StudentBean implements Serializable {
 
     public void setResetPassword(boolean resetPassword) {
         this.resetPassword = resetPassword;
-    }
-
-    public List<SelectItem> getAvailableMajors() throws SQLException {
-
-        List<SelectItem> list = new ArrayList<>();
-
-        if (ds == null) {
-            throw new SQLException("ds is null; Can't get data source");
-        }
-
-        Connection conn = ds.getConnection();
-
-        if (conn == null) {
-            throw new SQLException("conn is null; Can't get db connection");
-        }
-
-        try {
-            PreparedStatement ps = conn.prepareStatement(
-                    "select * from AVAILABLEMAJOR"
-            );
-
-            // retrieve customer data from database
-            ResultSet result = ps.executeQuery();
-
-            while (result.next()) {
-                String s = result.getString("MAJORCODE");
-                list.add(new SelectItem(s));
-            }
-
-        } finally {
-            conn.close();
-        }
-
-        return list;
-
     }
 
     public HashMap<String, StudentPOJO> getStudents() {

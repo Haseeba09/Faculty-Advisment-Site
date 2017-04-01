@@ -236,7 +236,7 @@ public class StudentRepository {
 
    
     public static Student read(DataSource ds, String key) throws SQLException {
-        String studentSQL = "SElECT * FROM STUDENT JOIN USERTABLE on EMAIL = USERNAME WHERE EMAIL = ?";
+            String studentSQL = "SElECT * FROM STUDENT JOIN USERTABLE on EMAIL = USERNAME WHERE EMAIL = ?";
         Student student = new Student(); 
        
             if (ds == null) {

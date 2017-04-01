@@ -23,7 +23,7 @@
 
                     <b:dataTableColumn label="Major">
                         <b:selectOneMenu id="major" value="#{studentBean.major}" rendered="#{student.value.editable}">
-                            <f:selectItems value="#{studentBean.availableMajors}"/>
+                            <f:selectItems value="#{utility.availableMajors}"/>
                         </b:selectOneMenu>
                         <h:outputText value="#{student.value.major}" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
