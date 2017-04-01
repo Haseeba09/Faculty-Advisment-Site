@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <br />
+        <br />
+        <b:container>
+            <b:form>
+                <b:dateTimePicker label="Create new appointment" time-stepping="10" use-current="false" 
+                                  mode="inline" value="#{appointmentBean.appointment.datetime}"
+                                  format="YYYY-MM-DD hh:mm:ss"/>
+                <b:commandButton action="#{appointmentBean.insertAppointment()}" value="Create" /> 
+            </b:form>
+           <br />
+           
+        <br />
+            <b:form>
+                <b:dataTable value="#{appointmentBean.appointments}" var="appointment" >
+                    <b:dataTableColumn label="Date" value="#{appointment.date}"/>
+                    <b:dataTableColumn label="Time" value="#{appointment.time}"/>
+                    <b:dataTableColumn label="SID" >
+                        <h:outputText value="#{appointment.sid}" rendered="#{appointment.taken}"/>
+                        <h:outputText value="Open" rendered="#{not appointment.taken}" />
+                    </b:dataTableColumn>
+                    <b:dataTableColumn label="Cancel">
+                        <b:commandButton value="Cancel" action="#{appointmentBean.deleteBook(appointment)}" />
+                    </b:dataTableColumn>
+                </b:dataTable>
+            </b:form>
+        </b:container>
+    </h:body>
+</html>
+

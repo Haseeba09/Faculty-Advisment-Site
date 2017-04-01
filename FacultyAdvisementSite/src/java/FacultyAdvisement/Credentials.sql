@@ -37,7 +37,8 @@ create table AVAILABLEMAJOR (
 create table APPOINTMENT (
     ID INT NOT NULL AUTO_INCREMENT,
     SID varchar(8),
-    stime datetime,
+    stime time,
+    sdate date,
     foreign key(SID) references student(stuid),
     primary key (ID)
        
@@ -88,7 +89,10 @@ insert into AVAILABLEMAJOR (majorcode) values ('6102');
 insert into AVAILABLEMAJOR (majorcode) values ('6110');
 insert into AVAILABLEMAJOR (majorcode) values ('6660');
 
-insert into APPOINTMENT (SID, stime) values ('00000001', '2017-03-28 16:30:00');
+insert into APPOINTMENT (SID, sdate, stime) values ('00000001', '2017-03-28', '16:30:00');
+insert into APPOINTMENT (SID, sdate, stime) values ('00000002', '2017-03-27', '16:00:00');
+insert into APPOINTMENT (SID, sdate, stime) values ('00000003', '2017-03-28', '17:00:00');
+insert into APPOINTMENT (sdate, stime) values ('2017-03-28', '17:00:00');
 
 /* 
 Used to test email
