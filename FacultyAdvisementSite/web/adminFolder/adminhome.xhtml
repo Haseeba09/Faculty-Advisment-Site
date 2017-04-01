@@ -11,7 +11,7 @@
         <h2>Hello! #{facesContext.externalContext.userPrincipal.name}</h2>
         <h2>Hi! #{userBean.username}</h2>
         <br />
-        
+        <h:link value="calendar" outcome="/adminFolder/calendar" /> <br/>
         <h:link value="Edit Student" outcome="/adminFolder/editStudent" /><br />
         <h:link value="Logout" outcome="/logout" />
     </h:body>
