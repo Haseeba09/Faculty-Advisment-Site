@@ -5,94 +5,23 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Student Login</title>
-        <style>
-            #submitButton{
-                text-align: center;
-                background-color: #337AB7;
-                color: #ffffff;
-                align-content: center;
-                display: inline-block;
-                width: 83%;
-                padding-top: 4px;
-                padding-bottom: 4px;
-                margin-left: 13px;
-                margin-top: 5px;
-            }
-            #resetPasswordButton{
-                text-align: center;
-                align-content: center;
-                display: inline-block;
-                width: 83%;
-                padding-top: 4px;
-                padding-bottom: 4px;
-                margin-left: 13px;
-                margin-top: 5px;
-            }
-            #registerButton{
-                text-align: center;
-                align-content: center;
-                display: inline-block;
-                width: 83%;
-                padding-top: 4px;
-                padding-bottom: 4px;
-                margin-left: 13px;
-                margin-top: 5px;
-            }
-        </style>
+        <title>Login Page</title>
     </h:head>
-    <h:body>
-        <b:container style="width: 215px; ">
-            <form action="j_security_check" method="POST" >
-
-                <b:panel collapsible="false" title="login" look="primary" >
-                    <b:row>
-                        <b:column medium-screen="2">
-                            <h:outputText value="Username" />
-                        </b:column>
-                        <b:column>
-                            <input type="text" name="j_username" />
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column>
-                            <h:outputText value="Password" />
-                        </b:column>
-                        <b:column>
-                            <input type="password" name="j_password" />
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <input id="submitButton" type="submit" value="Login" />
-                    </b:row>
-                    <b:row>
-                        <b:button value="Forgot Password?" outcome="resetPasswordPart1" id="resetPasswordButton"/>
-                    </b:row>
-                    <b:row>
-                        <b:button value="Register" outcome="signup" id="registerButton"/>
-                    </b:row>
-
-
-
-
-                </b:panel>
-
-            </form>
-
-
-        </b:container>
-
-
-        <h:link value="Admin login" outcome="/adminFolder/adminhome" /> <br />
+    <h:body style="padding: 60px;">
+        <b:navBar brand="Faculty Advisement Site" fixed="top">
+            <b:navbarLinks>
+                <b:navLink value="Admin Login" outcome="/adminFolder/adminhome"></b:navLink>
+                <b:navLink value="Student Login" outcome="/customerFolder/profile"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
         <h:form id="login" onsubmit="document.getElementById('login').action = 'j_security_check';" prependId="false">
-            <p style="text-align:center;"><img src="resources/UCO_banner.png"/></p>   
-            <b:container style="width: 600px;">
-                <b:panel collapsible="false" look="primary" title="Student Login" >
+            <b:container style="width: 400px;">
+                <b:panel collapsible="false" look="primary" title="Account Login" >
                     <b:row>
-                        <b:column medium-screen="2" offset="2">
+                        <b:column small-screen="3">
                             <h:outputText value="Username:" />
                         </b:column>
-                        <b:column medium-screen="6">
+                        <b:column small-screen="9">
                             <b:inputText id="j_username" name="j_username">  
                                 <f:facet name="prepend">
                                     <b:icon name="user" />
@@ -101,10 +30,10 @@
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column medium-screen="2" offset="2">
+                        <b:column small-screen="3">
                             <h:outputText value="Password:" />
                         </b:column>
-                        <b:column medium-screen="6">
+                        <b:column small-screen="9">
                             <b:inputText id="j_password" name="j_password">  
                                 <f:facet name="prepend">
                                     <b:iconAwesome name="key" />
@@ -113,9 +42,23 @@
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column span="5" offset="2">
+                        <b:column span="9" offset="3">
                             <b:commandButton iconAwesome="sign-in" look="primary"
                                              value="Login" style="width:100%" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="9" offset="3">
+                            <b:button iconAwesome="unlock" look="primary"
+                                      outcome="resetPasswordPart1"
+                                      value="Forgot password?" style="width:100%" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column span="9" offset="3">
+                            <b:button iconAwesome="user-plus" look="primary"
+                                      outcome="signup"
+                                      value="Register" style="width:100%" />
                         </b:column>
                     </b:row>
                 </b:panel>

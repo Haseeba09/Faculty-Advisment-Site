@@ -11,12 +11,12 @@
         <h:form id="signUp">
             <p style="text-align:center;"><img src="resources/UCO_banner.png"/></p>   
             <b:container style="width: 600px;">
-                <b:panel collapsible="false" title="Student Sign Up" look="primary">
+                <b:panel collapsible="false" look="primary" title="Student Sign Up">
                     <b:row>
-                        <b:column medium-screen="2">
+                        <b:column small-screen="2">
                             <h:outputText value="Username:" />
                         </b:column>
-                        <b:column medium-screen="5">
+                        <b:column small-screen="5">
                             <b:inputText id="username" placeholder="Username" 
                                          required="true" value="#{registrationBean.username}" 
                                          requiredMessage="This field should not left blank.">
@@ -25,15 +25,15 @@
                                 </f:facet>
                             </b:inputText>
                         </b:column>
-                        <b:column medium-screen="5" style-class="message">
+                        <b:column small-screen="5" style-class="message">
                             <h:message for="username" errorStyle="color: red" />
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column medium-screen="2">
+                        <b:column small-screen="2">
                             <h:outputText value="Password:" />
                         </b:column>
-                        <b:column medium-screen="5">
+                        <b:column small-screen="5">
                             <b:inputSecret id="password" placeholder="Password"
                                            required="true" value="#{registrationBean.password}"
                                            requiredMessage="This field should not left blank.">
@@ -42,15 +42,15 @@
                                 </f:facet>
                             </b:inputSecret>
                         </b:column>
-                        <b:column medium-screen="5" styleClass="message">
+                        <b:column small-screen="5" styleClass="message">
                             <h:message for="password" errorStyle="color: red" />
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column medium-screen="2">
+                        <b:column small-screen="2">
                             <h:outputText value="UCO ID:" />
                         </b:column>
-                        <b:column medium-screen="5">
+                        <b:column small-screen="5">
                             <b:inputText id="studentID" placeholder="Student ID"
                                          required="true" value="#{registrationBean.studentID}"
                                          requiredMessage="This field should not left blank."
@@ -60,15 +60,15 @@
                                 </f:facet>
                             </b:inputText>
                         </b:column>
-                        <b:column medium-screen="5" styleClass="message">
+                        <b:column small-screen="5" styleClass="message">
                             <h:message for="studentID" errorStyle="color: red" />
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column medium-screen="2">
+                        <b:column small-screen="2">
                             <h:outputText value="Major Code:" />
                         </b:column>
-                        <b:column medium-screen="5">
+                        <b:column small-screen="5">
                             <b:selectOneMenu id="majorCode" value="#{registrationBean.majorCode}"
                                              required="#{param['signUp:home']==null}"
                                              requiredMessage="This field should have one item selected.">
@@ -83,15 +83,15 @@
                                 </f:facet>
                             </b:selectOneMenu>
                         </b:column>
-                        <b:column medium-screen="5" styleClass="message">
+                        <b:column small-screen="5" styleClass="message">
                             <h:message for="majorCode" errorStyle="color: red" />
                         </b:column>
                     </b:row>
                     <b:row>
-                        <b:column medium-screen="2">
+                        <b:column small-screen="2">
                             <h:outputText value="Phone:" />
                         </b:column>
-                        <b:column medium-screen="5">
+                        <b:column small-screen="5">
                             <b:inputText id="phone" placeholder="Phone"
                                          required="true" value="#{registrationBean.phone}"
                                          requiredMessage="This field should not left blank.">
@@ -100,7 +100,7 @@
                                 </f:facet>
                             </b:inputText>
                         </b:column>
-                        <b:column medium-screen="5" styleClass="message">
+                        <b:column small-screen="5" styleClass="message">
                             <h:message for="phone" errorStyle="color: red" />
                         </b:column>
                     </b:row>
@@ -111,7 +111,7 @@
                                              iconAwesome="user-plus" value="Sign Up" 
                                              look="primary" style="width:100%" />
                         </b:column>
-                        <b:column medium-screen="5" styleClass="message">
+                        <b:column small-screen="5" styleClass="message">
                             <h:message for="buttontest" errorStyle="color: Green" />
                         </b:column>
                     </b:row>
@@ -124,8 +124,6 @@
                         </b:column>
                     </b:row>
                 </b:panel>
-                        
-
             </b:container>
         </h:form>
     </h:body>
