@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
 
 /**
@@ -91,44 +93,66 @@ public class AppointmentBean implements Serializable {
         return formattedMonth;
     }
 
-    public String insertAppointment() throws SQLException {
+    
+    
+    public void insertAppointment() throws SQLException {
         Connection conn1 = ds.getConnection();
-
-        if (conn1 == null) {
-            throw new SQLException("conn is null; Can't get db connection");
-        }
-
-        try {
-            PreparedStatement ps = conn1.prepareStatement(
-                    "insert into APPOINTMENT(sdate, stime) VALUES(?,?)"
-            );
-            /*
-            here is the annoying format that the calanedr returns:
-            Sat Apr 01 00:00:00 CDT 2017
-             */
-
-            String month = appointment.getDate().substring(4, 7);
+        
+        boolean execute = true;
+        
+        String month = appointment.getDate().substring(4, 7);
             month = formatMonth(month);
             String year = appointment.getDate().substring(23);
             String day = appointment.getDate().substring(8, 10);
 
             String mDate = year + "-" + month + "-" + day;
 
-            String time = appointment.getTime().substring(11, 19);
+            String mTime = appointment.getTime().substring(11, 19);
+            
+            appointment.setDate(mDate);
+            appointment.setTime(mTime);
+        
+        for(int i=0; i < appointments.size(); i++){
+            Appointment appointment1 = appointments.get(i);
+            if(appointment1.getDate().trim().equals(mDate.trim()) && appointment1.getTime().trim().equals(mTime.trim())){
+                execute = false;
+                
+                FacesContext.getCurrentInstance().addMessage("datePick:create",
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "Appointment already exists!", null));
+                                return;
+            }
+        }
+        
+        if(execute){
+            if (conn1 == null) {
+                throw new SQLException("conn is null; Can't get db connection");
+            }
 
-            ps.setString(1, mDate);
-            ps.setString(2, time);
-            ps.execute();
-        } finally {
-            conn1.close();
+            try {
+                PreparedStatement ps = conn1.prepareStatement(
+                        "insert into APPOINTMENT(sdate, stime) VALUES(?,?)"
+                );
+                /*
+                here is the annoying format that the calanedr returns:
+                Sat Apr 01 00:00:00 CDT 2017
+                */
+
+            
+
+                ps.setString(1, appointment.getDate());
+                ps.setString(2, appointment.getTime());
+                ps.execute();
+            } finally {
+                conn1.close();
+            }
+
+            appointments = loadAppointments();
         }
 
-        appointments = loadAppointments();
-
-        return null;
     }
 
-    public String deleteBook(Appointment appointment) throws SQLException {
+    public void deleteBook(Appointment appointment) throws SQLException {
 
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
@@ -150,7 +174,7 @@ public class AppointmentBean implements Serializable {
             conn.close();
         }
         appointments = loadAppointments();
-        return null;
+        
     }
 
     public List<Appointment> loadAppointments() throws SQLException {

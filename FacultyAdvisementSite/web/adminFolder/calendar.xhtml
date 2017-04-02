@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <f:event listener="#{appointmentBean.loadAppointments()}" type="preRenderView" />
     <h:head>
         <title>Facelet Title</title>
     </h:head>
@@ -10,19 +12,23 @@
         <br />
         <br />
         <b:container>
-            <b:form>
+            <b:form id="datePick"> 
                 <b:dateTimePicker label="Create new appointment" time-stepping="10" 
                                   mode="inline" value="#{appointmentBean.appointment.date}"
                                   format="YYYY-MM-DD"/>
                 <b:dateTimePicker label="Select a time" time-stepping="10"
                                   mode="inline" value="#{appointmentBean.appointment.time}" showDate="false"
                                   format="hh:mm a"/>
-                <b:commandButton action="#{appointmentBean.insertAppointment()}" value="Create" /> 
+                <b:commandButton id="create" action="#{appointmentBean.insertAppointment()}" value="Create" >
+                   <f:ajax execute="@form" render="@form :appointmentForm" />
+                </b:commandButton> 
             </b:form>
+           <br />
+           <h:message for="create" errorStyle="color: red" />
            <br />
            
         <br />
-            <b:form>
+            <b:form id="appointmentForm">
                 <b:dataTable value="#{appointmentBean.appointments}" var="appointment" >
                     <b:dataTableColumn label="Date" value="#{appointment.date}"/>
                     <b:dataTableColumn label="Time" value="#{appointment.time}"/>
@@ -31,10 +37,13 @@
                         <h:outputText value="Open" rendered="#{not appointment.taken}" />
                     </b:dataTableColumn>
                     <b:dataTableColumn label="Cancel">
-                        <b:commandButton value="Cancel" action="#{appointmentBean.deleteBook(appointment)}" />
+                        <b:commandButton value="Cancel" action="#{appointmentBean.deleteBook(appointment)}" >
+                            <f:ajax execute="@form" render="@form :appointmentForm" />
+                        </b:commandButton>
                     </b:dataTableColumn>
                 </b:dataTable>
             </b:form>
+        <h:link value="Go Home" outcome="/adminFolder/adminhome" /><br />
         </b:container>
     </h:body>
 </html>
