@@ -1,157 +1,158 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.orge/1999/xhtml"
-        xmlns:b="http://bootsfaces.net/ui"
-        xmlns:h="http://xmlns.jcp.org/jsf/html"
-        xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Student Profile</title>
-         <link rel="stylesheet" href="p3css.css" />
+        <link rel="stylesheet" href="p3css.css" />
     </h:head> 
     <h:body>
-        
-        
+
+
         <b:container>
-        <b:jumbotron>   
-            <h2>Hi! #{userBean.username}</h2>
-            <p>Student Information</p>
-        <b:form id="studentForm" >
-             <h:panelGrid columns="2" cellpadding="10" >
-             
-            
-             <h:panelGroup rendered="#{userBean.student.edit}"> 
-             <p>Password:</p>
-             </h:panelGroup>
-             <b:inputText id="password" label=" " value="#{userBean.newPassword}"  rendered="#{userBean.student.edit}" />
-             <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
-             <h:message rendered="#{userBean.student.edit}" for="title" errorStyle="color: red" />
-                        
-             
-             <p>ID: </p>
-             <b:inputText id="id" value="#{userBean.student.id}" rendered="#{userBean.student.edit}" />
+            <b:jumbotron>   
+                <h2>Hi! #{userBean.username}</h2>
+                <p>Student Information</p>
+                <b:form id="studentForm" >
+                    <h:panelGrid columns="2" cellpadding="10" >
+
+
+                        <h:panelGroup rendered="#{userBean.student.edit}"> 
+                            <p>Password:</p>
+                        </h:panelGroup>
+                        <b:inputText id="password" label=" " value="#{userBean.newPassword}"  rendered="#{userBean.student.edit}" />
+                        <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
+                        <h:message rendered="#{userBean.student.edit}" for="title" errorStyle="color: red" />
+
+
+                        <p>ID: </p>
+                        <b:inputText id="id" value="#{userBean.student.id}" rendered="#{userBean.student.edit}" />
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
                         <h:outputText value="#{userBean.student.id}" rendered="#{!userBean.student.edit}" />
-             <p>Major Code: </p>
-             <b:selectOneMenu id="majorCode" value="#{userBean.student.majorCode}" required="true" rendered="#{userBean.student.edit}">
-                 <f:selectItem itemLabel="#{userBean.student.majorCode}" itemValue="#{userBean.student.majorCode}"/>
-                 <f:selectItem itemLabel="6100" itemValue="6100"/>
-                 <f:selectItem itemLabel="6101" itemValue="6101"/>
-                 <f:selectItem itemLabel="6102" itemValue="6102"/>
-                 <f:selectItem itemLabel="6110" itemValue="6110"/>
-                 <f:selectItem itemLabel="6660" itemValue="6660"/>
-             </b:selectOneMenu>
-              
+                        <p>Major Code: </p>
+                        <b:selectOneMenu id="majorCode" value="#{userBean.student.majorCode}" required="true" rendered="#{userBean.student.edit}">
+                            <f:selectItem itemLabel="#{userBean.student.majorCode}" itemValue="#{userBean.student.majorCode}"/>
+                            <f:selectItem itemLabel="6100" itemValue="6100"/>
+                            <f:selectItem itemLabel="6101" itemValue="6101"/>
+                            <f:selectItem itemLabel="6102" itemValue="6102"/>
+                            <f:selectItem itemLabel="6110" itemValue="6110"/>
+                            <f:selectItem itemLabel="6660" itemValue="6660"/>
+                        </b:selectOneMenu>
+
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
-                        
+
                         <h:outputText style=" font-size : large; " value="#{userBean.student.majorCode}" rendered="#{!userBean.student.edit}" />
-            <p>Phone Number: </p>
-            <b:inputText id="phoneNumber" value="#{userBean.student.phoneNumber}" rendered="#{userBean.student.edit}" />
+                        <p>Phone Number: </p>
+                        <b:inputText id="phoneNumber" value="#{userBean.student.phoneNumber}" rendered="#{userBean.student.edit}" />
                         <h:panelGroup rendered="#{userBean.student.edit}"><br /></h:panelGroup>
                         <h:message for="title" errorStyle="color: red" rendered="#{userBean.student.edit}" />
-                        
+
                         <h:outputText   value="#{userBean.student.phoneNumber}" rendered="#{!userBean.student.edit}" />       
-            </h:panelGrid>
-            <b:commandButton value="Edit" iconAwesome="pencil-square-o" id="edit" action="#{userBean.student.setEdit(true)}"
+                    </h:panelGrid>
+                    <b:commandButton value="Edit" iconAwesome="pencil-square-o" id="edit" action="#{userBean.student.setEdit(true)}"
                                      rendered="#{!userBean.student.edit}"> </b:commandButton>
-            <b:commandButton value="Save" iconAwesome="floppy-o" id="save" action="#{userBean.validateForm()}"
-                             rendered="#{userBean.student.edit}">
-            </b:commandButton>
-        </b:form>
-        
-        </b:jumbotron>  
-           
-            
+                    <b:commandButton value="Save" iconAwesome="floppy-o" id="save" action="#{userBean.validateForm()}"
+                                     rendered="#{userBean.student.edit}">
+                    </b:commandButton>
+                </b:form>
+
+            </b:jumbotron>  
+
+
         </b:container>
         <b:container>
-            
+
             <b:accordion expanded-panels="panel1, panel3">
                 <b:panel id="panel1" title="Completed Courses"> 
-                <h:form>
-                <b:dataTable value="#{userBean.completedCourses}" var="course">
-                    <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                    <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
-                    <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
-                   <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
-                    <b:dataTableColumn label="Delete" orderable="false">
-                        <b:commandButton value="Delete" iconAwesome="trash-o" action="#{userBean.removeCompletedCourse(course)}"
-                                         />
-                    </b:dataTableColumn>
+                    <h:form>
+                        <b:dataTable value="#{userBean.completedCourses}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                            <b:dataTableColumn label="Delete" orderable="false">
+                                <b:commandButton value="Delete" iconAwesome="trash-o" action="#{userBean.removeCompletedCourse(course)}"
+                                                 />
+                            </b:dataTableColumn>
 
-                </b:dataTable>
-                </h:form>    
+                        </b:dataTable>
+                    </h:form>    
                 </b:panel>
                 <b:panel id="panel2" title="Available Courses"> 
-                <h:form>
-                    <b:dataTable value="#{userBean.availableCourses}" var="course">
-                    <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                    <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
-                    <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
-                    <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
-                    <b:dataTableColumn label="Lookup" orderable="false">
-                        <b:commandButton value="Lookup Course" iconAwesome="plus" action="#{userBean.lookupCourse(course)}"
-                                         />
-                    </b:dataTableColumn>
-                    <b:dataTableColumn label="Add" orderable="false">
-                        <b:commandButton value="Add" iconAwesome="plus" action="#{userBean.addCompletedCourse(course)}"
-                                         />
-                    </b:dataTableColumn>
+                    <h:form>
+                        <b:dataTable value="#{userBean.availableCourses}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                            <b:dataTableColumn label="Lookup" orderable="false">
+                                <b:commandButton value="Lookup Course" iconAwesome="plus" action="#{userBean.lookupCourse(course)}"
+                                                 />
+                            </b:dataTableColumn>
+                            <b:dataTableColumn label="Add" orderable="false">
+                                <b:commandButton value="Add" iconAwesome="plus" action="#{userBean.addCompletedCourse(course)}"
+                                                 />
+                            </b:dataTableColumn>
 
-                </b:dataTable>
-                </h:form>    
+                        </b:dataTable>
+                    </h:form>    
                 </b:panel>
                 <b:panel id="panel3" title="Selected Course Information"> 
-                <h:form id="courseinfo" >
-                    <h3 style="text-align: center;">Prerequisite Courses</h3>
-                    <b:dataTable  value="#{userBean.courseWithRequisites.prerequisites}" var="course">
-                    <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                    <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
-                    <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
-                    <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
-                    </b:dataTable>
-                    <h3 style="text-align: center;">Corequisite Courses</h3>
-                    <b:dataTable value="#{userBean.courseWithRequisites.corequisite}" var="course">
-                    <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                    <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
-                    <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
-                    <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
-                    </b:dataTable>
-                    <h3 style="text-align: center;">Suggested Courses</h3>
-                    <b:dataTable value="#{userBean.courseWithRequisites.suggested}" var="course">
-                    <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                    <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
-                    <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
-                    <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
-                    </b:dataTable>
-                     
-                    <b:commandButton id="desired" value="Add to Desired Classes" iconAwesome="check" action="#{userBean.addToDesired()}"
+                    <h:form id="courseinfo" >
+                        <h3 style="text-align: center;">Prerequisite Courses</h3>
+                        <b:dataTable  value="#{userBean.courseWithRequisites.prerequisites}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                        </b:dataTable>
+                        <h3 style="text-align: center;">Corequisite Courses</h3>
+                        <b:dataTable value="#{userBean.courseWithRequisites.corequisite}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                        </b:dataTable>
+                        <h3 style="text-align: center;">Suggested Courses</h3>
+                        <b:dataTable value="#{userBean.courseWithRequisites.suggested}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                        </b:dataTable>
+
+                        <b:commandButton id="desired" value="Add to Desired Classes" iconAwesome="check" action="#{userBean.addToDesired()}"
                                          />
-                        
-                      
-                </h:form>    
+
+
+                    </h:form>    
                 </b:panel>
             </b:accordion>
             <h:message for="desired" errorStyle="color: red"   />
         </b:container>
         <b:container>
             <b:jumbotron>
-            <h:form >
+                <h:form >
                     <h3 style="text-align: center;">Schedule Appointment</h3>
-                     <b:dateTimePicker></b:dateTimePicker>
+                    <b:dateTimePicker></b:dateTimePicker>
                     <h3 style="text-align: center;">Desired Courses</h3>
                     <b:dataTable  value="#{userBean.desiredCoureses}" var="course">
-                    <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                    <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
-                    <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
-                    <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                        <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                        <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                        <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                        <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                     </b:dataTable>
-                    
-                  
+
+
                 </h:form>  
-                
+
             </b:jumbotron>
         </b:container>
+        <h:link value="Advisement" outcome="/customerFolder/advisement" /> <br />  
         <h:link value="Logout" outcome="/logout" /> <br />  
     </h:body>
 </html>

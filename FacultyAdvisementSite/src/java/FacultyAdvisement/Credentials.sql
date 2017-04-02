@@ -89,10 +89,10 @@ insert into AVAILABLEMAJOR (majorcode) values ('6102');
 insert into AVAILABLEMAJOR (majorcode) values ('6110');
 insert into AVAILABLEMAJOR (majorcode) values ('6660');
 
-insert into APPOINTMENT (SID, sdate, stime) values ('00000001', '2017-03-28', '16:30:00');
-insert into APPOINTMENT (SID, sdate, stime) values ('00000002', '2017-03-27', '16:00:00');
-insert into APPOINTMENT (SID, sdate, stime) values ('00000003', '2017-03-28', '17:00:00');
-insert into APPOINTMENT (sdate, stime) values ('2017-03-28', '17:00:00');
+insert into APPOINTMENT (SID, sdate, stime) values ('00000000', '2017-04-02', '12:00:00');
+insert into APPOINTMENT (sdate, stime) values ('2017-04-03', '13:00:00');
+insert into APPOINTMENT (sdate, stime) values ('2017-04-04', '14:00:00');
+insert into APPOINTMENT (sdate, stime) values ('2017-04-05', '15:00:00');
 
 /* 
 Used to test email
