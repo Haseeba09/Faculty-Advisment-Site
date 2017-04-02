@@ -62,6 +62,48 @@ public class AppointmentBean implements Serializable {
         this.appointment = appointment;
     }
     
+    private String formatMonth(String month){
+        String formattedMonth = "00";
+        
+        if(month.equals("Jan")){
+            formattedMonth = "01";
+        }
+        else if(month.equals("Feb")){
+            formattedMonth = "02";
+        }
+        else if(month.equals("Mar")){
+            formattedMonth = "03";
+        }
+        else if(month.equals("Apr")){
+            formattedMonth = "04";
+        }
+        else if(month.equals("May")){
+            formattedMonth = "05";
+        }
+        else if(month.equals("Jun")){
+            formattedMonth = "06";
+        }
+        else if(month.equals("Jul")){
+            formattedMonth = "07";
+        }
+        else if(month.equals("Aug")){
+            formattedMonth = "08";
+        }
+        else if(month.equals("Sep")){
+            formattedMonth = "09";
+        }
+        else if(month.equals("Oct")){
+            formattedMonth = "10";
+        }
+        else if(month.equals("Nov")){
+            formattedMonth = "11";
+        }
+        else if(month.equals("Dec")){
+            formattedMonth = "12";
+        }
+        return formattedMonth;
+    }
+    
     public String insertAppointment() throws SQLException{
          Connection conn1 = ds.getConnection();
 
@@ -73,10 +115,23 @@ public class AppointmentBean implements Serializable {
             PreparedStatement ps = conn1.prepareStatement(
                     "insert into APPOINTMENT(sdate, stime) VALUES(?,?)"
             );
-            appointment.setDate(appointment.getDatetime());
+            /*
+            here is the annoying format that the calanedr returns:
+            Sat Apr 01 00:00:00 CDT 2017
+            */
             
-            ps.setString(1, appointment.getDate());
-            ps.setString(2, appointment.getTime());
+            
+            String month = appointment.getDate().substring(4, 7);
+            month = formatMonth(month);
+            String year = appointment.getDate().substring(23);
+            String day = appointment.getDate().substring(8, 10);
+            
+            String mDate = year+"-"+month+"-"+day;
+            
+            String time = appointment.getTime().substring(11, 19);
+            
+            ps.setString(1, mDate);
+            ps.setString(2, time);
             ps.execute();
         }
         finally{

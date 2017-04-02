@@ -42,8 +42,7 @@ public class Appointment{
 
     public void setDatetime(String datetime) {
         this.datetime = datetime;
-        //String year = datetime.substring(23);
-        
+                
     }
     
     
@@ -52,6 +51,7 @@ public class Appointment{
     }
 
     public void setDate(String date) {
+        
         this.date = date;
     }
 

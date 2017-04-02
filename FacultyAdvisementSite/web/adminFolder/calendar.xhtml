@@ -11,9 +11,12 @@
         <br />
         <b:container>
             <b:form>
-                <b:dateTimePicker label="Create new appointment" time-stepping="10" use-current="false" 
-                                  mode="inline" value="#{appointmentBean.appointment.datetime}"
-                                  format="YYYY-MM-DD hh:mm:ss"/>
+                <b:dateTimePicker label="Create new appointment" time-stepping="10" 
+                                  mode="inline" value="#{appointmentBean.appointment.date}"
+                                  format="YYYY-MM-DD"/>
+                <b:dateTimePicker label="Select a time" time-stepping="10"
+                                  mode="inline" value="#{appointmentBean.appointment.time}" showDate="false"
+                                  format="hh:mm a"/>
                 <b:commandButton action="#{appointmentBean.insertAppointment()}" value="Create" /> 
             </b:form>
            <br />
