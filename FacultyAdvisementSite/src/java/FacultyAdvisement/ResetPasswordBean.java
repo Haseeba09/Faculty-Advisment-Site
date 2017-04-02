@@ -169,6 +169,7 @@ public class ResetPasswordBean implements Serializable {
     public void onPageLoad() throws SQLException {
 
         tokenValid = false;
+        resetCompleted = false;
         currentEmail = "";
         password = "";
         verifyPassword = "";
