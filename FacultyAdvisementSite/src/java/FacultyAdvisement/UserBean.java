@@ -173,14 +173,14 @@ public class UserBean implements Serializable {
     {
         completedCourses.remove(course);
         CourseRepository.deleteCompleted(ds, student.getId(), course.subject, course.number);
-         availableCourses = CourseRepository.readAllCourses(ds);
+        availableCourses = CourseRepository.readAllCourses(ds);
     }
     
     public void addCompletedCourse(Course course) throws SQLException
     {
         completedCourses.add(course);
         CourseRepository.createCompletedCourse(ds, student.getId(), course.subject, course.number);
-       availableCourses = CourseRepository.readAllCourses(ds);
+        availableCourses = CourseRepository.readAllCourses(ds);
     }
     
     public void lookupCourse(Course course) throws SQLException

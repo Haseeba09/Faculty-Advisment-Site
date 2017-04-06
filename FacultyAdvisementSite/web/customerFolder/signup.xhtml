@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Signup</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <b:container>
+            <b:panel id="available"   collapsible="false" look="primary"  title="Available Courses"> 
+                    <h:form>
+                        <b:dataTable value="#{signupBean.availableCourses}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                            <b:dataTableColumn label="Lookup" orderable="false">
+                                <b:commandButton value="Lookup Course" iconAwesome="plus" action="#{signupBean.lookupCourse(course)}"
+                                                 />
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </h:form>    
+                </b:panel>
+                <b:panel id="selected" collapsible="false" look="primary" title="Selected Course Information"> 
+                    <h:form id="courseinfo" >
+                        <h3 style="text-align: center;">Prerequisite Courses</h3>
+                        <b:dataTable  value="#{signupBean.courseWithRequisites.prerequisites}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                        </b:dataTable>
+                        <h3 style="text-align: center;">Corequisite Courses</h3>
+                        <b:dataTable value="#{signupBean.courseWithRequisites.corequisite}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                        </b:dataTable>
+                        <h3 style="text-align: center;">Suggested Courses</h3>
+                        <b:dataTable value="#{signupBean.courseWithRequisites.suggested}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                        </b:dataTable>
+
+                        <b:commandButton id="desired" value="Add to Desired Classes" iconAwesome="check" action="#{signupBean.addToDesired()}"
+                                         />
+
+
+                    </h:form>    
+                </b:panel>
+            
+        </b:container>
+            
+        <b:container>
+             
+                
+                <b:panel  id="desired" collapsible="false" look="primary" title="Desired Courses" >
+                    
+                    <h3 style="text-align: center;">Desired Courses</h3>
+                    <b:dataTable  value="#{signupBean.desiredCoureses}" var="course">
+                        <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                        <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                        <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                        <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                    </b:dataTable>
+
+ 
+                    
+                </b:panel>
+               
+
+            
+        </b:container>
+    </h:body>
+</html>
