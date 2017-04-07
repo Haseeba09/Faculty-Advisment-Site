@@ -3,6 +3,7 @@ drop table USERTABLE;
 drop table GROUPTABLE;
 drop table AVAILABLEMAJOR;
 drop table COMPLETED;
+drop table TOKENRESET;
 drop table TOKENVERIFICATION;
 drop table STUDENT;
 
@@ -19,6 +20,7 @@ create table USERTABLE (
     ID INT NOT NULL AUTO_INCREMENT,
     USERNAME varchar(255) not null unique,
     PASSWORD char(64), /* SHA-256 encryption */
+    VERIFIED varchar(5),
     primary key (id)
 );
 
@@ -44,6 +46,13 @@ create table APPOINTMENT (
        
 );
 
+create table TOKENRESET (
+    TOKEN varchar(64),
+    EMAIL varchar(255),
+    EXPIRATION timestamp,
+    primary key (TOKEN)
+);
+
 create table TOKENVERIFICATION (
     TOKEN varchar(64),
     EMAIL varchar(255),
@@ -57,29 +66,29 @@ create table TOKENVERIFICATION (
 
 
 
-insert into USERTABLE (username, password)
-    values ('root@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+insert into USERTABLE (username, password, verified)
+    values ('root@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('admingroup', 'root@uco.edu');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'root@uco.edu');
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000000', 'root@uco.edu', '6100', '4055551234', 'false');
 
-insert into USERTABLE (username, password)
-    values ('student1@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+insert into USERTABLE (username, password, verified)
+    values ('student1@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student1@uco.edu');
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000001', 'student1@uco.edu', '6101', '4055550001', 'false');
 
-insert into USERTABLE (username, password)
-    values ('student2@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+insert into USERTABLE (username, password, verified)
+    values ('student2@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student2@uco.edu');
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000002', 'student2@uco.edu', '6102', '4055550002', 'false');
 
-insert into USERTABLE (username, password)
-    values ('student3@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+insert into USERTABLE (username, password, verified)
+    values ('student3@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student3@uco.edu');
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000003', 'student3@uco.edu', '6110', '4055550003', 'false');
 
-insert into USERTABLE (username, password)
-    values ('student4@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+insert into USERTABLE (username, password, verified)
+    values ('student4@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student4@uco.edu');
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000004', 'student4@uco.edu', '6660', '4055550004', 'false');
 
@@ -97,7 +106,7 @@ insert into APPOINTMENT (sdate, stime) values ('2017-04-05', '15:00:00');
 /* 
 Used to test email
 */
-insert into USERTABLE (username, password)
-    values ('uco.student1@gmail.com', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7');
+insert into USERTABLE (username, password, verified)
+    values ('uco.student1@gmail.com', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'false');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'uco.student1@gmail.com');
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('99999999', 'uco.student1@gmail.com', '6100', '4050000000', 'false');

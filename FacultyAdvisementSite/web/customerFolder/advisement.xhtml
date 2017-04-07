@@ -9,6 +9,11 @@
         <title>Advisement Sign Up</title>
     </h:head>
     <h:body>
+        
+        <f:metadata>
+            <f:viewAction action="#{verificationBean.checkVerificationRedirect(userBean.username)}"/>
+        </f:metadata>
+        
         <b:container>
             <h:form id="availableAppointmentForm">
                 <b:panel collapsible="false" look="primary" title="Available Appointment">

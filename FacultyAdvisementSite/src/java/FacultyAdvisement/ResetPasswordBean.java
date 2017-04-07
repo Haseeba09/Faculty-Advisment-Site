@@ -128,7 +128,7 @@ public class ResetPasswordBean implements Serializable {
                 try {
                     PreparedStatement ps;
                     ps = conn.prepareStatement(
-                            "Insert into TOKENVERIFICATION (TOKEN, EMAIL, EXPIRATION) "
+                            "Insert into TOKENRESET (TOKEN, EMAIL, EXPIRATION) "
                             + "VALUES(?, ?, ?);"
                     );
                     ps.setString(1, newToken);
@@ -181,7 +181,7 @@ public class ResetPasswordBean implements Serializable {
         }
         try {
             PreparedStatement ps = conn.prepareStatement(
-                    "SELECT * FROM TOKENVERIFICATION WHERE TOKEN=?"
+                    "Select * from TOKENRESET where TOKEN=?"
             );
             ps.setString(1, token);
             ResultSet result = ps.executeQuery();
@@ -202,7 +202,7 @@ public class ResetPasswordBean implements Serializable {
                 }
                 try {
                     PreparedStatement ps = conn.prepareStatement(
-                            "Delete from TOKENVERIFICATION where TOKEN=?"
+                            "Delete from TOKENRESET where TOKEN=?"
                     );
                     ps.setString(1, token);
                     ps.executeUpdate();
@@ -240,7 +240,7 @@ public class ResetPasswordBean implements Serializable {
                 ps.setString(2, currentEmail);
                 ps.executeUpdate();
                 ps = conn.prepareStatement(
-                        "Delete from TOKENVERIFICATION where TOKEN=?"
+                        "Delete from TOKENRESET where TOKEN=?"
                 );
                 ps.setString(1, token);
                 ps.executeUpdate();

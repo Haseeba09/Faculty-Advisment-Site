@@ -22,7 +22,7 @@ public class StudentRepository {
     public static void create(DataSource ds, Student student) throws SQLException {
         String studentSQL = "INSERT INTO STUDENT(STUID, EMAIL, MAJORCODE, PHONE, ADVISED) "
                 + "VALUES (?, ?, ?, ?, \'false\')";
-        String userSQL = "INSERT INTO USERTABLE(PASSWORD, USERNAME) VALUES (?,?)"; //haseeb was here
+        String userSQL = "INSERT INTO USERTABLE(PASSWORD, USERNAME, VERIFIED) VALUES (?, ?, ?)"; //haseeb was here
 
         String groupSQL = "INSERT INTO GROUPTABLE(GROUPNAME, USERNAME) VALUES (\'customergroup\', ?)";
 
@@ -56,6 +56,7 @@ public class StudentRepository {
             sqlStatement.setString(1, SHA256Encrypt.encrypt(student.getPassword()));
 
             sqlStatement.setString(2, student.getUsername());
+            sqlStatement.setString(3, "false");
             sqlStatement.execute();
 
             //Group Table
