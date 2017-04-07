@@ -152,8 +152,7 @@ public class StudentRepository {
     }
 
     public static void update(DataSource ds, Student student) throws SQLException {
-        String studentSQL = "UPDATE STUDENT SET STUID= ?, MAJORCODE = ?, PHONE = ? WHERE EMAIL = ?";
-        String userSQL = "UPDATE USERTABLE SET PASSWORD = ? WHERE USERNAME = ?";
+        String studentSQL = "UPDATE STUDENT SET STUID = ?, MAJORCODE = ?, PHONE = ? WHERE EMAIL = ?";
 
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
@@ -166,26 +165,14 @@ public class StudentRepository {
         }
 
         try {
-
-            //Here we execute three SQL statements
             //Student Information
             PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
-            //sqlStatement.setString(1, Integer.toString(books.size() + 1)); //Integer.toString(this.getBooks().size() + 1));
             sqlStatement.setString(1, student.getId());
             sqlStatement.setString(2, student.getMajorCode());
             sqlStatement.setString(3, student.getPhoneNumber());
             sqlStatement.setString(4, student.getUsername());
 
             sqlStatement.executeUpdate();
-
-            //user credentials
-            sqlStatement = conn.prepareStatement(userSQL);
-
-            //Encrypt the pssword into SHA-256
-            sqlStatement.setString(1, SHA256Encrypt.encrypt(student.getPassword()));
-
-            sqlStatement.setString(2, student.getUsername());
-            sqlStatement.execute();
 
         } finally {
             conn.close();
