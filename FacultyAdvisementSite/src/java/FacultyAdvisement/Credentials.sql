@@ -70,27 +70,27 @@ insert into USERTABLE (username, password, verified)
     values ('root@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('admingroup', 'root@uco.edu');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'root@uco.edu');
-insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000000', 'root@uco.edu', '6100', '4055551234', 'false');
+insert into STUDENT(STUID, email, majorcode, phone, advised) values ('10000000', 'root@uco.edu', '6100', '4055551234', 'false');
 
 insert into USERTABLE (username, password, verified)
     values ('student1@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student1@uco.edu');
-insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000001', 'student1@uco.edu', '6101', '4055550001', 'false');
+insert into STUDENT(STUID, email, majorcode, phone, advised) values ('10000001', 'student1@uco.edu', '6101', '4055550001', 'false');
 
 insert into USERTABLE (username, password, verified)
     values ('student2@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student2@uco.edu');
-insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000002', 'student2@uco.edu', '6102', '4055550002', 'false');
+insert into STUDENT(STUID, email, majorcode, phone, advised) values ('10000002', 'student2@uco.edu', '6102', '4055550002', 'false');
 
 insert into USERTABLE (username, password, verified)
     values ('student3@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student3@uco.edu');
-insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000003', 'student3@uco.edu', '6110', '4055550003', 'false');
+insert into STUDENT(STUID, email, majorcode, phone, advised) values ('10000003', 'student3@uco.edu', '6110', '4055550003', 'false');
 
 insert into USERTABLE (username, password, verified)
     values ('student4@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student4@uco.edu');
-insert into STUDENT(STUID, email, majorcode, phone, advised) values ('00000004', 'student4@uco.edu', '6660', '4055550004', 'false');
+insert into STUDENT(STUID, email, majorcode, phone, advised) values ('10000004', 'student4@uco.edu', '6660', '4055550004', 'false');
 
 insert into AVAILABLEMAJOR (majorcode) values ('6100');
 insert into AVAILABLEMAJOR (majorcode) values ('6101');
@@ -98,7 +98,7 @@ insert into AVAILABLEMAJOR (majorcode) values ('6102');
 insert into AVAILABLEMAJOR (majorcode) values ('6110');
 insert into AVAILABLEMAJOR (majorcode) values ('6660');
 
-insert into APPOINTMENT (SID, sdate, stime) values ('00000000', '2017-04-02', '12:00:00');
+insert into APPOINTMENT (SID, sdate, stime) values ('10000000', '2017-04-02', '12:00:00');
 insert into APPOINTMENT (sdate, stime) values ('2017-04-03', '13:00:00');
 insert into APPOINTMENT (sdate, stime) values ('2017-04-04', '14:00:00');
 insert into APPOINTMENT (sdate, stime) values ('2017-04-05', '15:00:00');

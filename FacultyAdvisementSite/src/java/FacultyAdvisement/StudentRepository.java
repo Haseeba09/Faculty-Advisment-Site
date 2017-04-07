@@ -179,6 +179,33 @@ public class StudentRepository {
         }
     }
 
+    public static void updatePassword(DataSource ds, String username, String password) throws SQLException {
+
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
+
+        Connection conn = ds.getConnection();
+
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        String newPassword = SHA256Encrypt.encrypt(password);
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "Update USERTABLE set PASSWORD=? where USERNAME=?"
+            );
+            ps.setString(1, newPassword);
+            ps.setString(2, username);
+
+            ps.executeUpdate();
+
+        } finally {
+            conn.close();
+        }
+    }
+
     public static void delete(DataSource ds, Student student) throws SQLException {
         Connection conn = ds.getConnection();
         if (conn == null) {

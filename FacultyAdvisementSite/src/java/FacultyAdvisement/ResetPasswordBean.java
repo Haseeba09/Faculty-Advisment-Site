@@ -226,20 +226,13 @@ public class ResetPasswordBean implements Serializable {
         }
 
         if (!error) {
-            String newPassword = SHA256Encrypt.encrypt(password);
+            StudentRepository.updatePassword(ds, currentEmail, password);
             Connection conn = ds.getConnection();
             if (conn == null) {
                 throw new SQLException("conn is null; Can't get db connection");
             }
             try {
-                PreparedStatement ps;
-                ps = conn.prepareStatement(
-                        "Update USERTABLE set PASSWORD=? where USERNAME=?"
-                );
-                ps.setString(1, newPassword);
-                ps.setString(2, currentEmail);
-                ps.executeUpdate();
-                ps = conn.prepareStatement(
+                PreparedStatement ps = conn.prepareStatement(
                         "Delete from TOKENRESET where TOKEN=?"
                 );
                 ps.setString(1, token);
