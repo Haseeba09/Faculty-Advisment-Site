@@ -144,16 +144,6 @@ public class StudentRepository {
             ps.setString(1, student.getUsername());
             ps.setString(2, oldUsername);
             ps.executeUpdate();
-            if (student.isResetPassword()) {
-                String defaultPassword = "password";
-                defaultPassword = SHA256Encrypt.encrypt(defaultPassword);
-                ps = conn.prepareStatement(
-                        "Update USERTABLE set PASSWORD=? where USERNAME=?"
-                );
-                ps.setString(1, defaultPassword);
-                ps.setString(2, student.getUsername());
-                ps.executeUpdate();
-            }
         } finally {
             conn.close();
         }

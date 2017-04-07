@@ -36,16 +36,11 @@
                         <h:outputText value="#{student.value.phoneNumber}" converter="phoneConverter" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
-                    <b:dataTableColumn label="Advised" orderable="false">
+                    <b:dataTableColumn label="Advised">
                         <b:selectBooleanCheckbox id="advised" value="#{studentBean.advised}"
                                                  rendered="#{student.value.editable}"/>
                         <h:outputText value="#{studentBean.isAdvisedOutput(student.key)}" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
-                    
-                    <b:dataTableColumn label="Reset Password" orderable="false">
-                        <b:selectBooleanCheckbox id="password" value="#{studentBean.resetPassword}"
-                                                 rendered="#{student.value.editable}"/>
-                    </b:dataTableColumn>                    
                     
                     <b:dataTableColumn label="Edit/Save" orderable="false">
                         <b:commandButton value="Save" iconAwesome="floppy-o" action="#{student.value.setEditable(false)}"
@@ -53,14 +48,14 @@
                             <f:actionListener binding="#{studentBean.update(student.key)}"/>
                         </b:commandButton>
                         <b:commandButton value="Edit" iconAwesome="pencil-square-o" action="#{student.value.setEditable(true)}"
-                                         rendered="#{not student.value.editable}">
+                                         rendered="#{not studentBean.editing}">
                             <f:actionListener binding="#{studentBean.edit(student.key)}"/>
                         </b:commandButton>
                     </b:dataTableColumn>
 
                     <b:dataTableColumn label="Delete" orderable="false">
                         <b:commandButton value="Delete" iconAwesome="trash-o" action="#{studentBean.delete(student.key)}"
-                                         rendered="#{not student.value.editable}"/>
+                                         disabled="#{studentBean.editing}"/>
                     </b:dataTableColumn>
 
                 </b:dataTable>

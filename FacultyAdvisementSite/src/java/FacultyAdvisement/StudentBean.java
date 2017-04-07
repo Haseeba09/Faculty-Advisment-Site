@@ -31,7 +31,7 @@ public class StudentBean implements Serializable {
     @Pattern(regexp = "[0-9]{10}", message = "Phone must be 10 numbers long.")
     private String phone;
     private boolean advised;
-    private boolean resetPassword;
+    private boolean editing;
 
     private HashMap<String, Student> students = new HashMap<>();
 
@@ -84,14 +84,6 @@ public class StudentBean implements Serializable {
         this.advised = advised;
     }
 
-    public boolean isResetPassword() {
-        return resetPassword;
-    }
-
-    public void setResetPassword(boolean resetPassword) {
-        this.resetPassword = resetPassword;
-    }
-
     public HashMap<String, Student> getStudents() {
         return students;
     }
@@ -104,7 +96,7 @@ public class StudentBean implements Serializable {
             return "No";
         }
     }
-    
+
     public void edit(String key) {
         Student s = students.get(key);
         this.sid = s.getId();
@@ -112,7 +104,15 @@ public class StudentBean implements Serializable {
         this.major = s.getMajorCode();
         this.phone = s.getPhoneNumber();
         this.advised = s.isAdvised();
-        this.resetPassword = s.isResetPassword();
+        setEditing(true);
+    }
+
+    public boolean isEditing() {
+        return editing;
+    }
+
+    public void setEditing(boolean editing) {
+        this.editing = editing;
     }
 
     public void update(String key) throws SQLException {
@@ -122,10 +122,10 @@ public class StudentBean implements Serializable {
         student.setMajorCode(this.major);
         student.setPhoneNumber(this.phone);
         student.setAdvised(this.advised);
-        student.setResetPassword(this.resetPassword);
         String oldUsername = students.get(key).getUsername();
         StudentRepository.adminUpdate(ds, student, oldUsername);
         students = (HashMap<String, Student>) StudentRepository.readAll(ds); // reload the updated info
+        setEditing(false);
     }
 
     public void delete(String key) throws SQLException {
