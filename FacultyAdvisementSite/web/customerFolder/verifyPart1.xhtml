@@ -12,13 +12,13 @@
         <f:metadata>
             <f:viewAction action="#{verificationBean.checkVerification(userBean.username)}"/>
         </f:metadata>
-
+        <br/><br/>
         <b:container>
             <b:form>
                 <h:outputText value="Email has not been verified." rendered="#{!verificationBean.verified}"/> <br/>
                 <h:outputText value="Click the button to be sent another email for verification." rendered="#{!verificationBean.verified}"/> <br/><br/>
                 <b:commandButton value="Send" iconAwesome="envelope-o" action="#{verificationBean.send(userBean.username)}" rendered="#{!verificationBean.verified}"/> <br/><br/>
-                
+
                 <h:outputText value="Email has already been verified" rendered="#{verificationBean.verified}"/>
             </b:form>
             <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green"/> <br/>

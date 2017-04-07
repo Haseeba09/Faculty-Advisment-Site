@@ -3,12 +3,8 @@ package FacultyAdvisement;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -41,7 +37,7 @@ public class StudentBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            students = (HashMap<String, Student>) readAll();
+            students = (HashMap<String, Student>) StudentRepository.readAll(ds);
         } catch (SQLException ex) {
             Logger.getLogger(StudentBean.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -100,116 +96,22 @@ public class StudentBean implements Serializable {
         this.resetPassword = s.isResetPassword();
     }
 
-    public Map readAll() throws SQLException {
-        if (ds == null) {
-            throw new SQLException("ds is null; Can't get data source");
-        }
-
-        Connection conn = ds.getConnection();
-
-        if (conn == null) {
-            throw new SQLException("conn is null; Can't get db connection");
-        }
-
-        HashMap<String, Student> list = new HashMap<>();
-
-        try {
-            PreparedStatement ps = conn.prepareStatement(
-                    "select * from STUDENT"
-            );
-
-            // retrieve customer data from database
-            ResultSet result = ps.executeQuery();
-
-            while (result.next()) {
-                Student s = new Student();
-                s.setId(result.getString("STUID"));
-                s.setUsername(result.getString("EMAIL"));
-                s.setMajorCode(result.getString("MAJORCODE"));
-                s.setPhoneNumber(result.getString("PHONE"));
-                list.put(s.getId(), s);
-            }
-
-        } finally {
-            conn.close();
-        }
-
-        return list;
-    }
-
     public void update(String key) throws SQLException {
-        Connection conn = ds.getConnection();
-        if (conn == null) {
-            throw new SQLException("conn is null; Can't get db connection");
-        }
-        try {
-            Student s = students.get(key);
-            PreparedStatement ps;
-            ps = conn.prepareStatement(
-                    "Update STUDENT set EMAIL=?, MAJORCODE=?, PHONE=? where STUID=?"
-            );
-            ps.setString(1, this.email);
-            ps.setString(2, this.major);
-            ps.setString(3, this.phone);
-            ps.setString(4, this.sid);
-            ps.executeUpdate();
-            ps = conn.prepareStatement(
-                    "Update USERTABLE set USERNAME=? where USERNAME=?"
-            );
-            ps.setString(1, this.email);
-            ps.setString(2, s.getUsername());
-            ps.executeUpdate();
-            ps = conn.prepareStatement(
-                    "Update GROUPTABLE set USERNAME=? where USERNAME=?"
-            );
-            ps.setString(1, this.email);
-            ps.setString(2, s.getUsername());
-            ps.executeUpdate();
-            if (this.resetPassword) {
-                String defaultPassword = "password";
-                defaultPassword = SHA256Encrypt.encrypt(defaultPassword);
-                ps = conn.prepareStatement(
-                        "Update USERTABLE set PASSWORD=? where USERNAME=?"
-                );
-                ps.setString(1, defaultPassword);
-                ps.setString(2, this.email);
-                ps.executeUpdate();
-            }
-        } finally {
-            conn.close();
-        }
-
-        students = (HashMap<String, Student>) readAll(); // reload the updated info
+        Student student = new Student();
+        student.setId(this.sid);
+        student.setUsername(this.email);
+        student.setMajorCode(this.major);
+        student.setPhoneNumber(this.phone);
+        student.setResetPassword(this.resetPassword);
+        String oldUsername = students.get(key).getUsername();
+        StudentRepository.adminUpdate(ds, student, oldUsername);
+        students = (HashMap<String, Student>) StudentRepository.readAll(ds); // reload the updated info
     }
 
     public void delete(String key) throws SQLException {
-        Connection conn = ds.getConnection();
-        if (conn == null) {
-            throw new SQLException("conn is null; Can't get db connection");
-        }
-        try {
-            Student s = students.get(key);
-            PreparedStatement ps;
-            ps = conn.prepareStatement(
-                    "Delete from STUDENT where EMAIL=?"
-            );
-            ps.setString(1, s.getUsername());
-            ps.executeUpdate();
-            ps = conn.prepareStatement(
-                    "Delete from USERTABLE where USERNAME=?"
-            );
-            ps.setString(1, s.getUsername());
-            ps.executeUpdate();
-            ps = conn.prepareStatement(
-                    "Delete from GROUPTABLE where USERNAME=?"
-            );
-            ps.setString(1, s.getUsername());
-            ps.executeUpdate();
-        } finally {
-            conn.close();
-        }
-
-        students = (HashMap<String, Student>) readAll(); // reload the updated info
+        Student s = students.get(key);
+        StudentRepository.delete(ds, s);
+        students = (HashMap<String, Student>) StudentRepository.readAll(ds); // reload the updated info
     }
 
 }

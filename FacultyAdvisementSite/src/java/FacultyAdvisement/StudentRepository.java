@@ -106,7 +106,7 @@ public class StudentRepository {
         return list;
     }
 
-    public static void adminUpdate(String key, DataSource ds, Student student, boolean resetPassword) throws SQLException {
+    public static void adminUpdate(DataSource ds, Student student, String oldUsername) throws SQLException {
         Connection conn = ds.getConnection();
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
@@ -126,15 +126,15 @@ public class StudentRepository {
                     "Update USERTABLE set USERNAME=? where USERNAME=?"
             );
             ps.setString(1, student.getUsername());
-            ps.setString(2, student.getUsername());
+            ps.setString(2, oldUsername);
             ps.executeUpdate();
             ps = conn.prepareStatement(
                     "Update GROUPTABLE set USERNAME=? where USERNAME=?"
             );
             ps.setString(1, student.getUsername());
-            ps.setString(2, student.getUsername());
+            ps.setString(2, oldUsername);
             ps.executeUpdate();
-            if (resetPassword) {
+            if (student.isResetPassword()) {
                 String defaultPassword = "password";
                 defaultPassword = SHA256Encrypt.encrypt(defaultPassword);
                 ps = conn.prepareStatement(
@@ -192,7 +192,7 @@ public class StudentRepository {
         }
     }
 
-    public static void delete(String key, DataSource ds, Student student) throws SQLException {
+    public static void delete(DataSource ds, Student student) throws SQLException {
         Connection conn = ds.getConnection();
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");

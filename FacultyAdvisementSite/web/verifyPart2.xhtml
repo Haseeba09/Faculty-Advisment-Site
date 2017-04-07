@@ -12,6 +12,7 @@
             <f:viewParam name="token" value="#{verificationBean.token}"/>
             <f:viewAction action="#{verificationBean.onPageLoad}"/>
         </f:metadata>
+        <br/><br/>
         <b:container>
             <h:outputText value="Token isn't valid." rendered="#{!verificationBean.tokenValid}"/> <br/>
             <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green"/> <br/>
