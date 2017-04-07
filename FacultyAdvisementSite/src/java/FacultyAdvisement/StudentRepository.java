@@ -96,6 +96,11 @@ public class StudentRepository {
                 s.setUsername(result.getString("EMAIL"));
                 s.setMajorCode(result.getString("MAJORCODE"));
                 s.setPhoneNumber(result.getString("PHONE"));
+                if (result.getString("ADVISED").equals("true")) {
+                    s.setAdvised(true);
+                } else {
+                    s.setAdvised(false);
+                }
                 list.put(s.getId(), s);
             }
 
@@ -115,12 +120,17 @@ public class StudentRepository {
 
             PreparedStatement ps;
             ps = conn.prepareStatement(
-                    "Update STUDENT set EMAIL=?, MAJORCODE=?, PHONE=? where STUID=?"
+                    "Update STUDENT set EMAIL=?, MAJORCODE=?, PHONE=?, ADVISED=? where STUID=?"
             );
             ps.setString(1, student.getUsername());
             ps.setString(2, student.getMajorCode());
             ps.setString(3, student.getPhoneNumber());
-            ps.setString(4, student.getId());
+            if (student.isAdvised()) {
+                ps.setString(4, "true");
+            } else {
+                ps.setString(4, "false");
+            }
+            ps.setString(5, student.getId());
             ps.executeUpdate();
             ps = conn.prepareStatement(
                     "Update USERTABLE set USERNAME=? where USERNAME=?"

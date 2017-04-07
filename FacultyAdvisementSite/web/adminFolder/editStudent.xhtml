@@ -36,11 +36,17 @@
                         <h:outputText value="#{student.value.phoneNumber}" converter="phoneConverter" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
+                    <b:dataTableColumn label="Advised" orderable="false">
+                        <b:selectBooleanCheckbox id="advised" value="#{studentBean.advised}"
+                                                 rendered="#{student.value.editable}"/>
+                        <h:outputText value="#{studentBean.isAdvisedOutput(student.key)}" rendered="#{not student.value.editable}"/>
+                    </b:dataTableColumn>
+                    
                     <b:dataTableColumn label="Reset Password" orderable="false">
                         <b:selectBooleanCheckbox id="password" value="#{studentBean.resetPassword}"
                                                  rendered="#{student.value.editable}"/>
-                    </b:dataTableColumn>
-
+                    </b:dataTableColumn>                    
+                    
                     <b:dataTableColumn label="Edit/Save" orderable="false">
                         <b:commandButton value="Save" iconAwesome="floppy-o" action="#{student.value.setEditable(false)}"
                                          rendered="#{student.value.editable}">

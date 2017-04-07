@@ -30,6 +30,7 @@ public class StudentBean implements Serializable {
     private String major;
     @Pattern(regexp = "[0-9]{10}", message = "Phone must be 10 numbers long.")
     private String phone;
+    private boolean advised;
     private boolean resetPassword;
 
     private HashMap<String, Student> students = new HashMap<>();
@@ -75,6 +76,14 @@ public class StudentBean implements Serializable {
         this.phone = phone;
     }
 
+    public boolean isAdvised() {
+        return advised;
+    }
+
+    public void setAdvised(boolean advised) {
+        this.advised = advised;
+    }
+
     public boolean isResetPassword() {
         return resetPassword;
     }
@@ -87,12 +96,22 @@ public class StudentBean implements Serializable {
         return students;
     }
 
+    public String isAdvisedOutput(String key) {
+        Student s = students.get(key);
+        if (s.isAdvised()) {
+            return "Yes";
+        } else {
+            return "No";
+        }
+    }
+    
     public void edit(String key) {
         Student s = students.get(key);
         this.sid = s.getId();
         this.email = s.getUsername();
         this.major = s.getMajorCode();
         this.phone = s.getPhoneNumber();
+        this.advised = s.isAdvised();
         this.resetPassword = s.isResetPassword();
     }
 
@@ -102,6 +121,7 @@ public class StudentBean implements Serializable {
         student.setUsername(this.email);
         student.setMajorCode(this.major);
         student.setPhoneNumber(this.phone);
+        student.setAdvised(this.advised);
         student.setResetPassword(this.resetPassword);
         String oldUsername = students.get(key).getUsername();
         StudentRepository.adminUpdate(ds, student, oldUsername);
