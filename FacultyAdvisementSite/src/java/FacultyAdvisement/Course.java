@@ -49,4 +49,14 @@ public class Course {
         this.credits = credits;
     }
     
+    public boolean compare(Course course)
+    {
+        if((this.subject == null ? course.subject == null : this.subject.equals(course.subject)) && (this.number == null ? course.number == null : this.number.equals(course.number)))
+        {
+            return true;
+        }
+        return false; 
+    }
+    
+    
 }

@@ -5,9 +5,12 @@
  */
 package FacultyAdvisement;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +52,12 @@ public class SignupBean implements Serializable{
         Principal p = fc.getExternalContext().getUserPrincipal();
         username = p.getName();
         student = new Student();
-        // appointment = p.getAppointment(); 
-        desiredCoureses = new ArrayList<>();
+         
+        if(desiredCoureses == null){
+            
+            desiredCoureses = new ArrayList<>();
+        
+            }
         try {
             student = StudentRepository.read(ds, username);
         } catch (SQLException ex) {
@@ -69,21 +76,7 @@ public class SignupBean implements Serializable{
         }
         
     }
-     
-    public void removeCompletedCourse(Course course) throws SQLException
-    {
-        completedCourses.remove(course);
-        CourseRepository.deleteCompleted(ds, student.getId(), course.subject, course.number);
-         availableCourses = CourseRepository.readAllCourses(ds);
-    }
-    
-    public void addCompletedCourse(Course course) throws SQLException
-    {
-        completedCourses.add(course);
-        CourseRepository.createCompletedCourse(ds, student.getId(), course.subject, course.number);
-       availableCourses = CourseRepository.readAllCourses(ds);
-    }
-    
+   
     public void lookupCourse(Course course) throws SQLException
     {
         this.setCourseWithRequisites(CourseRepository.readCourseWithRequisites(ds, course));
@@ -92,81 +85,157 @@ public class SignupBean implements Serializable{
     
     public void addToDesired()
     {
-        if(this.courseWithRequisites == null)
+        if(this.desiredCoureses != null && courseWithRequisites != null)
         {
-         FacesContext.getCurrentInstance().addMessage("courseinfo:desired",
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                            "Please select a course!", null));
-                                return;
+             
+             this.desiredCoureses.add(this.courseWithRequisites.getCourse());
+       
         }
         
-        boolean flag = true;
-        for(int i = 0; i < this.courseWithRequisites.getPrerequisites().size(); i++)
+    }
+    
+    public void removeFromDesired(Course course)
+    {
+    
+        this.desiredCoureses.remove(course);
+    }
+    
+    public boolean checkRequsites(CourseWithRequisites course)
+    {
+    
+        
+        
+         if(this.courseWithRequisites == null)
         {
-            flag = false;
-            for(int j = 0; j < this.completedCourses.size(); j++)
+         FacesContext.getCurrentInstance().addMessage("desiredCourses:Submit",
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "Please select a course!", null));
+           return false;
+        }
+        
+         
+        //Check for Prerquisites
+        
+        //Flag
+        boolean flag = true;
+        
+        //Iterate through prerequisites. 
+        if(course.getPrerequisites() != null)
+        {
+             for(int i = 0; i < course.getPrerequisites().size(); i++)
             {
-                if(this.courseWithRequisites.getPrerequisites().get(i).getName() == null ? this.completedCourses.get(j).getName() == null : this.courseWithRequisites.getPrerequisites().get(i).getName().equals(this.completedCourses.get(j).getName()))
-                {
-                    flag = true;
-                }
+                flag = false;
+                if(completedCourses != null)
+                    {
+                    for(int j = 0; j < this.completedCourses.size(); j++)
+                        {
+                            if(this.completedCourses.get(j).compare(course.getPrerequisites().get(i)))
+                            {
+                                flag = true;
+                            }
+                        }
+                    }
+            
+            
             }
         }
+       
         
         if(flag == false)
         {
-             FacesContext.getCurrentInstance().addMessage("courseinfo:desired",
+             FacesContext.getCurrentInstance().addMessage("desiredCourses:Submit",
                     new FacesMessage(FacesMessage.SEVERITY_FATAL,
                             "You are missing a prerequisite course!", null));
              
-             return;
+             return false;
         }
         
-        for(int i = 0; i < this.courseWithRequisites.getPrerequisites().size(); i++)
-        {
-            if(!this.desiredCoureses.contains(this.courseWithRequisites.getPrerequisites().get(i)))
-            {
-                flag = false;
-            }
-        }
-        if(this.courseWithRequisites.getCorequisite().isEmpty())
+//        for(int i = 0; i < course.getPrerequisites().size(); i++)
+//        {
+//            if(!this.desiredCoureses.contains(course.getPrerequisites().get(i)))
+//            {
+//                flag = false;
+//            }
+//        }
+        if(course.getCorequisite().isEmpty())
         {
             flag = true;
         }
+        else
+        {
+            for(int i = 0; i < course.getCorequisite().size(); i++)
+            {
+                flag = false; 
+                for(int j = 0; j < this.completedCourses.size(); j++)
+                {
+                    if(course.getCorequisite().get(i).compare(this.completedCourses.get(j)))
+                    {
+                        flag = true; 
+                    }
+                }
+                
+                for(int j = 0; j < this.desiredCoureses.size(); j++)
+                {
+                    if(course.getCorequisite().get(i).compare(this.desiredCoureses.get(j)))
+                    {
+                        flag = true; 
+                    }
+                }
+            }
+        
+        }
+        
         if(flag == false)
         {
-             FacesContext.getCurrentInstance().addMessage("courseinfo:desired",
+             FacesContext.getCurrentInstance().addMessage("desiredCourses:Submit",
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "You are missing a corequisite course!", null));
              
-              
+             return false; 
         }
         
-        for(int i = 0; i < this.courseWithRequisites.getPrerequisites().size(); i++)
+         
+         return true; 
+    }
+    
+    public String validateSignUp(ArrayList<Course> list, Appointment appointment) throws SQLException, IOException
+    {
+        
+        //Eleminate Duplicates, no I do not know why there are duplicates.
+//        ArrayList<Course> remove = new ArrayList<>(); 
+//        for(int i = 0; i < this.desiredCoureses.size(); i++)
+//        {
+//            for(int j = 0; j< this.desiredCoureses.size(); j++)
+//            {
+//                if(this.desiredCoureses.get(i).compare(this.desiredCoureses.get(i)))
+//                {
+//                   
+//                }
+//            }
+//        }
+        
+        if(this.desiredCoureses == null || this.desiredCoureses.size() < 1)
         {
-            if(!this.desiredCoureses.contains(this.courseWithRequisites.getPrerequisites().get(i)) || this.completedCourses.contains(this.courseWithRequisites.getPrerequisites().get(i)))
+           FacesContext.getCurrentInstance().addMessage("desiredCourses:Submit",
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            "Please select some courses before confirming an appointment.", null));
+    
+        }
+        for (int i = 0; i < list.size(); i++)
+        {
+            if(!this.checkRequsites(CourseRepository.readCourseWithRequisites(ds,list.get(i))))
             {
-                flag = false;
+                return null; 
+            
             }
         }
         
-        if(this.courseWithRequisites.getSuggested().isEmpty())
-        {
-            flag = true; 
-        }
-        
-         if(flag == false)
-        {
-             FacesContext.getCurrentInstance().addMessage("courseinfo:desired",
-                    new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Consider taking the suggested courses!", null));
-             
-             
-        }
-         
-        this.desiredCoureses.add(this.courseWithRequisites.getCourse());
-        
+        DesiredCourseRepository.createDesiredCourses(ds, desiredCoureses,Long.toString(appointment.aID));
+        return "/customerFolder/profile.xhtml"; 
     }
+    
+    
+
     
     public Appointment getAppointment() {
         return appointment;

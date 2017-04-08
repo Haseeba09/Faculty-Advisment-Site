@@ -10,10 +10,23 @@ and open the template in the editor.
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
-        <title>Signup</title>
+        <title>Choose Classes</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
+        <b:container>
+            <h:form id="selectedAppointmentForm">
+                <b:panel collapsible="false" look="primary" title="Scheduled Appointment">
+                    
+                    <p>#{appointmentBean.appointment.date}</p>
+                        <p>#{appointmentBean.appointment.time}</p>
+                
+                </b:panel>
+            </h:form>
+            <b:button  iconAwesome="home" look="primary" outcome="/customerFolder/profile"
+                              style="float: right" value="Return to Home"  
+                              />
+        </b:container>
         <b:container>
             <b:panel id="available"   collapsible="false" look="primary"  title="Available Courses"> 
                     <h:form>
@@ -29,7 +42,7 @@ and open the template in the editor.
                         </b:dataTable>
                     </h:form>    
                 </b:panel>
-                <b:panel id="selected" collapsible="false" look="primary" title="Selected Course Information"> 
+            <b:panel id="selected" collapsible="false" look="primary" title="#{signupBean.courseWithRequisites.course.name} Information"> 
                     <h:form id="courseinfo" >
                         <h3 style="text-align: center;">Prerequisite Courses</h3>
                         <b:dataTable  value="#{signupBean.courseWithRequisites.prerequisites}" var="course">
@@ -53,7 +66,7 @@ and open the template in the editor.
                             <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                         </b:dataTable>
 
-                        <b:commandButton id="desired" value="Add to Desired Classes" iconAwesome="check" action="#{signupBean.addToDesired()}"
+                        <b:commandButton id="desiredButton" value="Add to Desired Classes" iconAwesome="check" action="#{signupBean.addToDesired()}"
                                          />
 
 
@@ -64,8 +77,8 @@ and open the template in the editor.
             
         <b:container>
              
-                
-                <b:panel  id="desired" collapsible="false" look="primary" title="Desired Courses" >
+            <h:form id="desiredCourses">    
+                <b:panel  collapsible="false" look="primary" title="Desired Courses" >
                     
                     <h3 style="text-align: center;">Desired Courses</h3>
                     <b:dataTable  value="#{signupBean.desiredCoureses}" var="course">
@@ -73,14 +86,24 @@ and open the template in the editor.
                         <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
                         <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
                         <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
+                        
+                         <b:dataTableColumn label="Action" order="asc">
+                        <b:commandButton value="Remove Course" iconAwesome="minus" action="#{signupBean.removeFromDesired(course)}"
+                                                 />
+                         </b:dataTableColumn>
                     </b:dataTable>
 
- 
+                    <b:commandButton id="Submit" action="#{signupBean.validateSignUp(signupBean.desiredCoureses, appointmentBean.appointment)}" icon-awesome="check" value="Submit">
+                               
+                    </b:commandButton>
                     
-                </b:panel>
-               
-
+                    <b:message styleClass="message" for="Submit" errorStyle="color: red" />
+                     
+                    
+                    </b:panel>
+            </h:form>
             
         </b:container>
+         
     </h:body>
 </html>

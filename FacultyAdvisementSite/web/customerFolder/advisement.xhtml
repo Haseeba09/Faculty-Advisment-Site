@@ -21,7 +21,7 @@
                         <b:dataTableColumn label="Available Date" value="#{appointment.date}"/>
                         <b:dataTableColumn label="Available Time" value="#{appointment.time}"/>
                         <b:dataTableColumn label="Action">
-                            <b:commandButton action="signup.xhtml" icon-awesome="calendar-plus-o" value="Sign Up">
+                            <b:commandButton action="#{appointmentBean.toSignUp(userBean.student.id, appointment)}" icon-awesome="calendar-plus-o" value="Sign Up">
                                 <f:ajax execute="@form" render="@form :scheduledAppointmentForm" />
                             </b:commandButton>
                         </b:dataTableColumn>
@@ -47,5 +47,6 @@
                               style="float: right" value="Return to Home"  
                               />
         </b:container>
+       
     </h:body>
 </html>

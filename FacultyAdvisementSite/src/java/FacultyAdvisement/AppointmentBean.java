@@ -1,8 +1,10 @@
 package FacultyAdvisement;
 
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.security.Principal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,13 +30,16 @@ public class AppointmentBean implements Serializable {
 
     @Resource(name = "jdbc/ds_wsp")
     private DataSource ds;
-
+    private String username; 
     private List<Appointment> appointments;
     private List<Appointment> scheduledAppointments;
     private Appointment appointment = new Appointment();
 
     @PostConstruct
     public void init() {
+         FacesContext fc = FacesContext.getCurrentInstance();
+        Principal p = fc.getExternalContext().getUserPrincipal();
+        username = p.getName();
         try {
             appointments = loadAppointments();
         } catch (SQLException ex) {
@@ -93,7 +98,11 @@ public class AppointmentBean implements Serializable {
         return formattedMonth;
     }
 
-    
+    public String toSignUp(String key, Appointment appointment) throws IOException, SQLException
+    {   this.appointment = appointment;
+        this.updateAppointment(key, appointment, false);
+        return "/customerFolder/signup.xhtml";
+    }
     
     public void insertAppointment() throws SQLException {
         Connection conn1 = ds.getConnection();
@@ -102,12 +111,12 @@ public class AppointmentBean implements Serializable {
         
         String month = appointment.getDate().substring(4, 7);
             month = formatMonth(month);
-            String year = appointment.getDate().substring(23);
-            String day = appointment.getDate().substring(8, 10);
+            String year = appointment.getDate();
+            String day = appointment.getDate();
 
             String mDate = year + "-" + month + "-" + day;
 
-            String mTime = appointment.getTime().substring(11, 19);
+            String mTime = appointment.getTime();
             
             appointment.setDate(mDate);
             appointment.setTime(mTime);
@@ -167,12 +176,18 @@ public class AppointmentBean implements Serializable {
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "delete FROM appointment where ID =" + appointment.getaID()
+                   
             );
 
             ps.execute();
+            
+           
         } finally {
             conn.close();
         }
+        
+       
+        
         appointments = loadAppointments();
         
     }
@@ -211,7 +226,8 @@ public class AppointmentBean implements Serializable {
                 list.add(a);
                 Collections.sort(list, new AppointmentCompare());
             }
-
+            
+            
         } finally {
             conn.close();
         }
@@ -235,7 +251,7 @@ public class AppointmentBean implements Serializable {
         });
         return availableAppointments;
     }
-
+    
     public void updateAppointment(String studentID, Appointment appoinment, boolean isCancel) throws SQLException {
 
         if (ds == null) {
@@ -264,10 +280,16 @@ public class AppointmentBean implements Serializable {
             }
 
             ps.execute();
+            
+            ps = conn.prepareStatement("delete FROM desired where ID =?");
+            ps.setString(1,Long.toString(appointment.aID));
+            ps.execute();
         } finally {
             conn.close();
         }
         appointments = loadAppointments();
         getScheduledAppointment(studentID);
     }
+    
+    
 }
