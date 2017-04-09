@@ -251,7 +251,7 @@ public class RegistrationBean implements Serializable {
     @Resource(name = "jdbc/ds_wsp")
     private DataSource dataSource;
 
-    //@Pattern(regexp = ".{3,}@uco.edu$", message = "Username should be in the format xxx@uco.edu (where xxx is minimum 3 characters).")
+    @Pattern(regexp = ".{3,}@uco.edu$", message = "Username should be in the format xxx@uco.edu (where xxx is minimum 3 characters).")
     private String username;
 
     @Size(min = 3, message = "Minimum of 3 characters is required.")
