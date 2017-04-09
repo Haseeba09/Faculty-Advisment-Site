@@ -19,6 +19,10 @@ import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.sql.DataSource;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 
 /**
  *
@@ -163,6 +167,10 @@ public class AppointmentBean implements Serializable {
 
     public void deleteBook(Appointment appointment) throws SQLException {
 
+        
+        String Sid = "Open";
+        String emailAddress ="";
+        
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
         }
@@ -174,10 +182,73 @@ public class AppointmentBean implements Serializable {
         }
 
         try {
+            PreparedStatement getSid = conn.prepareStatement(
+                    "select SID from appointment where ID=" +appointment.getaID()
+            );
+            
+            ResultSet result = getSid.executeQuery();
+            while(result.next()){
+                 if(result.getString("SID") != null){
+                    Sid = result.getString("SID");
+                 }
+            }
+            
+            if(!Sid.equals("Open")){
+                PreparedStatement getEmail = conn.prepareStatement(
+                        "select EMAIL from STUDENT where STUID=" + Sid
+                );
+                
+                ResultSet emailResult = getEmail.executeQuery();
+                while(result.next()){
+                    emailAddress = emailResult.getString("EMAIL");
+                }
+                
+                try {
+                    Email email = new HtmlEmail();
+                    email.setHostName("smtp.googlemail.com");
+                    email.setSmtpPort(465);
+                    email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
+                    email.setSSLOnConnect(true);
+                    email.setFrom("uco.faculty.advisement@gmail.com");
+                    email.setSubject("Appointment Cancelled - UCO Faculty Advisment");
+                    email.setMsg(
+                            "<font size=\"3\"> Dear Student, \n"
+                                    +"Your advisor has cancelled your appointment. Please schedule a new appointment. /n"
+                                    +"Thank You."
+                            + "\n<p align=\"center\">UCO Faculty Advisement</p></font>"
+                    );
+                    email.addTo(emailAddress);
+                    email.send();
+                } catch (EmailException ex) {
+                    Logger.getLogger(VerificationBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+            
             PreparedStatement ps = conn.prepareStatement(
                     "delete FROM appointment where ID =" + appointment.getaID()
                    
             );
+            
+             try {
+                    Email email = new HtmlEmail();
+                    email.setHostName("smtp.googlemail.com");
+                    email.setSmtpPort(465);
+                    email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
+                    email.setSSLOnConnect(true);
+                    email.setFrom("uco.faculty.advisement@gmail.com");
+                    email.setSubject("Appointment Cancelled - UCO Faculty Advisment");
+                    email.setMsg(
+                            "<font size=\"3\"> Dear Student, \n"
+                                    +"Your advisor has cancelled your appointment. Please schedule a new appointment. /n"
+                                    +"Thank You."
+                            + "\n<p align=\"center\">UCO Faculty Advisement</p></font>"
+                    );
+                    email.addTo("haseeba09@gmail.com");
+                    email.send();
+                } catch (EmailException ex) {
+                    Logger.getLogger(VerificationBean.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             ps.execute();
             
