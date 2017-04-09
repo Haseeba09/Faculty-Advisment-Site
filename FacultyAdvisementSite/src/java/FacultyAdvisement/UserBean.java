@@ -4,6 +4,9 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.security.Principal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +26,7 @@ public class UserBean implements Serializable {
 
     private String username;
     private Student student;
-    private String newPassword;
+    private String oldId;
     private CourseWithRequisites courseWithRequisites;
     private List<Course> completedCourses;
     private List<Course> availableCourses;
@@ -61,14 +64,6 @@ public class UserBean implements Serializable {
         this.completedCourses = completedCourses;
     }
 
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
     public Student getStudent() {
         return student;
     }
@@ -85,7 +80,6 @@ public class UserBean implements Serializable {
         Principal p = fc.getExternalContext().getUserPrincipal();
         username = p.getName();
         student = new Student();
-        newPassword = "";
         desiredCoureses = new ArrayList<>();
         try {
             student = StudentRepository.read(ds, username);
@@ -102,14 +96,14 @@ public class UserBean implements Serializable {
         } catch (SQLException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        oldId = student.getId();
     }
 
     public String getUsername() {
         return username;
     }
 
-    public String validateForm() {
+    public String validateForm() throws SQLException {
 
         boolean flag = true;
 
@@ -125,6 +119,30 @@ public class UserBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(
                     "studentForm:id", facesMsg);
             flag = false;
+        } else {
+            Connection conn = ds.getConnection();
+            if (conn == null) {
+                throw new SQLException("conn is null; Can't get db connection");
+            }
+            try {
+                PreparedStatement ps = conn.prepareStatement(
+                        "select * from STUDENT"
+                );
+                ResultSet result = ps.executeQuery();
+                while (result.next()) {
+                    if (result.getString("STUID").equals(student.getId()) && !oldId.equals(student.getId())) {
+                        FacesMessage facesMsg = new FacesMessage(
+                                FacesMessage.SEVERITY_ERROR,
+                                "UCO ID number is already taken!", null);
+                        FacesContext.getCurrentInstance().addMessage(
+                                "studentForm:id", facesMsg);
+                        flag = false;
+                        break;
+                    }
+                }
+            } finally {
+                conn.close();
+            }
         }
 
         pattern = Pattern.compile("[0-9]{10}");
@@ -142,6 +160,7 @@ public class UserBean implements Serializable {
 
             try {
                 StudentRepository.update(ds, student);
+                oldId = student.getId();
                 student.setEdit(false);
             } catch (SQLException ex) {
                 Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
