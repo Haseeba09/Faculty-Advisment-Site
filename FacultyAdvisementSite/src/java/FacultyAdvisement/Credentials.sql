@@ -13,6 +13,7 @@ create table STUDENT (
     majorcode varchar(4),
     phone varchar(11),
     advised varchar(5),
+
     primary key (STUID)
 );
 
@@ -21,6 +22,7 @@ create table USERTABLE (
     USERNAME varchar(255) not null unique,
     PASSWORD char(64), /* SHA-256 encryption */
     VERIFIED varchar(5),
+    image blob,
     primary key (id)
 );
 

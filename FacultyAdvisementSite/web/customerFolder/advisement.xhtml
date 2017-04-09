@@ -1,19 +1,25 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <f:event listener="#{appointmentBean.getScheduledAppointment(userBean.student.id)}" type="preRenderView" />
     <h:head>
-        <title>Advisement Sign Up</title>
+        <title>Advisement</title>
     </h:head>
-    <h:body>
-        
+    <h:body style="padding: 60px;">
         <f:metadata>
             <f:viewAction action="#{verificationBean.checkVerificationRedirect(userBean.username)}"/>
         </f:metadata>
-        
+        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
+                <b:navLink icon-awesome="calendar" value="Advisement" outcome="/customerFolder/advisement"></b:navLink>
+                <b:navLink icon-awesome="unlock" value="Password Reset" outcome="/customerFolder/resetMyPassword"></b:navLink>
+                <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
         <b:container>
             <h:form id="availableAppointmentForm">
                 <b:panel collapsible="false" look="primary" title="Available Appointment">

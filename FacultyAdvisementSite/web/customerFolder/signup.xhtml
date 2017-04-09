@@ -1,19 +1,24 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:b="http://bootsfaces.net/ui"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Choose Classes</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Student Profile</title>
     </h:head>
-    <h:body>
+    <h:body style="padding: 60px;">
+        <f:metadata>
+            <f:viewAction action="#{verificationBean.checkVerificationRedirect(userBean.username)}"/>
+        </f:metadata>
+        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
+                <b:navLink icon-awesome="calendar" value="Advisement" outcome="/customerFolder/advisement"></b:navLink>
+                <b:navLink icon-awesome="unlock" value="Password Reset" outcome="/customerFolder/resetMyPassword"></b:navLink>
+                <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
         <b:container>
             <h:form id="selectedAppointmentForm">
                 <b:panel collapsible="false" look="primary" title="Scheduled Appointment">
