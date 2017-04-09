@@ -37,7 +37,10 @@ public class AppointmentBean implements Serializable {
     private String username; 
     private List<Appointment> appointments;
     private List<Appointment> scheduledAppointments;
+    private List<Course> desiredCourses;
     private Appointment appointment = new Appointment();
+    
+    
 
     @PostConstruct
     public void init() {
@@ -51,6 +54,16 @@ public class AppointmentBean implements Serializable {
         }
     }
 
+    public List<Course> getDesiredCourses() {
+        return desiredCourses;
+    }
+
+    public void setDesiredCourses(List<Course> desiredCourses) {
+        this.desiredCourses = desiredCourses;
+    }
+
+    
+    
     public List<Appointment> getScheduledAppointments() {
         return scheduledAppointments;
     }
@@ -108,6 +121,8 @@ public class AppointmentBean implements Serializable {
         return "/customerFolder/signup.xhtml";
     }
     
+    
+    
     public void insertAppointment() throws SQLException {
         Connection conn1 = ds.getConnection();
         
@@ -115,12 +130,22 @@ public class AppointmentBean implements Serializable {
         
         String month = appointment.getDate().substring(4, 7);
             month = formatMonth(month);
-            String year = appointment.getDate();
-            String day = appointment.getDate();
+            
+             
+            String year = appointment.getDate().substring(23);
+            String day = appointment.getDate().substring(8,10);
 
             String mDate = year + "-" + month + "-" + day;
 
-            String mTime = appointment.getTime();
+            /*
+                here is the annoying format that the calanedr returns:
+                Sat Apr 01 00:00:00 CDT 2017
+            
+                this is why i have to use substrings to get the date right. 
+                please do not change.
+                */
+            
+            String mTime = appointment.getTime().substring(11,19);
             
             appointment.setDate(mDate);
             appointment.setTime(mTime);
@@ -168,7 +193,7 @@ public class AppointmentBean implements Serializable {
     public void deleteBook(Appointment appointment) throws SQLException {
 
         
-        String Sid = "Open";
+        
         String emailAddress ="";
         
         if (ds == null) {
@@ -183,25 +208,17 @@ public class AppointmentBean implements Serializable {
 
         try {
             PreparedStatement getSid = conn.prepareStatement(
-                    "select SID from appointment where ID=" +appointment.getaID()
+                    "select email from student join appointment on appointment.sid = student.stuid where appointment.id =" +appointment.getaID()
             );
             
             ResultSet result = getSid.executeQuery();
             while(result.next()){
-                 if(result.getString("SID") != null){
-                    Sid = result.getString("SID");
-                 }
+                 
+                    emailAddress = result.getString("email");
+                 
             }
             
-            if(!Sid.equals("Open")){
-                PreparedStatement getEmail = conn.prepareStatement(
-                        "select EMAIL from STUDENT where STUID=" + Sid
-                );
-                
-                ResultSet emailResult = getEmail.executeQuery();
-                while(result.next()){
-                    emailAddress = emailResult.getString("EMAIL");
-                }
+            
                 
                 try {
                     Email email = new HtmlEmail();
@@ -212,8 +229,8 @@ public class AppointmentBean implements Serializable {
                     email.setFrom("uco.faculty.advisement@gmail.com");
                     email.setSubject("Appointment Cancelled - UCO Faculty Advisment");
                     email.setMsg(
-                            "<font size=\"3\"> Dear Student, \n"
-                                    +"Your advisor has cancelled your appointment. Please schedule a new appointment. /n"
+                            "<font size=\"3\" style=\"font-family:verdana\"> Dear Student, \n"
+                                    +"Your advisor has cancelled your appointment. Please schedule a new appointment. \n"
                                     +"Thank You."
                             + "\n<p align=\"center\">UCO Faculty Advisement</p></font>"
                     );
@@ -223,32 +240,14 @@ public class AppointmentBean implements Serializable {
                     Logger.getLogger(VerificationBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-            }
+            
             
             PreparedStatement ps = conn.prepareStatement(
                     "delete FROM appointment where ID =" + appointment.getaID()
                    
             );
             
-             try {
-                    Email email = new HtmlEmail();
-                    email.setHostName("smtp.googlemail.com");
-                    email.setSmtpPort(465);
-                    email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
-                    email.setSSLOnConnect(true);
-                    email.setFrom("uco.faculty.advisement@gmail.com");
-                    email.setSubject("Appointment Cancelled - UCO Faculty Advisment");
-                    email.setMsg(
-                            "<font size=\"3\"> Dear Student, \n"
-                                    +"Your advisor has cancelled your appointment. Please schedule a new appointment. /n"
-                                    +"Thank You."
-                            + "\n<p align=\"center\">UCO Faculty Advisement</p></font>"
-                    );
-                    email.addTo("haseeba09@gmail.com");
-                    email.send();
-                } catch (EmailException ex) {
-                    Logger.getLogger(VerificationBean.class.getName()).log(Level.SEVERE, null, ex);
-                }
+             
 
             ps.execute();
             
@@ -362,5 +361,11 @@ public class AppointmentBean implements Serializable {
         getScheduledAppointment(studentID);
     }
     
+    public String goToViewAppointment(Appointment appointment) throws SQLException{
+        this.appointment = appointment;
+        String id = String.valueOf(appointment.getaID());
+        desiredCourses = DesiredCourseRepository.readDesiredCourses(ds, id);
+        return "/adminFolder/viewAppointment";
+    }
     
 }

@@ -36,6 +36,10 @@
                         <h:outputText value="#{appointment.sid}" rendered="#{appointment.taken}"/>
                         <h:outputText value="Open" rendered="#{not appointment.taken}" />
                     </b:dataTableColumn>
+                    <b:dataTableColumn label="Details">
+                        <b:commandButton value="View" action="#{appointmentBean.goToViewAppointment(appointment)}" rendered="#{appointment.taken}"/>
+                        <h:outputText value="No details" rendered="#{not appointment.taken}" />
+                    </b:dataTableColumn>
                     <b:dataTableColumn label="Cancel">
                         <b:commandButton value="Cancel" action="#{appointmentBean.deleteBook(appointment)}" >
                             <f:ajax execute="@form" render="@form :appointmentForm" />

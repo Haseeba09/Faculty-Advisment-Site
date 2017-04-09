@@ -112,3 +112,4 @@ insert into USERTABLE (username, password, verified)
     values ('uco.student1@gmail.com', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'false');
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'uco.student1@gmail.com');
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('99999999', 'uco.student1@gmail.com', '6100', '4050000000', 'false');
+
