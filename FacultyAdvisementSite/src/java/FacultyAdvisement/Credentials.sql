@@ -88,9 +88,9 @@ insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student3@
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('10000003', 'student3@uco.edu', '6110', '4055550003', 'false');
 
 insert into USERTABLE (username, password, verified)
-    values ('student4@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
-insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'student4@uco.edu');
-insert into STUDENT(STUID, email, majorcode, phone, advised) values ('10000004', 'student4@uco.edu', '6660', '4055550004', 'false');
+    values ('abilby@uco.edu', 'c4289629b08bc4d61411aaa6d6d4a0c3c5f8c1e848e282976e29b6bed5aeedc7', 'true');
+insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'abilby@uco.edu');
+insert into STUDENT(STUID, email, majorcode, phone, advised) values ('10000004', 'abilby@uco.edu', '6660', '4055550004', 'false');
 
 insert into AVAILABLEMAJOR (majorcode) values ('6100');
 insert into AVAILABLEMAJOR (majorcode) values ('6101');

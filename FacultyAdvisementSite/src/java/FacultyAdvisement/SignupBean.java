@@ -23,6 +23,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.sql.DataSource;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 
 /**
  *
@@ -198,7 +202,7 @@ public class SignupBean implements Serializable{
          return true; 
     }
     
-    public String validateSignUp(ArrayList<Course> list, Appointment appointment) throws SQLException, IOException
+    public String validateSignUp(ArrayList<Course> list, Appointment appointment) throws SQLException, IOException, EmailException
     {
         
         //Eleminate Duplicates, no I do not know why there are duplicates.
@@ -231,6 +235,27 @@ public class SignupBean implements Serializable{
         }
         
         DesiredCourseRepository.createDesiredCourses(ds, desiredCoureses,Long.toString(appointment.aID));
+           try{ 
+            Email email = new HtmlEmail();
+            email.setHostName("smtp.googlemail.com");
+            email.setSmtpPort(465);
+            email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
+            email.setSSLOnConnect(true);
+            email.setFrom("uco.faculty.advisement@gmail.com");
+            email.setSubject("UCO Faculty Advisement Verify Email");
+            email.setMsg(
+                    "<p>Your appointment with your faculty advisor is at "
+                     + appointment.datetime
+                     + " on " + appointment.date + " . </p>"
+                     +"<p align=\"center\">UCO Faculty Advisement</p></font>"
+                    
+            );
+            email.addTo(username);
+            email.send();
+        } catch (EmailException ex) {
+            Logger.getLogger(VerificationBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return "/customerFolder/profile.xhtml"; 
     }
     
