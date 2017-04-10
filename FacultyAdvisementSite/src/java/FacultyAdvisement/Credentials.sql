@@ -1,3 +1,4 @@
+drop table Desired;
 drop table APPOINTMENT;
 drop table USERTABLE;
 drop table GROUPTABLE;
@@ -113,3 +114,4 @@ insert into USERTABLE (username, password, verified)
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'uco.student1@gmail.com');
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('99999999', 'uco.student1@gmail.com', '6100', '4050000000', 'false');
 
+insert into APPOINTMENT (SID, sdate, stime) values ('99999999', '2017-04-10', '12:00:00');
