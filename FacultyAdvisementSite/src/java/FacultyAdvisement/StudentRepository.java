@@ -271,5 +271,43 @@ public class StudentRepository {
 
         return student;
     }
+    
+    public static Student readById(DataSource ds, String key) throws SQLException {
+        String studentSQL = "SElECT * FROM STUDENT WHERE STUID = ?";
+        Student student = new Student();
+
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
+
+        Connection conn = ds.getConnection();
+
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        try {
+
+            PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
+
+            sqlStatement.setString(1, key);
+
+            ResultSet result = sqlStatement.executeQuery();
+            while (result.next()) {
+                student.setId(key);
+                student.setMajorCode(result.getString("majorcode"));
+                student.setPhoneNumber(result.getString("phone"));
+                student.setUsername(result.getString("email"));
+               
+            }
+
+        } finally {
+            conn.close();
+        }
+
+        return student;
+    }
+    
+    
 
 }

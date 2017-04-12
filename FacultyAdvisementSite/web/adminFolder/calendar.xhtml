@@ -11,21 +11,27 @@
     <h:body>
         <br />
         <br />
-        <b:container>
+        <b:container >
             <b:form id="datePick"> 
+               
+                    
                 <b:dateTimePicker label="Create new appointment" time-stepping="10" 
                                   mode="inline" value="#{appointmentBean.appointment.date}"
                                   format="YYYY-MM-DD"/>
+                    
                 <b:dateTimePicker label="Select a time" time-stepping="10"
                                   mode="inline" value="#{appointmentBean.appointment.time}" showDate="false"
                                   format="hh:mm a"/>
+                    
+                
                 <b:commandButton id="create" action="#{appointmentBean.insertAppointment()}" value="Create" >
                    <f:ajax execute="@form" render="@form :appointmentForm" />
                 </b:commandButton> 
+              
+           <br />
+           <h:message for="create" style="color: red" errorStyle="color: red" />
+           <br />
             </b:form>
-           <br />
-           <h:message for="create" errorStyle="color: red" />
-           <br />
            
         <br />
             <b:form id="appointmentForm">

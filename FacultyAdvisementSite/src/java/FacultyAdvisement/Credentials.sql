@@ -1,12 +1,17 @@
-drop table Desired;
+drop table completed;
+drop table suggested;
+drop table corequisite;
+Drop Table Prerequisite;
+drop table course;
+
 drop table APPOINTMENT;
+drop table student;
 drop table USERTABLE;
 drop table GROUPTABLE;
 drop table AVAILABLEMAJOR;
-drop table COMPLETED;
 drop table TOKENRESET;
 drop table TOKENVERIFICATION;
-drop table STUDENT;
+
 
 create table STUDENT (
     STUID varchar(8),
