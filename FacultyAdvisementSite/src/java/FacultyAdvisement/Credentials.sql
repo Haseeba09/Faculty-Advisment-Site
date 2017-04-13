@@ -1,11 +1,17 @@
+drop table completed;
+drop table suggested;
+drop table corequisite;
+Drop Table Prerequisite;
+drop table course;
+
 drop table APPOINTMENT;
+drop table student;
 drop table USERTABLE;
 drop table GROUPTABLE;
 drop table AVAILABLEMAJOR;
-drop table COMPLETED;
 drop table TOKENRESET;
 drop table TOKENVERIFICATION;
-drop table STUDENT;
+
 
 create table STUDENT (
     STUID varchar(8),
@@ -113,3 +119,4 @@ insert into USERTABLE (username, password, verified)
 insert into GROUPTABLE (groupname, USERNAME) values ('customergroup', 'uco.student1@gmail.com');
 insert into STUDENT(STUID, email, majorcode, phone, advised) values ('99999999', 'uco.student1@gmail.com', '6100', '4050000000', 'false');
 
+insert into APPOINTMENT (SID, sdate, stime) values ('99999999', '2017-04-10', '12:00:00');

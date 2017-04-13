@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 DROP TABLE PREREQUISITE;
 DROP TABLE COREQUISITE;
 DROP TABLE SUGGESTED;
 DROP TABLE DESIRED;
 DROP TABLE COMPLETED;
 DROP TABLE COURSE;
+=======
+drop table completed;
+drop table suggested;
+drop table corequisite;
+Drop Table Prerequisite;
+drop table course;
+>>>>>>> origin/master
 
 CREATE TABLE Course 
     (
@@ -93,9 +101,9 @@ INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Programming I', 'CMSC', '1613', '3');
 /*both needed? for prog 1 prereq*/
-INSERT INTO  Corequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_number)
         values ('CMSC', '1613', 'MATH', '1513');
-INSERT INTO  Corequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_number)
         values ('CMSC', '1613', 'MATH', '1555');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Programming I Lab', 'CMSC', '1621', '1');
@@ -160,17 +168,17 @@ INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Software Engineering I', 'SE', '4283', '3');
 INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
         values ('SE', '4283', 'CMSC', '2613');
-INSERT INTO  Corequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_number)
         values ('SE', '4283', 'MATH', '2313');
-INSERT INTO  Corequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_number)
         values ('SE', '4283', 'STAT', '2103');
-INSERT INTO  Suggested (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Suggested (course_subject, Course_Number, suggested_subject, suggested_number)
         values ('SE', '4283', 'SE', '3103');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Applications Database MGMT', 'CMSC', '4003', '3');
-INSERT INTO  Corequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_number)
         values ('CMSC', '4003', 'MATH', '2313');
-INSERT INTO  Corequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_number)
         values ('CMSC', '4003', 'STAT', '2103');
 INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
         values ('CMSC', '4003', 'CMSC', '2613');
@@ -182,7 +190,7 @@ INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Web Server Programming', 'CMSC', '4373', '3');
 INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
         values ('CMSC', '4373', 'SE', '3103');
-INSERT INTO  Suggested (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Suggested (course_subject, Course_Number, suggested_subject, suggested_number)
         values ('CMSC', '4373', 'CMSC', '4003');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Data Structures and Algorithms', 'CMSC', '3613', '3');
@@ -190,9 +198,9 @@ INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq
         values ('CMSC', '3613', 'CMSC', '2123');
 INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
         values ('CMSC', '3613', 'CMSC', '2613');
-INSERT INTO  Corequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_number)
         values ('CMSC', '3613', 'MATH', '2313');
-INSERT INTO  Corequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_number)
         values ('CMSC', '3613', 'STAT', '2103');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Seminar', 'CMSC', '4910', '0');
@@ -266,4 +274,4 @@ INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
 
 
     INSERT INTO Completed (STUID, subject, course_number) 
-        values ('11111112','CMSC', '1613');
+        values ('10000001','CMSC', '1613');

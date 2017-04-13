@@ -39,6 +39,7 @@ public class AppointmentBean implements Serializable {
     private List<Appointment> scheduledAppointments;
     private List<Course> desiredCourses;
     private Appointment appointment = new Appointment();
+    private Student student = new Student();
     
     
 
@@ -60,6 +61,14 @@ public class AppointmentBean implements Serializable {
 
     public void setDesiredCourses(List<Course> desiredCourses) {
         this.desiredCourses = desiredCourses;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     
@@ -365,6 +374,7 @@ public class AppointmentBean implements Serializable {
         this.appointment = appointment;
         String id = String.valueOf(appointment.getaID());
         desiredCourses = DesiredCourseRepository.readDesiredCourses(ds, id);
+        this.student = StudentRepository.readById(ds, appointment.getSid());
         return "/adminFolder/viewAppointment";
     }
     

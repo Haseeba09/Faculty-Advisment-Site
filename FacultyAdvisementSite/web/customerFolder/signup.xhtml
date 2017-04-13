@@ -41,13 +41,22 @@
                             <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
                             <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                             <b:dataTableColumn label="Lookup" orderable="false">
+<<<<<<< HEAD
                                 <b:commandButton value="Lookup Course" iconAwesome="plus" action="#{signupBean.lookupCourse(course)}">
                                          
+=======
+                                <b:commandButton  value="Lookup Course" iconAwesome="plus"  action="#{signupBean.lookupCourse(course)}">
+                                  
+>>>>>>> origin/master
                                 </b:commandButton>
                             </b:dataTableColumn>
                         </b:dataTable>
                     </h:form>    
                 </b:panel>
+            </b:container>
+            <b:container>
+                
+            
             <b:panel id="selected" collapsible="false" look="primary" title="#{signupBean.courseWithRequisites.course.name} Information"> 
                     <h:form id="courseinfo" >
                         <h3 style="text-align: center;">Prerequisite Courses</h3>
