@@ -1,6 +1,9 @@
-DROP TABLE Course;
-Drop Table Prerequisite;
-Drop Table Completed;
+DROP TABLE PREREQUISITE;
+DROP TABLE COREQUISITE;
+DROP TABLE SUGGESTED;
+DROP TABLE DESIRED;
+DROP TABLE COMPLETED;
+DROP TABLE COURSE;
 
 CREATE TABLE Course 
     (
@@ -57,7 +60,19 @@ CREATE TABLE Suggested
         REFERENCES Course(subject, course_number)
     );
 
-   
+
+CREATE TABLE Desired
+    (   course_subject varchar(5),
+        course_number varchar(4),
+        ID INT,
+        FOREIGN KEY course_fk(course_subject, course_number)
+        REFERENCES Course(subject, course_number),
+        FOREIGN KEY ID_fk(ID)
+        REFERENCES APPOINTMENT(ID),
+        PRIMARY KEY (course_subject, course_Number, id)
+        
+ );   
+
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Professional Computer Applications and Problem Solving', 'CMSC', '1053', '3');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
@@ -89,13 +104,15 @@ INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Computer Organization I', 'CMSC', '2833', '3');
 INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
         values ('CMSC', '2833', 'CMSC', '1613');
+INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+        values ('CMSC', '2613', 'CMSC', '1613');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Calculus I', 'MATH', '2313', '3');
 INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
         values ('MATH', '2313', 'MATH', '1513');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Discrete Structures', 'CMSC', '2123', '3');
-INSERT INTO  Corequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_number)
         values ('CMSC', '2123', 'MATH', '2313');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Programming II', 'CMSC', '2613', '3');

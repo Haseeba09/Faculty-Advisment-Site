@@ -107,7 +107,11 @@ public class SignupBean implements Serializable{
     public boolean checkRequsites(CourseWithRequisites course)
     {
     
-        
+         try {
+           completedCourses = CourseRepository.readCompletedCourses(ds, student.getId());
+        } catch (SQLException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
          if(this.courseWithRequisites == null)
         {
@@ -242,7 +246,7 @@ public class SignupBean implements Serializable{
             email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
             email.setSSLOnConnect(true);
             email.setFrom("uco.faculty.advisement@gmail.com");
-            email.setSubject("UCO Faculty Advisement Verify Email");
+            email.setSubject("UCO Faculty Advisement Appointmen Confirmation");
             email.setMsg(
                     "<p>Your appointment with your faculty advisor is at "
                      + appointment.datetime

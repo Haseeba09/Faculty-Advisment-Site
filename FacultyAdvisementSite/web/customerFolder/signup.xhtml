@@ -41,8 +41,9 @@
                             <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
                             <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                             <b:dataTableColumn label="Lookup" orderable="false">
-                                <b:commandButton value="Lookup Course" iconAwesome="plus" action="#{signupBean.lookupCourse(course)}"
-                                                 />
+                                <b:commandButton value="Lookup Course" iconAwesome="plus" action="#{signupBean.lookupCourse(course)}">
+                                         
+                                </b:commandButton>
                             </b:dataTableColumn>
                         </b:dataTable>
                     </h:form>    
@@ -71,8 +72,9 @@
                             <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                         </b:dataTable>
 
-                        <b:commandButton id="desiredButton" value="Add to Desired Classes" iconAwesome="check" action="#{signupBean.addToDesired()}"
-                                         />
+                        <b:commandButton id="desiredButton" value="Add to Desired Classes" iconAwesome="check" action="#{signupBean.addToDesired()}">
+                                  <f:ajax execute="@form" render="@form :desiredCourses" />
+                        </b:commandButton>
 
 
                     </h:form>    
@@ -93,8 +95,9 @@
                         <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                         
                          <b:dataTableColumn label="Action" order="asc">
-                        <b:commandButton value="Remove Course" iconAwesome="minus" action="#{signupBean.removeFromDesired(course)}"
-                                                 />
+                             <b:commandButton value="Remove Course" iconAwesome="minus" action="#{signupBean.removeFromDesired(course)}">
+                                       <f:ajax execute="@form" render="@form :available" />
+                             </b:commandButton>
                          </b:dataTableColumn>
                     </b:dataTable>
 

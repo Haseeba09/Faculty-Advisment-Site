@@ -43,7 +43,7 @@
                         <b:dataTableColumn label="Scheduled Time" value="#{appointment.time}"/>
                         <b:dataTableColumn label="Action">
                             <b:commandButton action="#{appointmentBean.updateAppointment(userBean.student.id, appointment, true)}" icon-awesome="calendar-minus-o" value="Cancel">
-                                <f:ajax execute="@form" render="@form :availableAppointmentForm" />
+                                <f:ajax execute="@form" render="@form :scheduledAppointmentForm" />
                             </b:commandButton>
                         </b:dataTableColumn>
                     </b:dataTable>
