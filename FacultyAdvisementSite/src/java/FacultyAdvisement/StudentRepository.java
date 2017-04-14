@@ -11,7 +11,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import javax.sql.DataSource;
+import org.apache.commons.mail.DefaultAuthenticator;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 
 /**
  *
@@ -111,7 +116,7 @@ public class StudentRepository {
         return list;
     }
 
-    public static void adminUpdate(DataSource ds, Student student, String oldUsername) throws SQLException {
+    public static void adminUpdate(DataSource ds, Student student, String oldUsername) throws SQLException, EmailException {
         Connection conn = ds.getConnection();
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
@@ -132,18 +137,47 @@ public class StudentRepository {
             }
             ps.setString(5, student.getId());
             ps.executeUpdate();
+
             ps = conn.prepareStatement(
                     "Update USERTABLE set USERNAME=? where USERNAME=?"
             );
             ps.setString(1, student.getUsername());
             ps.setString(2, oldUsername);
             ps.executeUpdate();
+
             ps = conn.prepareStatement(
                     "Update GROUPTABLE set USERNAME=? where USERNAME=?"
             );
             ps.setString(1, student.getUsername());
             ps.setString(2, oldUsername);
             ps.executeUpdate();
+
+            if (student.isResetPassword()) {
+                String newPassword = UUID.randomUUID().toString();
+                String encryptedPassword = SHA256Encrypt.encrypt(newPassword);
+                ps = conn.prepareStatement(
+                        "Update USERTABLE set PASSWORD=? where USERNAME=?"
+                );
+                ps.setString(1, encryptedPassword);
+                ps.setString(2, student.getUsername());
+                ps.executeUpdate();
+
+                Email email = new HtmlEmail();
+                email.setHostName("smtp.googlemail.com");
+                email.setSmtpPort(465);
+                email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
+                email.setSSLOnConnect(true);
+                email.setFrom("uco.faculty.advisement@gmail.com");
+                email.setSubject("UCO Faculty Advisement Password Change");
+                email.setMsg(
+                        "<font size=\"3\">An admin has resetted your password, your new password is \"" + newPassword + "\"."
+                        + "\n<p align=\"center\">UCO Faculty Advisement</p></font>"
+                );
+                email.addTo(student.getUsername());
+                email.send();
+
+            }
+
         } finally {
             conn.close();
         }
@@ -271,7 +305,7 @@ public class StudentRepository {
 
         return student;
     }
-    
+
     public static Student readById(DataSource ds, String key) throws SQLException {
         String studentSQL = "SElECT * FROM STUDENT WHERE STUID = ?";
         Student student = new Student();
@@ -298,7 +332,7 @@ public class StudentRepository {
                 student.setMajorCode(result.getString("majorcode"));
                 student.setPhoneNumber(result.getString("phone"));
                 student.setUsername(result.getString("email"));
-               
+
             }
 
         } finally {
@@ -307,7 +341,5 @@ public class StudentRepository {
 
         return student;
     }
-    
-    
 
 }

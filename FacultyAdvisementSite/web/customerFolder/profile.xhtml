@@ -6,130 +6,132 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Student Profile</title>
-    </h:head>
-    <h:body style="padding: 60px;">
-        <f:metadata>
-            <f:viewAction action="#{verificationBean.checkVerificationRedirect(userBean.username)}"/>
-        </f:metadata>
-        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
-            <b:navbarLinks>
-                <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
-                <b:navLink icon-awesome="calendar" value="Advisement" outcome="/customerFolder/advisement"></b:navLink>
-                <b:navLink icon-awesome="unlock" value="Password Reset" outcome="/customerFolder/resetMyPassword"></b:navLink>
-                <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>
-            </b:navbarLinks>
-        </b:navBar>
-        <b:container>
-            <b:jumbotron>
-                <h2>Hi! #{userBean.username}</h2>
-                <p>Student Information</p>
-                <b:row>
-                    <h:form>
-                        <b:column small-screen="2">
-                            <h:commandLink action="#{fileBean.editImage()}"> 
-                                <image src="ImageServlet?username=#{userBean.username}"/>
-                            </h:commandLink>
-                        </b:column>
-                    </h:form>
-                    <h:form id="uploadForm" enctype="multipart/form-data" rendered="true">
-                        <b:column small-screen="8" rendered="#{fileBean.isEdit}">
-                            <b:row>
-                                <b:column small-screen="4">
-                                    <h:outputText value="Upload Image(max 10MB):" style="font-size: large;display: block;width: 225px"/>
+        </h:head>
+        <h:body style="padding: 60px;">
+            <f:metadata>
+                <f:viewAction action="#{verificationBean.checkVerificationRedirect(userBean.username)}"/>
+            </f:metadata>
+            <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
+                <b:navbarLinks>
+                    <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
+                    <b:navLink icon-awesome="calendar" value="Advisement" outcome="/customerFolder/advisement"></b:navLink>
+                    <b:navLink icon-awesome="unlock" value="Password Reset" outcome="/customerFolder/resetMyPassword"></b:navLink>
+                    <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>
+                </b:navbarLinks>
+            </b:navBar>
+            <b:container>
+                <b:jumbotron>
+                    <h2>Hi! #{userBean.username}</h2>
+                    <p>Student Information</p>
+                    <b:row>
+                        <h:form>
+                            <b:column small-screen="2">
+                                <h:commandLink action="#{fileBean.editImage()}">
+                                    <object data="ImageServlet?username=#{userBean.username}" type="image/png">
+                                        <b:image value="/resources/default-image.png"/>
+                                    </object>
+                                </h:commandLink>
+                            </b:column>
+                        </h:form>
+                        <h:form id="uploadForm" enctype="multipart/form-data" rendered="true">
+                            <b:column rendered="#{fileBean.isEdit}">
+                                <b:row>
+                                    <b:column small-screen="4">
+                                        <h:outputText value="Upload Image(max 10MB):" style="font-size: large;display: block;width: 225px"/>
+                                        </b:column>
+                                        <b:column small-screen="4">
+                                            <h:inputFile id="file" label="file" value="#{fileBean.part}"
+                                                         validator="#{fileBean.validateFile}" />
+                                        </b:column>
+                                        <b:column small-screen="4">
+                                            <h:message for="file" errorStyle="color: red" infoStyle="color: blue" />
+                                        </b:column>
+                                    </b:row>
+                                    <b:row>
+                                        <b:column small-screen="4">
+                                            <h:outputText value="Click to upload:" style="font-size: large;display: block;width: 225px"/>
+                                        </b:column>
+                                        <b:column small-screen="4">
+                                            <h:commandButton id="upload" action="#{fileBean.uploadFile(userBean.username)}"
+                                                             value="Upload File" />
+                                        </b:column>
+                                        <b:column small-screen="4">
+                                            <h:message for="upload" errorStyle="color: red" infoStyle="color: blue" />
+                                        </b:column>
+                                    </b:row>
                                 </b:column>
-                                <b:column small-screen="4">
-                                    <h:inputFile id="file" label="file" value="#{fileBean.part}"
-                                                 validator="#{fileBean.validateFile}" />
-                                </b:column>
-                                <b:column small-screen="4">
-                                    <h:message for="file" errorStyle="color: red" infoStyle="color: blue" />
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column small-screen="4">
-                                    <h:outputText value="Click to upload:" style="font-size: large;display: block;width: 225px"/>
-                                </b:column>
-                                <b:column small-screen="4">
-                                    <h:commandButton id="upload" action="#{fileBean.uploadFile(userBean.username)}"
-                                                     value="Upload File" />
-                                </b:column>
-                                <b:column small-screen="4">
-                                    <h:message for="upload" errorStyle="color: red" infoStyle="color: blue" />
-                                </b:column>
-                            </b:row>
-                        </b:column>
-                    </h:form>
-                </b:row><br/>
-                <b:row>
-                    <h:form id="studentForm">
-                        <b:column>
-                            <b:row>
-                                <b:column small-screen="2">
-                                    <h:outputText value="Student ID:" style="font-size: large;"/>
-                                </b:column>
-                                <b:column small-screen="3">
-                                    <b:inputText id="id" value="#{userBean.student.id}" rendered="#{userBean.student.edit}">
-                                        <f:facet name="prepend">
-                                            <b:iconAwesome name="id-card-o" />
-                                        </f:facet>
-                                    </b:inputText>
-                                    <h:outputText value="#{userBean.student.id}" style="font-size: large;" rendered="#{!userBean.student.edit}"/>
-                                </b:column>
-                                <b:column small-screen="3">
-                                    <h:message for="id" errorStyle="color: red" rendered="#{userBean.student.edit}"/>
-                                    <h:panelGroup rendered="#{!userBean.student.edit}"/>
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column small-screen="2">
-                                    <h:outputText value="Major Code:" style="font-size: large;"/>
-                                </b:column>
-                                <b:column small-screen="3">
-                                    <b:selectOneMenu id="majorCode" value="#{userBean.student.majorCode}" rendered="#{userBean.student.edit}">
-                                        <f:selectItems value="#{utility.availableMajors}"/>
-                                    </b:selectOneMenu>
-                                    <h:outputText value="#{userBean.student.majorCode}" style="font-size: large;" rendered="#{!userBean.student.edit}"/>
-                                </b:column>
-                                <b:column small-screen="3">
-                                    <h:message for="majorCode" errorStyle="color: red" rendered="#{userBean.student.edit}"/>
-                                    <h:panelGroup rendered="#{!userBean.student.edit}"/>
-                                </b:column>
-                            </b:row>
-                            <b:row>
-                                <b:column small-screen="2">
-                                    <h:outputText value="Phone Number:" style="font-size: large;"/>
-                                </b:column>
-                                <b:column small-screen="3">
-                                    <b:inputText id="phoneNumber" value="#{userBean.student.phoneNumber}" rendered="#{userBean.student.edit}">
-                                        <f:facet name="prepend">
-                                            <b:iconAwesome name="id-card-o" />
-                                        </f:facet>
-                                    </b:inputText>
-                                    <h:outputText value="#{userBean.student.phoneNumber}" style="font-size:large;" rendered="#{!userBean.student.edit}"/>
-                                </b:column>
-                                <b:column small-screen="3">
-                                    <h:message for="phoneNumber" errorStyle="color: red" rendered="#{userBean.student.edit}"/>
-                                    <h:panelGroup rendered="#{!userBean.student.edit}"/>
-                                </b:column>
-                            </b:row>
-                            <b:row>
+                            </h:form>
+                        </b:row><br/>
+                        <b:row>
+                            <h:form id="studentForm">
                                 <b:column>
-                                    <b:commandButton look="info" value="Edit" iconAwesome="pencil-square-o" id="edit" action="#{userBean.student.setEdit(true)}"
-                                                     rendered="#{!userBean.student.edit}">
-                                    </b:commandButton>
-                                    <b:commandButton look="success" value="Save" iconAwesome="floppy-o" id="save" action="#{userBean.validateForm()}"
-                                                     rendered="#{userBean.student.edit}">
-                                    </b:commandButton>
-                                    <h:message for="save" errorStyle="color: red" infoStyle="color: green"/><br/>
-                                </b:column>
-                            </b:row>
-                        </b:column>
-                    </h:form>
-                </b:row>
-            </b:jumbotron>
+                                    <b:row>
+                                        <b:column small-screen="2">
+                                            <h:outputText value="Student ID:" style="font-size: large;"/>
+                                    </b:column>
+                                    <b:column small-screen="3">
+                                        <b:inputText id="id" value="#{userBean.student.id}" rendered="#{userBean.student.edit}">
+                                            <f:facet name="prepend">
+                                                <b:iconAwesome name="id-card-o" />
+                                            </f:facet>
+                                        </b:inputText>
+                                        <h:outputText value="#{userBean.student.id}" style="font-size: large;" rendered="#{!userBean.student.edit}"/>
+                                    </b:column>
+                                    <b:column small-screen="3">
+                                        <h:message for="id" errorStyle="color: red" rendered="#{userBean.student.edit}"/>
+                                        <h:panelGroup rendered="#{!userBean.student.edit}"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column small-screen="2">
+                                        <h:outputText value="Major Code:" style="font-size: large;"/>
+                                    </b:column>
+                                    <b:column small-screen="3">
+                                        <b:selectOneMenu id="majorCode" value="#{userBean.student.majorCode}" rendered="#{userBean.student.edit}">
+                                            <f:selectItems value="#{utility.availableMajors}"/>
+                                        </b:selectOneMenu>
+                                        <h:outputText value="#{userBean.student.majorCode}" style="font-size: large;" rendered="#{!userBean.student.edit}"/>
+                                    </b:column>
+                                    <b:column small-screen="3">
+                                        <h:message for="majorCode" errorStyle="color: red" rendered="#{userBean.student.edit}"/>
+                                        <h:panelGroup rendered="#{!userBean.student.edit}"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column small-screen="2">
+                                        <h:outputText value="Phone Number:" style="font-size: large;"/>
+                                    </b:column>
+                                    <b:column small-screen="3">
+                                        <b:inputText id="phoneNumber" value="#{userBean.student.phoneNumber}" rendered="#{userBean.student.edit}">
+                                            <f:facet name="prepend">
+                                                <b:iconAwesome name="id-card-o" />
+                                            </f:facet>
+                                        </b:inputText>
+                                        <h:outputText value="#{userBean.student.phoneNumber}" style="font-size:large;" rendered="#{!userBean.student.edit}"/>
+                                    </b:column>
+                                    <b:column small-screen="3">
+                                        <h:message for="phoneNumber" errorStyle="color: red" rendered="#{userBean.student.edit}"/>
+                                        <h:panelGroup rendered="#{!userBean.student.edit}"/>
+                                    </b:column>
+                                </b:row>
+                                <b:row>
+                                    <b:column>
+                                        <b:commandButton look="info" value="Edit" iconAwesome="pencil-square-o" id="edit" action="#{userBean.student.setEdit(true)}"
+                                                         rendered="#{!userBean.student.edit}">
+                                        </b:commandButton>
+                                        <b:commandButton look="success" value="Save" iconAwesome="floppy-o" id="save" action="#{userBean.validateForm()}"
+                                                         rendered="#{userBean.student.edit}">
+                                        </b:commandButton>
+                                        <h:message for="save" errorStyle="color: red" infoStyle="color: green"/><br/>
+                                    </b:column>
+                                </b:row>
+                            </b:column>
+                        </h:form>
+                    </b:row>
+                </b:jumbotron>
                 <h:form id="completedCoursesForm">
-                     <b:panel id="panel1" look="primary"  title="Completed Courses"> 
-                    
+                    <b:panel id="panel1" look="primary"  title="Completed Courses"> 
+
                         <b:dataTable value="#{userBean.completedCourses}" var="course">
                             <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
                             <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
@@ -137,16 +139,16 @@
                             <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                             <b:dataTableColumn label="Delete" orderable="false">
                                 <b:commandButton value="Delete" iconAwesome="trash-o" action="#{userBean.removeCompletedCourse(course)}">
-                                          <f:ajax execute="@form" render="@form :availableCoursesForm" />
+                                    <f:ajax execute="@form" render="@form :availableCoursesForm" />
                                 </b:commandButton>>
                             </b:dataTableColumn>
                         </b:dataTable>
-                        
-                     </b:panel>
+
+                    </b:panel>
                 </h:form>
-             <h:form id="availableCoursesForm">
-                 <b:panel id="panel2" collapsible="false" look="primary" title="Available Courses"> 
-                         
+                <h:form id="availableCoursesForm">
+                    <b:panel id="panel2" collapsible="false" look="primary" title="Available Courses"> 
+
                         <b:dataTable  value="#{userBean.availableCourses}" var="course" paginated='true'>
                             <b:dataTableColumn label="Course Name" value="#{course.name}" searchable='true' order="asc"/>
                             <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
@@ -156,12 +158,12 @@
                                 <b:commandButton value="Add" iconAwesome="plus" action="#{userBean.addCompletedCourse(course)}">
                                     <f:ajax execute="@form" render="@form :completedCoursesForm" />
                                 </b:commandButton>
-                            
+
                             </b:dataTableColumn>
                         </b:dataTable>
-                     
-                </b:panel>
-            </h:form>  
-        </b:container>
-    </h:body>
-</html>
+
+                    </b:panel>
+                </h:form>  
+            </b:container>
+        </h:body>
+    </html>
