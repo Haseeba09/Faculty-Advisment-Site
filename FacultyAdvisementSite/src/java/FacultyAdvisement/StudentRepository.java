@@ -5,6 +5,7 @@
  */
 package FacultyAdvisement;
 
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,6 +13,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -116,7 +119,7 @@ public class StudentRepository {
         return list;
     }
 
-    public static void adminUpdate(DataSource ds, Student student, String oldUsername) throws SQLException, EmailException {
+    public static void adminUpdate(DataSource ds, Student student, String oldUsername) throws SQLException {
         Connection conn = ds.getConnection();
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
@@ -178,6 +181,8 @@ public class StudentRepository {
 
             }
 
+        } catch (EmailException ex) {
+            Logger.getLogger(StudentRepository.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             conn.close();
         }
@@ -342,4 +347,32 @@ public class StudentRepository {
         return student;
     }
 
+    public static String getPicture(DataSource ds, String key) throws SQLException {
+
+        Blob image = null;
+
+        Connection conn = ds.getConnection();
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT * FROM USERTABLE WHERE USERNAME = ?"
+            );
+            ps.setString(1, key);
+            ResultSet result = ps.executeQuery();
+            while (result.next()) {
+                image = result.getBlob("IMAGE");
+            }
+        } finally {
+            conn.close();
+        }
+        
+        if (image != null) {
+            return "ImageServlet?username=" + key;
+        } else {
+            return "/resources/default-image.png";
+        }
+    }
+    
 }

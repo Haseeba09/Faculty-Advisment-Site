@@ -13,6 +13,10 @@
             <b:form>
                 <b:dataTable value="#{studentBean.students.entrySet()}" var="student">
 
+                    <b:dataTableColumn label="Image" orderable="false">
+                        <b:image value="#{studentBean.getPicture(student.value.username)}"/>
+                    </b:dataTableColumn>
+                    
                     <b:dataTableColumn label="Student ID" value="#{student.key}" order="asc"/>
 
                     <b:dataTableColumn label="Email">

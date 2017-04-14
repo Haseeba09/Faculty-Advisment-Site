@@ -3,6 +3,10 @@ package FacultyAdvisement;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -125,6 +129,10 @@ public class StudentBean implements Serializable {
         this.editing = editing;
     }
 
+    public String getPicture(String key) throws SQLException {
+        return StudentRepository.getPicture(ds, key);
+    }
+    
     public void update(String key) throws SQLException {
         Student student = new Student();
         student.setId(this.sid);

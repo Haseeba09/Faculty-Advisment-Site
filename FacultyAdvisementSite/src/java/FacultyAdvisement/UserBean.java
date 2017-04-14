@@ -103,6 +103,10 @@ public class UserBean implements Serializable {
         return username;
     }
 
+    public String getPicture(String key) throws SQLException {
+        return StudentRepository.getPicture(ds, key);
+    }
+    
     public String validateForm() throws SQLException {
 
         boolean flag = true;
