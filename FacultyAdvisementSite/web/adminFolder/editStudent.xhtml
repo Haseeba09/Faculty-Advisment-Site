@@ -8,49 +8,51 @@
         <title>Edit Student</title>
     </h:head>
     <h:body>
-        <br/><br/>
+        <br/>
         <b:container>
             <b:form>
                 <b:dataTable value="#{studentBean.students.entrySet()}" var="student">
 
                     <b:dataTableColumn label="Image" orderable="false">
-                        <b:image value="#{studentBean.getPicture(student.value.username)}"/>
+                        <b:image value="#{studentBean.getPicture(student.value.username)}" width="15%"
+                                 onmouseover="this.style.width = '100%';"
+                                 onmouseout="this.style.width = '15%';"/>
                     </b:dataTableColumn>
-                    
-                    <b:dataTableColumn label="Student ID" value="#{student.key}" order="asc"/>
 
-                    <b:dataTableColumn label="Email">
+                    <b:dataTableColumn label="Student ID" value="#{student.key}" orderable="false" order="asc"/>
+
+                    <b:dataTableColumn label="Email" orderable="false">
                         <b:inputText id="email" value="#{studentBean.email}" rendered="#{student.value.editable}"/>
                         <h:panelGroup rendered="#{student.value.editable}"><br /></h:panelGroup>
                         <h:message for="email" errorStyle="color: red" rendered="#{student.value.editable}" />
                         <h:outputText value="#{student.value.username}" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
-                    <b:dataTableColumn label="Major">
+                    <b:dataTableColumn label="Major" orderable="false">
                         <b:selectOneMenu id="major" value="#{studentBean.major}" rendered="#{student.value.editable}">
                             <f:selectItems value="#{utility.availableMajors}"/>
                         </b:selectOneMenu>
                         <h:outputText value="#{student.value.majorCode}" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
-                    <b:dataTableColumn label="Phone">
+                    <b:dataTableColumn label="Phone" orderable="false">
                         <b:inputText id="phone" value="#{studentBean.phone}" rendered="#{student.value.editable}"/>
                         <h:panelGroup rendered="#{student.value.editable}"><br /></h:panelGroup>
                         <h:message for="phone" errorStyle="color: red" rendered="#{student.value.editable}" />
                         <h:outputText value="#{student.value.phoneNumber}" converter="phoneConverter" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
-                    <b:dataTableColumn label="Advised">
+                    <b:dataTableColumn label="Advised" orderable="false">
                         <b:selectBooleanCheckbox id="advised" value="#{studentBean.advised}"
                                                  rendered="#{student.value.editable}"/>
                         <h:outputText value="#{studentBean.isAdvisedOutput(student.key)}" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
-                    
+
                     <b:dataTableColumn label="Reset Password" orderable="false">
                         <b:selectBooleanCheckbox id="password" value="#{studentBean.resetPassword}"
                                                  rendered="#{student.value.editable}"/>
                     </b:dataTableColumn>
-                    
+
                     <b:dataTableColumn label="Edit/Save" orderable="false">
                         <b:commandButton value="Save" iconAwesome="floppy-o" action="#{student.value.setEditable(false)}"
                                          rendered="#{student.value.editable}">
