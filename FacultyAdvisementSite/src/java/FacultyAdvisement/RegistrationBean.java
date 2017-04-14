@@ -42,7 +42,7 @@ public class RegistrationBean implements Serializable {
 
     public void create() throws SQLException {
 
-        String studentSQL = "INSERT INTO STUDENT(STUID, email, majorcode, phone) VALUES(?, ?, ?, ?)";
+        String studentSQL = "INSERT INTO STUDENT(STUID, email, majorcode, phone, advised) VALUES(?, ?, ?, ?, ?)";
         String userSQL = "INSERT INTO USERTABLE(USERNAME, PASSWORD, VERIFIED) VALUES(?, ?, ?)";
         String groupSQL = "INSERT INTO GROUPTABLE(groupname, username) VALUES(?, ?)";
 
@@ -65,6 +65,7 @@ public class RegistrationBean implements Serializable {
             studentSQLStatement.setString(2, this.username);
             studentSQLStatement.setString(3, String.valueOf(this.majorCode));
             studentSQLStatement.setString(4, this.phone);
+            studentSQLStatement.setString(5, "false");
             studentSQLStatement.execute();
 
             userSQLStatement.setString(1, this.username);

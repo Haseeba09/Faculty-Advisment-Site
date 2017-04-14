@@ -1,5 +1,6 @@
 package FacultyAdvisement;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import javax.imageio.ImageIO;
 import javax.inject.Named;
 
 import javax.servlet.http.Part;
@@ -68,7 +70,7 @@ public class FileBean implements Serializable {
         }
     }
 
-    public void validateFile(FacesContext ctx, UIComponent comp, Object value) {
+    public void validateFile(FacesContext ctx, UIComponent comp, Object value) throws IOException {
         if (value == null) {
             throw new ValidatorException(
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -76,11 +78,18 @@ public class FileBean implements Serializable {
         }
         Part file = (Part) value;
         long size = file.getSize();
-        if (!file.getContentType().contains("image"))
-        {
+        BufferedImage bimg = ImageIO.read(file.getInputStream());
+
+        if (!file.getContentType().contains("image")) {
             throw new ValidatorException(
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
                             "File is not type of image", null));
+        } else {
+            if (bimg.getWidth() > 225 || bimg.getHeight() > 225) {
+                throw new ValidatorException(
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "Image need to be 225x225 or less.", null));
+            }
         }
         if (size <= 0) {
             throw new ValidatorException(
@@ -93,7 +102,7 @@ public class FileBean implements Serializable {
                             size + "bytes: file too big (limit 10MB)", null));
         }
     }
-    
+
     public void editImage() {
         isEdit = isEdit ? false : true;
     }
