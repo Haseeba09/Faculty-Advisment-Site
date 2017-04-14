@@ -360,9 +360,13 @@ public class AppointmentBean implements Serializable {
 
             ps.execute();
             
-            ps = conn.prepareStatement("delete FROM desired where ID =?");
-            ps.setString(1,Long.toString(appointment.aID));
-            ps.execute();
+            if(!isCancel)
+            {
+                 ps = conn.prepareStatement("delete FROM desired where ID =?");
+                 ps.setString(1,Long.toString(appointment.aID));
+                 ps.execute();
+            }
+           
         } finally {
             conn.close();
         }
