@@ -130,11 +130,7 @@ public class AppointmentBean implements Serializable {
         return "/customerFolder/signup.xhtml";
     }
     
-      public String editDesired(String key, Appointment appointment) throws IOException, SQLException
-    {   this.appointment = appointment;
-        //this.updateAppointment(key, appointment, false);
-        return "/customerFolder/signup.xhtml";
-    }
+    
     
     public void insertAppointment() throws SQLException {
         Connection conn1 = ds.getConnection();
@@ -364,13 +360,9 @@ public class AppointmentBean implements Serializable {
 
             ps.execute();
             
-            if(!isCancel)
-            {
-                 ps = conn.prepareStatement("delete FROM desired where ID =?");
-                 ps.setString(1,Long.toString(appointment.aID));
-                 ps.execute();
-            }
-           
+            ps = conn.prepareStatement("delete FROM desired where ID =?");
+            ps.setString(1,Long.toString(appointment.aID));
+            ps.execute();
         } finally {
             conn.close();
         }

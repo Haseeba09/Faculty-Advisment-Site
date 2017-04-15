@@ -21,7 +21,6 @@ import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.sql.DataSource;
 import org.apache.commons.mail.DefaultAuthenticator;
@@ -40,8 +39,6 @@ public class SignupBean implements Serializable{
     @Resource(name = "jdbc/ds_wsp")
     private DataSource ds;
 
-    @Inject AppointmentBean appointmentBean;
-    
     
     private String username;
     private Student student;
@@ -59,18 +56,12 @@ public class SignupBean implements Serializable{
         Principal p = fc.getExternalContext().getUserPrincipal();
         username = p.getName();
         student = new Student();
-        this.appointment = appointmentBean.getAppointment();
+         
         if(desiredCoureses == null){
             
             desiredCoureses = new ArrayList<>();
         
             }
-        try
-        {
-            desiredCoureses = DesiredCourseRepository.readDesiredCourses(ds, Long.toString(appointment.aID));
-        } catch (SQLException ex) {
-            Logger.getLogger(SignupBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
         try {
             student = StudentRepository.read(ds, username);
         } catch (SQLException ex) {

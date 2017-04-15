@@ -37,13 +37,17 @@
                     <h:form>
                         <b:dataTable value="#{signupBean.availableCourses}" var="course">
                             <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
-                            <b:dataTableColumn label="Course Number" value="#{course.number}" />
-                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" />
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                             <b:dataTableColumn label="Lookup" orderable="false">
+<<<<<<< HEAD
                                 <b:commandButton value="Lookup Course" iconAwesome="plus" action="#{signupBean.lookupCourse(course)}">
                                          
- 
+=======
+                                <b:commandButton  value="Lookup Course" iconAwesome="plus"  action="#{signupBean.lookupCourse(course)}">
+                                  
+>>>>>>> origin/master
                                 </b:commandButton>
                             </b:dataTableColumn>
                         </b:dataTable>
@@ -95,9 +99,9 @@
                     <h3 style="text-align: center;">Desired Courses</h3>
                     <b:dataTable  value="#{signupBean.desiredCoureses}" var="course">
                         <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                        <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
-                        <b:dataTableColumn label="Course Number" value="#{course.number}" />
-                        <b:dataTableColumn label="Course Credits" value="#{course.credits}"  />
+                        <b:dataTableColumn label="Course Subject" value="#{course.subject}" order="asc"/>
+                        <b:dataTableColumn label="Course Number" value="#{course.number}" order="asc"/>
+                        <b:dataTableColumn label="Course Credits" value="#{course.credits}" order="asc"/>
                         
                          <b:dataTableColumn label="Action" order="asc">
                              <b:commandButton value="Remove Course" iconAwesome="minus" action="#{signupBean.removeFromDesired(course)}">

@@ -127,41 +127,6 @@
                     </h:form>
                 </b:row>
             </b:jumbotron>
-<<<<<<< HEAD
-                <h:form id="completedCoursesForm">
-                     <b:panel id="panel1" look="primary"  title="Completed Courses"> 
-                    
-                        <b:dataTable value="#{userBean.completedCourses}" var="course" searching="true">
-                            <b:dataTableColumn label="Course Name" value="#{course.name}" data-search="#{course.name}" data-order="#{course.name}" order="asc"/>
-                            <b:dataTableColumn label="Course Subject" value="#{course.subject}"/>
-                            <b:dataTableColumn label="Course Number" value="#{course.number}" />
-                            <b:dataTableColumn label="Course Credits" value="#{course.credits}"  />
-                            <b:dataTableColumn label="Delete" orderable="false">
-                                <b:commandButton value="Delete" iconAwesome="trash-o" action="#{userBean.removeCompletedCourse(course)}">
-                                          <f:ajax execute="@form" render="@form :availableCoursesForm" />
-                                </b:commandButton>
-                            </b:dataTableColumn>
-                        </b:dataTable>
-                        
-                     </b:panel>
-                </h:form>
-             <h:form id="availableCoursesForm">
-                 <b:panel id="panel2" collapsible="true" look="primary" title="Available Courses"> 
-                         
-                        <b:dataTable  value="#{userBean.availableCourses}" var="course" paginated='true'>
-                            <b:dataTableColumn label="Course Name" value="#{course.name}" searchable='true' order="asc"/>
-                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
-                            <b:dataTableColumn label="Course Number" value="#{course.number}" />
-                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" />
-                            <b:dataTableColumn label="Add" orderable="false">
-                                <b:commandButton value="Add" iconAwesome="plus" action="#{userBean.addCompletedCourse(course)}">
-                                    <f:ajax execute="@form" render="@form :completedCoursesForm" />
-                                </b:commandButton>
-                            
-                            </b:dataTableColumn>
-                        </b:dataTable>
-                     
-=======
             <h:form id="completedCoursesForm">
                 <b:panel id="panel1" look="primary"  title="Completed Courses"> 
 
@@ -195,7 +160,6 @@
                         </b:dataTableColumn>
                     </b:dataTable>
 
->>>>>>> origin/master
                 </b:panel>
             </h:form>  
         </b:container>
