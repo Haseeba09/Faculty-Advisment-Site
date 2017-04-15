@@ -130,7 +130,11 @@ public class AppointmentBean implements Serializable {
         return "/customerFolder/signup.xhtml";
     }
     
-    
+      public String editDesired(String key, Appointment appointment) throws IOException, SQLException
+    {   this.appointment = appointment;
+        //this.updateAppointment(key, appointment, false);
+        return "/customerFolder/signup.xhtml";
+    }
     
     public void insertAppointment() throws SQLException {
         Connection conn1 = ds.getConnection();
