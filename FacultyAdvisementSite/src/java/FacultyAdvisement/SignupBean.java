@@ -80,14 +80,7 @@ public class SignupBean implements Serializable{
             Logger.getLogger(SignupBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        try
-        {
-             DesiredCourseRepository.deleteFromAppointment(ds, this.appointment.aID);
-        }
-       catch(SQLException ex)
-       {
-           Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
-       }
+       
         
         try {
             student = StudentRepository.read(ds, username);
@@ -140,13 +133,7 @@ public class SignupBean implements Serializable{
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-         if(this.courseWithRequisites == null)
-        {
-         FacesContext.getCurrentInstance().addMessage("desiredCourses:Submit",
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                            "Please select a course!", null));
-           return false;
-        }
+         
         
          
         //Check for Prerquisites
@@ -247,6 +234,15 @@ public class SignupBean implements Serializable{
             }
         }
         
+         try
+        {
+             DesiredCourseRepository.deleteFromAppointment(ds, this.appointment.aID);
+        }
+       catch(SQLException ex)
+       {
+           Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        
         DesiredCourseRepository.createDesiredCourses(ds, desiredCoureses,Long.toString(appointment.aID));
            
         if(this.edit){
@@ -261,14 +257,22 @@ public class SignupBean implements Serializable{
             
             
                 StringBuilder table = new StringBuilder(); 
-                table.append("<table><tr><td>Course Name</td><td>Course Subject</td><td>Course Number</td><td>Course Credits</td></tr> </table>");
+                table.append("<style>" +
+                   "td" +
+                    "{border-left:1px solid black;" +
+                    "border-top:1px solid black;}" +
+                    "table" +
+                    "{border-right:1px solid black;" +
+                    "border-bottom:1px solid black;}" +
+                    "</style>");
+                table.append("<table><tr><td  width=\"350\">Course Name</td><td  width=\"350\">Course Subject</td><td  width=\"350\">Course Number</td><td  width=\"350\">Course Credits</td></tr> </table>");
                 for(int i =0; i < this.desiredCoureses.size(); i++)
                 {
                     table.append(
-                        "<tr><td>" + this.desiredCoureses.get(i).getName() + "</td>"
-                        + "<td>" + this.desiredCoureses.get(i).getSubject() + "</td>"
-                        + "<td>" + this.desiredCoureses.get(i).getNumber() + "</td>"
-                        + "<td>" + this.desiredCoureses.get(i).getCredits() + "</td></tr>"
+                        "<tr><td   width=\"350\">" + this.desiredCoureses.get(i).getName() + "</td>"
+                        + "<td   width=\"350\">" + this.desiredCoureses.get(i).getSubject() + "</td>"
+                        + "<td   width=\"350\">" + this.desiredCoureses.get(i).getNumber() + "</td>"
+                        + "<td   width=\"350\">" + this.desiredCoureses.get(i).getCredits() + "</td></tr>"
                 
                     );
             
@@ -277,9 +281,11 @@ public class SignupBean implements Serializable{
                 email.setMsg(
                     "<p>Your appointment with your faculty advisor is at "
                      + appointment.datetime
-                     + " on " + appointment.date + " . </p>"
+                     + " on " + appointment.date + " . </p>" 
+                            + "<p align=\"center\">Desired Courses</p>"
+                            + table.toString() 
                      +"<p align=\"center\">UCO Faculty Advisement</p></font>"
-                     + table.toString()
+                    
                     
                 );
                 email.addTo(username);
