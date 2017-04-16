@@ -129,7 +129,7 @@
                 </b:row>
             </b:jumbotron>
                 <h:form id="completedCoursesForm">
-                     <b:panel id="panel1" look="primary"  title="Completed Courses"> 
+                    <b:panel id="panel1" look="info"  title="Completed Courses" titleStyle="color: white;"> 
                     
                         <b:dataTable value="#{userBean.completedCourses}" var="course" searching="true">
                             <b:dataTableColumn label="Course Name" value="#{course.name}" data-search="#{course.name}" data-order="#{course.name}" order="asc"/>
@@ -146,7 +146,7 @@
                      </b:panel>
                 </h:form>
              <h:form id="availableCoursesForm">
-                 <b:panel id="panel2" collapsible="true" look="primary" title="Available Courses"> 
+                 <b:panel id="panel2" collapsible="true" look="info" title="Available Courses" titleStyle="color: white;"> 
                          
                         <b:dataTable  value="#{userBean.availableCourses}" var="course" paginated='true'>
                             <b:dataTableColumn label="Course Name" value="#{course.name}" searchable='true' order="asc"/>

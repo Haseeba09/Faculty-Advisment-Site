@@ -8,15 +8,16 @@
         <title>Login Error Page</title>
     </h:head>
     <h:body style="padding: 60px;">
-        <b:navBar brand="Faculty Advisement Site" fixed="top">
+        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
             <b:navbarLinks>
-                <b:navLink value="Admin Login" outcome="/adminFolder/adminhome"></b:navLink>
-                <b:navLink value="Student Login" outcome="/customerFolder/profile"></b:navLink>
+                <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
+                <b:navLink icon-awesome="plus" value="Register" outcome="signup"></b:navLink>
+                <b:navLink icon-awesome="unlock" value="Forgot Password?" outcome="resetPasswordPart1"></b:navLink>
             </b:navbarLinks>
         </b:navBar>
         <h:form id="login" onsubmit="document.getElementById('login').action = 'j_security_check';" prependId="false">
             <b:container style="width: 400px;">
-                <b:panel collapsible="false" look="primary" title="Account Login" >
+                <b:panel collapsible="false" look="info" title="Account Login" titleStyle="color: white;">
                     <b:row>
                         <b:column small-screen="3">
                             <h:outputText value="Username:" />
@@ -43,22 +44,8 @@
                     </b:row>
                     <b:row>
                         <b:column span="9" offset="3">
-                            <b:commandButton iconAwesome="sign-in" look="primary"
+                            <b:commandButton iconAwesome="sign-in" look="info"
                                              value="Login" style="width:100%" />
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column span="9" offset="3">
-                            <b:button iconAwesome="unlock" look="primary"
-                                      outcome="resetPasswordPart1"
-                                      value="Forgot password?" style="width:100%" />
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column span="9" offset="3">
-                            <b:button iconAwesome="user-plus" look="primary"
-                                      outcome="signup"
-                                      value="Register" style="width:100%" />
                         </b:column>
                     </b:row>
                 </b:panel>

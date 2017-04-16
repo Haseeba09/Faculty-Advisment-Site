@@ -162,6 +162,7 @@ public class RegistrationBean implements Serializable {
                 student.setMajorCode(result.getString("majorcode"));
                 student.setPhoneNumber(result.getString("phone"));
                 temporaryStudents.put(student.getUsername(), student);
+                temporaryStudents.put(student.getId(), student);
             }
         } finally {
             datasourceConnection.close();
@@ -184,9 +185,13 @@ public class RegistrationBean implements Serializable {
                 FacesContext.getCurrentInstance().addMessage("signUp:username",
                         new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                 "Username has already been taken", null));
+            } else if (students.containsKey(String.valueOf(this.studentID))) {
+                FacesContext.getCurrentInstance().addMessage("signUp:studentID",
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                                "UCO ID has already been taken", null));
             } else {
                 create();
-                FacesContext.getCurrentInstance().addMessage("signUp:buttontest",
+                FacesContext.getCurrentInstance().addMessage("signUp:signUpButton",
                         new FacesMessage(FacesMessage.SEVERITY_ERROR,
                                 "Success! An account has been created. Email sent.", null));
             }

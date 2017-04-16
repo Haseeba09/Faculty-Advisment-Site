@@ -17,48 +17,46 @@
                 <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
                 <b:navLink icon-awesome="calendar" value="Advisement" outcome="/customerFolder/advisement"></b:navLink>
                 <b:navLink icon-awesome="unlock" value="Password Reset" outcome="/customerFolder/resetMyPassword"></b:navLink>
-                 <b:navLink icon-awesome="envelope-o" value="Request Imagine" outcome="/customerFolder/imagine"></b:navLink>
-                 <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>               
+                <b:navLink icon-awesome="envelope-o" value="Request Imagine" outcome="/customerFolder/imagine"></b:navLink>
+                <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>               
             </b:navbarLinks>
         </b:navBar>
         <b:container>
             <h:form id="availableAppointmentForm">
-                <b:panel collapsible="false" look="primary" title="Available Appointment">
+                <b:panel collapsible="false" look="info" title="Available Appointment" titleStyle="color: white;">
                     <b:dataTable value="#{appointmentBean.availableAppointment}" var="appointment" >
                         <b:dataTableColumn label="Available Date" value="#{appointment.date}"/>
                         <b:dataTableColumn label="Available Time" value="#{appointment.time}"/>
+                        <b:dataTableColumn label="Comment">
+                            <b:inputText value="#{appointment.comment}"/>
+                        </b:dataTableColumn>
                         <b:dataTableColumn label="Action">
                             <b:commandButton action="#{appointmentBean.toSignUp(userBean.student.id, appointment)}" icon-awesome="calendar-plus-o" value="Sign Up">
                                 <f:ajax execute="@form" render="@form :scheduledAppointmentForm" />
                             </b:commandButton>
-                           
+
                         </b:dataTableColumn>
-                
+
                     </b:dataTable>
                 </b:panel>
             </h:form>
         </b:container>
         <b:container>
             <h:form id="scheduledAppointmentForm">
-                <b:panel collapsible="false" look="primary" title="Scheduled Appointment">
+                <b:panel collapsible="false" look="info" title="Scheduled Appointment" titleStyle="color: white;">
                     <b:dataTable value="#{appointmentBean.scheduledAppointments}" var="appointment" >
                         <b:dataTableColumn label="Scheduled Date" value="#{appointment.date}"/>
                         <b:dataTableColumn label="Scheduled Time" value="#{appointment.time}"/>
+                        <b:dataTableColumn label="Comment" value="#{appointment.comment}"/>
                         <b:dataTableColumn label="Action">
+                            <b:commandButton action="#{appointmentBean.editDesired(userBean.student.id, appointment)}" icon-awesome="pencil" value="Edit"></b:commandButton>
                             <b:commandButton action="#{appointmentBean.updateAppointment(userBean.student.id, appointment, true)}" icon-awesome="calendar-minus-o" value="Cancel">
-                                <f:ajax execute="@form" render="@form :scheduledAppointmentForm" />
-                            </b:commandButton>
-                             <b:commandButton action="#{appointmentBean.editDesired(userBean.student.id, appointment)}" icon-awesome="calendar-pencil-o" value="Edit">
-                                
+                                <f:ajax execute="@form" render="@form :availableAppointmentForm" />
                             </b:commandButton>
                         </b:dataTableColumn>
                     </b:dataTable>
                 </b:panel>
             </h:form>
-            <b:button  iconAwesome="home" look="primary" outcome="/customerFolder/profile"
-                              style="float: right" value="Return to Home"  
-                              />
         </b:container>
-       
     </h:body>
 </html>

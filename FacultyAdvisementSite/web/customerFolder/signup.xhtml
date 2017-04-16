@@ -22,19 +22,16 @@
         </b:navBar>
         <b:container>
             <h:form id="selectedAppointmentForm">
-                <b:panel collapsible="false" look="primary" title="Scheduled Appointment">
+                <b:panel collapsible="false" look="info" title="Scheduled Appointment" titleStyle="color: white;">
                     
                     <p>#{appointmentBean.appointment.date}</p>
                         <p>#{appointmentBean.appointment.time}</p>
                 
                 </b:panel>
             </h:form>
-            <b:button  iconAwesome="home" look="primary" outcome="/customerFolder/profile"
-                              style="float: right" value="Return to Home"  
-                              />
         </b:container>
         <b:container>
-            <b:panel id="available"   collapsible="false" look="primary"  title="Available Courses"> 
+            <b:panel id="available"   collapsible="false" look="info"  title="Available Courses" titleStyle="color: white;"> 
                     <h:form>
                         <b:dataTable value="#{signupBean.availableCourses}" var="course">
                             <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
@@ -54,7 +51,7 @@
             <b:container>
                 
             
-            <b:panel id="selected" collapsible="false" look="primary" title="#{signupBean.courseWithRequisites.course.name} Information"> 
+            <b:panel id="selected" collapsible="false" look="info" title="#{signupBean.courseWithRequisites.course.name} Information" titleStyle="color: white;"> 
                     <h:form id="courseinfo" >
                         <h3 style="text-align: center;">Prerequisite Courses</h3>
                         <b:dataTable  value="#{signupBean.courseWithRequisites.prerequisites}" var="course">
@@ -91,7 +88,7 @@
         <b:container>
              
             <h:form id="desiredCourses">    
-                <b:panel  collapsible="false" look="primary" title="Desired Courses" >
+                <b:panel  collapsible="false" look="info" title="Desired Courses" titleStyle="color: white;">
                     
                     <h3 style="text-align: center;">Desired Courses</h3>
                     <b:dataTable  value="#{signupBean.desiredCoureses}" var="course">

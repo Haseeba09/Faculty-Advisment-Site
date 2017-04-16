@@ -23,7 +23,7 @@
         </b:navBar>
         
          <b:container>
-            <b:panel id="current"   collapsible="false" look="primary"  title="Current Courses"> 
+            <b:panel id="current"   collapsible="false" look="info"  title="Current Courses" titleStyle="color: white;"> 
                     <h:form>
                         <b:dataTable value="#{imagineBean.currentCourses}" var="course">
                             <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
@@ -38,7 +38,7 @@
                 </b:panel>
             </b:container>
         <b:container>
-            <b:panel id="request" collapsible="false" look="primary" title="Submit Request">
+            <b:panel id="request" collapsible="false" look="info" title="Submit Request" titleStyle="color: white;">
                 After adding current courses, click below to submit your request for a Microsoft Imagine Account.
                 <h:form>
                     <b:commandButton value="Submit Request" icon-awesome="paper-plane" action="#{imagineBean.submitRequest()}"/>
@@ -47,7 +47,7 @@
         </b:container>
         
         <b:container>
-            <b:panel id="available"   collapsible="false" look="primary"  title="Available Courses"> 
+            <b:panel id="available"   collapsible="false" look="info"  title="Available Courses" titleStyle="color: white;"> 
                     <h:form>
                         <b:dataTable value="#{signupBean.availableCourses}" var="course">
                             <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
@@ -66,4 +66,3 @@
             </b:container>
     </h:body>
 </html>
-

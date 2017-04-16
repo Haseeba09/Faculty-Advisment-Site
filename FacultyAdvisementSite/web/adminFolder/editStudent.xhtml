@@ -7,8 +7,15 @@
     <h:head>
         <title>Edit Student</title>
     </h:head>
-    <h:body>
-        <br/>
+    <h:body style="padding: 60px;">
+        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink icon-awesome="home" value="Home" outcome="/adminFolder/adminhome"></b:navLink>
+                <b:navLink icon-awesome="calendar" value="Calendar" outcome="/adminFolder/calendar"></b:navLink>
+                <b:navLink icon-awesome="pencil" value="Edit Student" outcome="/adminFolder/editStudent"></b:navLink>
+                <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
         <b:container>
             <b:form>
                 <b:dataTable value="#{studentBean.students.entrySet()}" var="student">
@@ -73,8 +80,6 @@
                 
                 <b:commandButton value="Set all students to 'not advised'" style="color: white; background-color: red" action="#{studentBean.setAllStudentsToNotAdvised()}" />
             </b:form>
-            
-            <h:link value="Go Home" outcome="/adminFolder/adminhome" /><br />
         </b:container>
     </h:body>
 </html>

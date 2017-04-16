@@ -8,32 +8,38 @@
     <h:head>
         <title>Facelet Title</title>
     </h:head>
-    <h:body>
-        <br />
-        <br />
+    <h:body style="padding: 60px;">
+        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink icon-awesome="home" value="Home" outcome="/adminFolder/adminhome"></b:navLink>
+                <b:navLink icon-awesome="calendar" value="Calendar" outcome="/adminFolder/calendar"></b:navLink>
+                <b:navLink icon-awesome="pencil" value="Edit Student" outcome="/adminFolder/editStudent"></b:navLink>
+                <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
         <b:container >
             <b:form id="datePick"> 
-               
-                    
+
+
                 <b:dateTimePicker label="Create new appointment" time-stepping="10" 
                                   mode="inline" value="#{appointmentBean.appointment.date}"
                                   format="YYYY-MM-DD"/>
-                    
+
                 <b:dateTimePicker label="Select a time" time-stepping="10"
                                   mode="inline" value="#{appointmentBean.appointment.time}" showDate="false"
                                   format="hh:mm a"/>
-                    
-                
+
+
                 <b:commandButton id="create" action="#{appointmentBean.insertAppointment()}" value="Create" >
-                   <f:ajax execute="@form" render="@form :appointmentForm" />
+                    <f:ajax execute="@form" render="@form :appointmentForm" />
                 </b:commandButton> 
-              
-           <br />
-           <h:message for="create" style="color: red" errorStyle="color: red" />
-           <br />
+
+                <br />
+                <h:message for="create" style="color: red" errorStyle="color: red" />
+                <br />
             </b:form>
-           
-        <br />
+
+            <br />
             <b:form id="appointmentForm">
                 <b:dataTable value="#{appointmentBean.appointments}" var="appointment" >
                     <b:dataTableColumn label="Date" value="#{appointment.date}"/>
@@ -46,6 +52,7 @@
                         <b:commandButton value="View" action="#{appointmentBean.goToViewAppointment(appointment)}" rendered="#{appointment.taken}"/>
                         <h:outputText value="No details" rendered="#{not appointment.taken}" />
                     </b:dataTableColumn>
+                    <b:dataTableColumn label="Comment" value="#{appointment.comment}"/>
                     <b:dataTableColumn label="Cancel">
                         <b:commandButton value="Cancel" action="#{appointmentBean.deleteBook(appointment)}" >
                             <f:ajax execute="@form" render="@form :appointmentForm" />
@@ -53,8 +60,6 @@
                     </b:dataTableColumn>
                 </b:dataTable>
             </b:form>
-        <h:link value="Go Home" outcome="/adminFolder/adminhome" /><br />
         </b:container>
     </h:body>
 </html>
-

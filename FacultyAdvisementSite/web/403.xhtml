@@ -1,11 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
-    <h:body>
+    <h:body style="padding: 60px;">
+        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
+                <b:navLink icon-awesome="plus" value="Register" outcome="signup"></b:navLink>
+                <b:navLink icon-awesome="unlock" value="Forgot Password?" outcome="resetPasswordPart1"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
         #{session.invalidate()}
         <h2 style="color: red">Unauthorized Access!</h2>
         <h3>
@@ -13,9 +21,6 @@
             If you don't have this page, a default error page will appear.<br />
             It's a better idea to have a customized 403 error page. <br />
             In web.xml, the name of 403 error page is define.
-            <br />
-            <br/>
-            <h:link value="Go Home" outcome="/customerFolder/profile" />
         </h3>
     </h:body>
 </html>

@@ -33,22 +33,21 @@ import org.apache.commons.mail.HtmlEmail;
 @SessionScoped
 public class AppointmentBean implements Serializable {
 
-    @Inject SignupBean signupBean; 
-    
+    @Inject
+    SignupBean signupBean;
+
     @Resource(name = "jdbc/ds_wsp")
     private DataSource ds;
-    private String username; 
+    private String username;
     private List<Appointment> appointments;
     private List<Appointment> scheduledAppointments;
     private List<Course> desiredCourses;
     private Appointment appointment = new Appointment();
     private Student student = new Student();
-    
-    
 
     @PostConstruct
     public void init() {
-         FacesContext fc = FacesContext.getCurrentInstance();
+        FacesContext fc = FacesContext.getCurrentInstance();
         Principal p = fc.getExternalContext().getUserPrincipal();
         username = p.getName();
         try {
@@ -74,8 +73,6 @@ public class AppointmentBean implements Serializable {
         this.student = student;
     }
 
-    
-    
     public List<Appointment> getScheduledAppointments() {
         return scheduledAppointments;
     }
@@ -127,59 +124,57 @@ public class AppointmentBean implements Serializable {
         return formattedMonth;
     }
 
-    public String toSignUp(String key, Appointment appointment) throws IOException, SQLException
-    {   this.appointment = appointment;
+    public String toSignUp(String key, Appointment appointment) throws IOException, SQLException {
+        this.appointment = appointment;
         this.signupBean.setEdit(false);
         this.updateAppointment(key, appointment, false);
         return "/customerFolder/signup.xhtml";
     }
-    
-      public String editDesired(String key, Appointment appointment) throws IOException, SQLException
-    {   this.appointment = appointment;
+
+    public String editDesired(String key, Appointment appointment) throws IOException, SQLException {
+        this.appointment = appointment;
         this.signupBean.setEdit(true);
         return "/customerFolder/signup.xhtml";
     }
-    
+
     public void insertAppointment() throws SQLException {
         Connection conn1 = ds.getConnection();
-        
+
         boolean execute = true;
-        
+
         String month = appointment.getDate().substring(4, 7);
-            month = formatMonth(month);
-            
-             
-            String year = appointment.getDate().substring(23);
-            String day = appointment.getDate().substring(8,10);
+        month = formatMonth(month);
 
-            String mDate = year + "-" + month + "-" + day;
+        String year = appointment.getDate().substring(23);
+        String day = appointment.getDate().substring(8, 10);
 
-            /*
+        String mDate = year + "-" + month + "-" + day;
+
+        /*
                 here is the annoying format that the calanedr returns:
                 Sat Apr 01 00:00:00 CDT 2017
             
                 this is why i have to use substrings to get the date right. 
                 please do not change.
-                */
-            
-            String mTime = appointment.getTime().substring(11,19);
-            
-            appointment.setDate(mDate);
-            appointment.setTime(mTime);
-        
-        for(int i=0; i < appointments.size(); i++){
+         */
+        String mTime = appointment.getTime().substring(11, 19);
+
+        appointment.setDate(mDate);
+        appointment.setTime(mTime);
+
+        for (int i = 0; i < appointments.size(); i++) {
             Appointment appointment1 = appointments.get(i);
-            if(appointment1.getDate().trim().equals(mDate.trim()) && appointment1.getTime().trim().equals(mTime.trim())){
+            if (appointment1.getDate().trim().equals(mDate.trim()) && appointment1.getTime().trim().equals(mTime.trim())) {
                 execute = false;
-                
+
                 FacesContext.getCurrentInstance().addMessage("datePick:create",
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                            "Appointment already exists!", null));
-                                return;
+                        new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                                "Appointment already exists!", null));
+                return;
             }
         }
-        
-        if(execute){
+
+        if (execute) {
             if (conn1 == null) {
                 throw new SQLException("conn is null; Can't get db connection");
             }
@@ -191,9 +186,7 @@ public class AppointmentBean implements Serializable {
                 /*
                 here is the annoying format that the calanedr returns:
                 Sat Apr 01 00:00:00 CDT 2017
-                */
-
-            
+                 */
 
                 ps.setString(1, appointment.getDate());
                 ps.setString(2, appointment.getTime());
@@ -209,10 +202,8 @@ public class AppointmentBean implements Serializable {
 
     public void deleteBook(Appointment appointment) throws SQLException {
 
-        
-        
-        String emailAddress ="";
-        
+        String emailAddress = "";
+
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
         }
@@ -225,58 +216,48 @@ public class AppointmentBean implements Serializable {
 
         try {
             PreparedStatement getSid = conn.prepareStatement(
-                    "select email from student join appointment on appointment.sid = student.stuid where appointment.id =" +appointment.getaID()
+                    "select email from student join appointment on appointment.sid = student.stuid where appointment.id =" + appointment.getaID()
             );
-            
+
             ResultSet result = getSid.executeQuery();
-            while(result.next()){
-                 
-                    emailAddress = result.getString("email");
-                 
+            while (result.next()) {
+
+                emailAddress = result.getString("email");
+
             }
-            
-            
-                
-                try {
-                    Email email = new HtmlEmail();
-                    email.setHostName("smtp.googlemail.com");
-                    email.setSmtpPort(465);
-                    email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
-                    email.setSSLOnConnect(true);
-                    email.setFrom("uco.faculty.advisement@gmail.com");
-                    email.setSubject("Appointment Cancelled - UCO Faculty Advisment");
-                    email.setMsg(
-                            "<font size=\"3\" style=\"font-family:verdana\"> Dear Student, \n"
-                                    +"Your advisor has cancelled your appointment. Please schedule a new appointment. \n"
-                                    +"Thank You."
-                            + "\n<p align=\"center\">UCO Faculty Advisement</p></font>"
-                    );
-                    email.addTo(emailAddress);
-                    email.send();
-                } catch (EmailException ex) {
-                    Logger.getLogger(VerificationBean.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-            
-            
+
+            try {
+                Email email = new HtmlEmail();
+                email.setHostName("smtp.googlemail.com");
+                email.setSmtpPort(465);
+                email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
+                email.setSSLOnConnect(true);
+                email.setFrom("uco.faculty.advisement@gmail.com");
+                email.setSubject("Appointment Cancelled - UCO Faculty Advisment");
+                email.setMsg(
+                        "<font size=\"3\" style=\"font-family:verdana\"> Dear Student, \n"
+                        + "Your advisor has cancelled your appointment. Please schedule a new appointment. \n"
+                        + "Thank You."
+                        + "\n<p align=\"center\">UCO Faculty Advisement</p></font>"
+                );
+                email.addTo(emailAddress);
+                email.send();
+            } catch (EmailException ex) {
+                Logger.getLogger(VerificationBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             PreparedStatement ps = conn.prepareStatement(
                     "delete FROM appointment where ID =" + appointment.getaID()
-                   
             );
-            
-             
 
             ps.execute();
-            
-           
+
         } finally {
             conn.close();
         }
-        
-       
-        
+
         appointments = loadAppointments();
-        
+
     }
 
     public List<Appointment> loadAppointments() throws SQLException {
@@ -308,13 +289,13 @@ public class AppointmentBean implements Serializable {
                 a.setSid(result.getString("sid"));
                 a.setDate(result.getString("sdate"));
                 a.setTime(result.getString("stime"));
+                a.setComment(result.getString("comment"));
                 a.setDatetime(a.getDate() + " " + a.getTime());
 
                 list.add(a);
                 Collections.sort(list, new AppointmentCompare());
             }
-            
-            
+
         } finally {
             conn.close();
         }
@@ -338,7 +319,7 @@ public class AppointmentBean implements Serializable {
         });
         return availableAppointments;
     }
-    
+
     public void updateAppointment(String studentID, Appointment appoinment, boolean isCancel) throws SQLException {
 
         if (ds == null) {
@@ -353,36 +334,37 @@ public class AppointmentBean implements Serializable {
 
         try {
             PreparedStatement ps = conn.prepareStatement(
-                    "UPDATE appointment SET SID = ? WHERE stime = ? AND sdate = ?"
+                    "UPDATE appointment SET SID = ?, comment = ? WHERE stime = ? AND sdate = ?"
             );
 
             if (!isCancel) {
                 ps.setString(1, String.valueOf(studentID));
-                ps.setString(2, appoinment.time);
-                ps.setString(3, appoinment.date);
+                ps.setString(2, appoinment.comment);
+                ps.setString(3, appoinment.time);
+                ps.setString(4, appoinment.date);
             } else if (isCancel) {
                 ps.setNull(1, java.sql.Types.VARCHAR);
-                ps.setString(2, appoinment.time);
-                ps.setString(3, appoinment.date);
+                ps.setNull(2, java.sql.Types.VARCHAR);
+                ps.setString(3, appoinment.time);
+                ps.setString(4, appoinment.date);
             }
 
             ps.execute();
-            
-            if(!isCancel)
-            {
-                 ps = conn.prepareStatement("delete FROM desired where ID =?");
-                 ps.setString(1,Long.toString(appointment.aID));
-                 ps.execute();
+
+            if (!isCancel) {
+                ps = conn.prepareStatement("delete FROM desired where ID =?");
+                ps.setString(1, Long.toString(appointment.aID));
+                ps.execute();
             }
-           
+
         } finally {
             conn.close();
         }
         appointments = loadAppointments();
         getScheduledAppointment(studentID);
     }
-    
-    public String goToViewAppointment(Appointment appointment) throws SQLException{
+
+    public String goToViewAppointment(Appointment appointment) throws SQLException {
         this.appointment = appointment;
         String id = Long.toString(this.appointment.aID);
         desiredCourses = DesiredCourseRepository.readDesiredCourses2(ds, id);
@@ -397,5 +379,5 @@ public class AppointmentBean implements Serializable {
         
         
     }
-    */
+     */
 }

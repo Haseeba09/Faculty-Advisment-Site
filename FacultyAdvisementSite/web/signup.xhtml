@@ -7,11 +7,17 @@
     <h:head>
         <title>Student Sign Up</title>
     </h:head>
-    <h:body>
+    <h:body style="padding: 60px;">
+        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
+                <b:navLink icon-awesome="plus" value="Register" outcome="signup"></b:navLink>
+                <b:navLink icon-awesome="unlock" value="Forgot Password?" outcome="resetPasswordPart1"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
         <h:form id="signUp">
-            <p style="text-align:center;"><img src="resources/UCO_banner.png"/></p>   
             <b:container style="width: 600px;">
-                <b:panel collapsible="false" look="primary" title="Student Sign Up">
+                <b:panel collapsible="false" look="info" title="Student Sign Up" titleStyle="color: white;">
                     <b:row>
                         <b:column small-screen="2">
                             <h:outputText value="Username:" />
@@ -106,21 +112,13 @@
                     </b:row>
                     <b:row>
                         <b:column span="5" offset="2">
-                            <b:commandButton id="buttontest"
+                            <b:commandButton id="signUpButton"
                                 action="#{registrationBean.validate()}"
                                              iconAwesome="user-plus" value="Sign Up" 
-                                             look="primary" style="width:100%" />
+                                             look="info" style="width:100%" />
                         </b:column>
                         <b:column small-screen="5" styleClass="message">
-                            <h:message for="buttontest" errorStyle="color: Green" />
-                        </b:column>
-                    </b:row>
-                    <b:row>
-                        <b:column span="5" offset="2">
-                            <b:button outcome="/customerFolder/profile"
-                                             id="home" iconAwesome="home" 
-                                             immediate="true" value="Return Home" 
-                                             look="primary" style="width:100%" />
+                            <h:message for="signUpButton" errorStyle="color: Green" />
                         </b:column>
                     </b:row>
                 </b:panel>

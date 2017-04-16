@@ -6,7 +6,15 @@
     <h:head>
         <title>Facelet Title</title>
     </h:head>
-    <h:body>
+    <h:body style="padding: 60px;">
+        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink icon-awesome="home" value="Home" outcome="/adminFolder/adminhome"></b:navLink>
+                <b:navLink icon-awesome="calendar" value="Calendar" outcome="/adminFolder/calendar"></b:navLink>
+                <b:navLink icon-awesome="pencil" value="Edit Student" outcome="/adminFolder/editStudent"></b:navLink>
+                <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
         <b:container>
             <h:outputText value="Classes that student: #{appointmentBean.appointment.sid} wishes to take" style="font-size: large" />
             <b:accordion>
@@ -28,8 +36,6 @@
                 <h:outputText value="Set students advisment status as complete:" />
                 <b:commandButton iconAwesome="check" value="Complete" action="#{studentBean.markStudentAsAdvised(appointmentBean.student)}"/>
             </b:form>
-
-            <h:link value="go back to calander" outcome="/adminFolder/calendar" />
         </b:container>
     </h:body>
 </html>

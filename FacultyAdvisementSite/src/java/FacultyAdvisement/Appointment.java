@@ -16,7 +16,9 @@ public class Appointment{
     String sid;
     String time;
     String datetime;
+    String comment;
     long aID;
+    
     boolean taken = true;
 
     public boolean isTaken() {
@@ -75,9 +77,11 @@ public class Appointment{
         this.time = time;
     }
     
-    
-    
-    
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
-
-

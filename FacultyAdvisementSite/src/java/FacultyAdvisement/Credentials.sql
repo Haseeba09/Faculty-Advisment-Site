@@ -49,9 +49,9 @@ create table APPOINTMENT (
     SID varchar(8),
     stime time,
     sdate date,
+    comment varchar(255),
     foreign key(SID) references student(stuid),
     primary key (ID)
-       
 );
 
 create table TOKENRESET (
