@@ -245,7 +245,7 @@ public class SignupBean implements Serializable{
         
         DesiredCourseRepository.createDesiredCourses(ds, desiredCoureses,Long.toString(appointment.aID));
            
-        if(this.edit){
+        if(!this.edit){
             try{ 
                 Email email = new HtmlEmail();
                 email.setHostName("smtp.googlemail.com");
