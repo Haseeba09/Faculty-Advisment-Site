@@ -18,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.sql.DataSource;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -32,6 +33,8 @@ import org.apache.commons.mail.HtmlEmail;
 @SessionScoped
 public class AppointmentBean implements Serializable {
 
+    @Inject SignupBean signupBean; 
+    
     @Resource(name = "jdbc/ds_wsp")
     private DataSource ds;
     private String username; 
@@ -126,13 +129,14 @@ public class AppointmentBean implements Serializable {
 
     public String toSignUp(String key, Appointment appointment) throws IOException, SQLException
     {   this.appointment = appointment;
+        this.signupBean.setEdit(false);
         this.updateAppointment(key, appointment, false);
         return "/customerFolder/signup.xhtml";
     }
     
       public String editDesired(String key, Appointment appointment) throws IOException, SQLException
     {   this.appointment = appointment;
-        //this.updateAppointment(key, appointment, false);
+        this.signupBean.setEdit(true);
         return "/customerFolder/signup.xhtml";
     }
     

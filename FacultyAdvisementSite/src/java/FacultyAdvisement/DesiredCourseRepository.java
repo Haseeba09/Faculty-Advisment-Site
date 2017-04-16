@@ -36,8 +36,7 @@ public class DesiredCourseRepository {
         try
         {
            PreparedStatement ps = conn.prepareStatement(
-                  "Desired.course_subject, Desired.course_number, course.Course_Name, Course.Credits = Desired.course_number and subject = subject where ID = ?"
-                   
+                  "Select Desired.course_subject, Desired.course_number, course.Course_Name, course.credits from course join desired on Course.`Course_Number` = Desired.course_number and course.subject = desired.course_subject where ID = ?"                   
            ); 
            
            ps.setString(1, key);
@@ -48,7 +47,7 @@ public class DesiredCourseRepository {
                 course.setName(result.getString("course_name"));
                 course.setCredits(result.getInt("credits"));
                 course.setNumber(result.getString("course_number"));
-                course.setSubject(result.getString("subject"));
+                course.setSubject(result.getString("course_subject"));
                 list.add(course);
             }
            
@@ -103,5 +102,36 @@ public class DesiredCourseRepository {
             }           
       
       }
-    
+   
+       public static void deleteFromAppointment(DataSource ds, Long key) throws SQLException {
+
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
+
+        Connection conn = ds.getConnection();
+
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        try {
+           
+
+           
+            
+            
+                PreparedStatement ps = conn.prepareStatement("delete FROM desired where ID =?");
+                 ps.setString(1,Long.toString(key));
+                 ps.execute();
+            
+           
+        } finally {
+            conn.close();
+        }
+        
+    }
 }
+ 
+    
+   

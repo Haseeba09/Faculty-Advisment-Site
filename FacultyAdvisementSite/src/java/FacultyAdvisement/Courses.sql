@@ -1,17 +1,10 @@
-<<<<<<< HEAD
+
 DROP TABLE PREREQUISITE;
 DROP TABLE COREQUISITE;
 DROP TABLE SUGGESTED;
 DROP TABLE DESIRED;
 DROP TABLE COMPLETED;
 DROP TABLE COURSE;
-=======
-drop table completed;
-drop table suggested;
-drop table corequisite;
-Drop Table Prerequisite;
-drop table course;
->>>>>>> origin/master
 
 CREATE TABLE Course 
     (

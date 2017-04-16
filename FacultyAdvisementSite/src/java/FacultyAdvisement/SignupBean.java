@@ -50,7 +50,15 @@ public class SignupBean implements Serializable{
     private List<Course> availableCourses;
     private List<Course> desiredCoureses; 
     private Appointment appointment;
+    private boolean edit; 
 
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
    
     
     @PostConstruct
@@ -71,6 +79,16 @@ public class SignupBean implements Serializable{
         } catch (SQLException ex) {
             Logger.getLogger(SignupBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        try
+        {
+             DesiredCourseRepository.deleteFromAppointment(ds, this.appointment.aID);
+        }
+       catch(SQLException ex)
+       {
+           Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        
         try {
             student = StudentRepository.read(ds, username);
         } catch (SQLException ex) {
@@ -167,13 +185,6 @@ public class SignupBean implements Serializable{
              return false;
         }
         
-//        for(int i = 0; i < course.getPrerequisites().size(); i++)
-//        {
-//            if(!this.desiredCoureses.contains(course.getPrerequisites().get(i)))
-//            {
-//                flag = false;
-//            }
-//        }
         if(course.getCorequisite().isEmpty())
         {
             flag = true;
@@ -218,18 +229,7 @@ public class SignupBean implements Serializable{
     public String validateSignUp(ArrayList<Course> list, Appointment appointment) throws SQLException, IOException, EmailException
     {
         
-        //Eleminate Duplicates, no I do not know why there are duplicates.
-//        ArrayList<Course> remove = new ArrayList<>(); 
-//        for(int i = 0; i < this.desiredCoureses.size(); i++)
-//        {
-//            for(int j = 0; j< this.desiredCoureses.size(); j++)
-//            {
-//                if(this.desiredCoureses.get(i).compare(this.desiredCoureses.get(i)))
-//                {
-//                   
-//                }
-//            }
-//        }
+
         
         if(this.desiredCoureses == null || this.desiredCoureses.size() < 1)
         {
@@ -248,27 +248,46 @@ public class SignupBean implements Serializable{
         }
         
         DesiredCourseRepository.createDesiredCourses(ds, desiredCoureses,Long.toString(appointment.aID));
-           try{ 
-            Email email = new HtmlEmail();
-            email.setHostName("smtp.googlemail.com");
-            email.setSmtpPort(465);
-            email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
-            email.setSSLOnConnect(true);
-            email.setFrom("uco.faculty.advisement@gmail.com");
-            email.setSubject("UCO Faculty Advisement Appointmen Confirmation");
-            email.setMsg(
+           
+        if(this.edit){
+            try{ 
+                Email email = new HtmlEmail();
+                email.setHostName("smtp.googlemail.com");
+                email.setSmtpPort(465);
+                email.setAuthenticator(new DefaultAuthenticator("uco.faculty.advisement", "!@#$1234"));
+                email.setSSLOnConnect(true);
+                email.setFrom("uco.faculty.advisement@gmail.com");
+                email.setSubject("UCO Faculty Advisement Appointmen Confirmation");
+            
+            
+                StringBuilder table = new StringBuilder(); 
+                table.append("<table><tr><td>Course Name</td><td>Course Subject</td><td>Course Number</td><td>Course Credits</td></tr> </table>");
+                for(int i =0; i < this.desiredCoureses.size(); i++)
+                {
+                    table.append(
+                        "<tr><td>" + this.desiredCoureses.get(i).getName() + "</td>"
+                        + "<td>" + this.desiredCoureses.get(i).getSubject() + "</td>"
+                        + "<td>" + this.desiredCoureses.get(i).getNumber() + "</td>"
+                        + "<td>" + this.desiredCoureses.get(i).getCredits() + "</td></tr>"
+                
+                    );
+            
+                }
+            
+                email.setMsg(
                     "<p>Your appointment with your faculty advisor is at "
                      + appointment.datetime
                      + " on " + appointment.date + " . </p>"
                      +"<p align=\"center\">UCO Faculty Advisement</p></font>"
+                     + table.toString()
                     
-            );
-            email.addTo(username);
-            email.send();
-        } catch (EmailException ex) {
+                );
+                email.addTo(username);
+                email.send();
+            }   catch (EmailException ex) {
             Logger.getLogger(VerificationBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
         return "/customerFolder/profile.xhtml"; 
     }
     
