@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Request Microsoft Imagine</title>
+    </h:head>
+    
+    <h:body style="padding: 60px;">
+        <f:metadata>
+            <f:viewAction action="#{verificationBean.checkVerificationRedirect(userBean.username)}"/>
+        </f:metadata>
+        <b:navBar brand="UCO" brandHref="#" fixed="top" inverse="true">
+            <b:navbarLinks>
+                <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
+                <b:navLink icon-awesome="calendar" value="Advisement" outcome="/customerFolder/advisement"></b:navLink>
+                <b:navLink icon-awesome="unlock" value="Password Reset" outcome="/customerFolder/resetMyPassword"></b:navLink>
+                 <b:navLink icon-awesome="envelope-o" value="Request Imagine" outcome="/customerFolder/imagine"></b:navLink>
+                 <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>               
+            </b:navbarLinks>
+        </b:navBar>
+        
+         <b:container>
+            <b:panel id="current"   collapsible="false" look="primary"  title="Current Courses"> 
+                    <h:form>
+                        <b:dataTable value="#{imagineBean.currentCourses}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" />
+                            <b:dataTableColumn label="Remove" orderable="false">
+                                <b:commandButton value="Remove" icon-awesome="minus" action="#{imagineBean.deleteCurrentCourse(course)}" />                                
+                            </b:dataTableColumn>
+                            
+                        </b:dataTable>
+                    </h:form>    
+                </b:panel>
+            </b:container>
+        <b:container>
+            <b:panel id="request" collapsible="false" look="primary" title="Submit Request">
+                After adding current courses, click below to submit your request for a Microsoft Imagine Account.
+                <h:form>
+                    <b:commandButton value="Submit Request" icon-awesome="paper-plane" action="#{imagineBean.submitRequest()}"/>
+                </h:form>
+            </b:panel>
+        </b:container>
+        
+        <b:container>
+            <b:panel id="available"   collapsible="false" look="primary"  title="Available Courses"> 
+                    <h:form>
+                        <b:dataTable value="#{signupBean.availableCourses}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" />
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" />
+                            <b:dataTableColumn label="Lookup" orderable="false">
+                                <b:commandButton value="Add to Current" iconAwesome="plus" action="#{imagineBean.addCurrentCourse(course)}">
+                                         
+ 
+                                </b:commandButton>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </h:form>    
+                </b:panel>
+            </b:container>
+    </h:body>
+</html>
+
