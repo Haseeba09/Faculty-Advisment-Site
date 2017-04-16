@@ -148,5 +148,26 @@ public class StudentBean implements Serializable {
         StudentRepository.delete(ds, s);
         students = (HashMap<String, Student>) StudentRepository.readAll(ds); // reload the updated info
     }
+    
+    public void setAllStudentsToNotAdvised() throws SQLException{
+        /*
+        students = (HashMap<String, Student>) StudentRepository.readAll(ds);
+        for(int i = 0; i < students.size(); i++){
+            students.get(i).setAdvised(false);
+            StudentRepository.adminUpdate(ds, students.get(i), students.get(i).getUsername());
+        }
+        */
+        StudentRepository.updateAllToNotAdvised(ds);
+       students = (HashMap<String, Student>) StudentRepository.readAll(ds);
+       
+    }
+    
+    public void markStudentAsAdvised(Student student) throws SQLException{
+        student.setAdvised(true);
+        StudentRepository.adminUpdate(ds, student, student.getUsername());
+        
+        students = (HashMap<String, Student>) StudentRepository.readAll(ds);
+        
+    }
 
 }

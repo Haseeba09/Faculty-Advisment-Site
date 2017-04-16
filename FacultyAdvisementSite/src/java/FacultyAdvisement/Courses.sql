@@ -1,9 +1,10 @@
-<<<<<<< HEAD
+
 DROP TABLE PREREQUISITE;
 DROP TABLE COREQUISITE;
 DROP TABLE SUGGESTED;
 DROP TABLE DESIRED;
 DROP TABLE COMPLETED;
+drop table currentcourse;
 DROP TABLE COURSE;
 =======
 drop table completed;
@@ -11,7 +12,7 @@ drop table suggested;
 drop table corequisite;
 Drop Table Prerequisite;
 drop table course;
->>>>>>> origin/master
+
 
 CREATE TABLE Course 
     (
@@ -58,6 +59,17 @@ CREATE TABLE Suggested
     );
     
  CREATE TABLE Completed
+    (
+        STUID varchar(8),
+        subject varchar(5),
+        course_number varchar(4),
+        FOREIGN KEY student_fk(STUID)
+        REFERENCES Student(STUID),
+        FOREIGN KEY course_fk(subject, course_number)
+        REFERENCES Course(subject, course_number)
+    );
+
+ CREATE TABLE CurrentCourse
     (
         STUID varchar(8),
         subject varchar(5),

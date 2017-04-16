@@ -26,7 +26,7 @@
             </b:accordion>
             <b:form>
                 <h:outputText value="Set students advisment status as complete:" />
-                <b:commandButton iconAwesome="check" value="Complete"/>
+                <b:commandButton iconAwesome="check" value="Complete" action="#{studentBean.markStudentAsAdvised(appointmentBean.student)}"/>
             </b:form>
 
             <h:link value="go back to calander" outcome="/adminFolder/calendar" />

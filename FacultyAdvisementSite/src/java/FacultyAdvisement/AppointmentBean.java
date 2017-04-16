@@ -380,10 +380,18 @@ public class AppointmentBean implements Serializable {
     
     public String goToViewAppointment(Appointment appointment) throws SQLException{
         this.appointment = appointment;
-        String id = String.valueOf(appointment.getaID());
-        desiredCourses = DesiredCourseRepository.readDesiredCourses(ds, id);
+        String id = Long.toString(this.appointment.aID);
+        desiredCourses = DesiredCourseRepository.readDesiredCourses2(ds, id);
         this.student = StudentRepository.readById(ds, appointment.getSid());
         return "/adminFolder/viewAppointment";
     }
-    
+    /*
+    public void markStudentAsAdvised() throws SQLException{
+        this.student.setAdvised(true);
+        StudentRepository.adminUpdate(ds, student, student.getUsername());
+        
+        
+        
+    }
+    */
 }

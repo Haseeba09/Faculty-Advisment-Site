@@ -118,7 +118,7 @@ public class StudentRepository {
 
         return list;
     }
-
+    
     public static void adminUpdate(DataSource ds, Student student, String oldUsername) throws SQLException {
         Connection conn = ds.getConnection();
         if (conn == null) {
@@ -372,6 +372,23 @@ public class StudentRepository {
             return "ImageServlet?username=" + key;
         } else {
             return "/resources/default-image.png";
+        }
+    }
+    
+    public static void updateAllToNotAdvised(DataSource ds) throws SQLException{
+        Connection conn = ds.getConnection();
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "update student set advised = \'false\'"
+            );
+            
+            ps.execute();
+            
+        } finally {
+            conn.close();
         }
     }
     

@@ -60,6 +60,48 @@ public class DesiredCourseRepository {
         
         return list;
     }
+      
+      public static List<Course> readDesiredCourses2 (DataSource ds, String key) throws SQLException
+    {
+         if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
+
+        Connection conn = ds.getConnection();
+
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+
+        List<Course> list = new ArrayList<Course>(); 
+            
+        try
+        {
+           PreparedStatement ps = conn.prepareStatement(
+                  "SELECT * FROM Course JOIN Desired ON Course.course_number = Desired.course_number and subject = subject where ID = ?"
+                   
+           ); 
+           
+           ps.setString(1, key);
+           ResultSet result = ps.executeQuery();
+
+            while (result.next()) {
+                Course course = new Course(); 
+                course.setName(result.getString("course_name"));
+                course.setCredits(result.getInt("credits"));
+                course.setNumber(result.getString("course_number"));
+                course.setSubject(result.getString("subject"));
+                list.add(course);
+            }
+           
+        }
+        finally
+        {
+            conn.close();
+        }       
+        
+        return list;
+    }
     
       public static void createDesiredCourses(DataSource ds, List<Course> list, String key ) throws SQLException
       {

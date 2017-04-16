@@ -70,7 +70,10 @@
                     </b:dataTableColumn>
 
                 </b:dataTable>
+                
+                <b:commandButton value="Set all students to 'not advised'" style="color: white; background-color: red" action="#{studentBean.setAllStudentsToNotAdvised()}" />
             </b:form>
+            
             <h:link value="Go Home" outcome="/adminFolder/adminhome" /><br />
         </b:container>
     </h:body>
