@@ -35,6 +35,20 @@
                         <h:outputText value="#{student.value.username}" rendered="#{not student.value.editable}"/>
                     </b:dataTableColumn>
 
+                    <b:dataTableColumn label="First Name" orderable="false">
+                        <b:inputText id="firstName" value="#{studentBean.firstName}" rendered="#{student.value.editable}"/>
+                        <h:panelGroup rendered="#{student.value.editable}"><br /></h:panelGroup>
+                        <h:message for="firstName" errorStyle="color: red" rendered="#{student.value.editable}" />
+                        <h:outputText value="#{student.value.firstName}" rendered="#{not student.value.editable}"/>
+                    </b:dataTableColumn>
+
+                    <b:dataTableColumn label="Last Name" orderable="false">
+                        <b:inputText id="lastName" value="#{studentBean.lastName}" rendered="#{student.value.editable}"/>
+                        <h:panelGroup rendered="#{student.value.editable}"><br /></h:panelGroup>
+                        <h:message for="lastName" errorStyle="color: red" rendered="#{student.value.editable}" />
+                        <h:outputText value="#{student.value.lastName}" rendered="#{not student.value.editable}"/>
+                    </b:dataTableColumn>
+
                     <b:dataTableColumn label="Major" orderable="false">
                         <b:selectOneMenu id="major" value="#{studentBean.major}" rendered="#{student.value.editable}">
                             <f:selectItems value="#{utility.availableMajors}"/>
@@ -77,7 +91,7 @@
                     </b:dataTableColumn>
 
                 </b:dataTable>
-                
+
                 <b:commandButton value="Set all students to 'not advised'" style="color: white; background-color: red" action="#{studentBean.setAllStudentsToNotAdvised()}" />
             </b:form>
         </b:container>

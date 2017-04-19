@@ -27,6 +27,10 @@ public class StudentBean implements Serializable {
     private String sid;
     @Pattern(regexp = "[a-zA-Z0-9]{3,20}@uco.edu", message = "Local-part of email must be 3 to 20 alphanumeric characters long and end with @uco.edu")
     private String email;
+    @Pattern(regexp = "[a-zA-Z]{2,60}", message = "Name must be 2-60 characters.")
+    private String firstName;
+    @Pattern(regexp = "[a-zA-Z]{2,60}", message = "Name must be 2-60 characters.")
+    private String lastName;
     private String major;
     @Pattern(regexp = "[0-9]{10}", message = "Phone must be 10 numbers long.")
     private String phone;
@@ -61,6 +65,22 @@ public class StudentBean implements Serializable {
         this.email = email;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getMajor() {
         return major;
     }
@@ -92,7 +112,7 @@ public class StudentBean implements Serializable {
     public void setResetPassword(boolean resetPassword) {
         this.resetPassword = resetPassword;
     }
-    
+
     public HashMap<String, Student> getStudents() {
         return students;
     }
@@ -110,6 +130,8 @@ public class StudentBean implements Serializable {
         Student s = students.get(key);
         this.sid = s.getId();
         this.email = s.getUsername();
+        this.firstName = s.getFirstName();
+        this.lastName = s.getLastName();
         this.major = s.getMajorCode();
         this.phone = s.getPhoneNumber();
         this.advised = s.isAdvised();
@@ -128,11 +150,13 @@ public class StudentBean implements Serializable {
     public String getPicture(String key) throws SQLException {
         return StudentRepository.getPicture(ds, key);
     }
-    
+
     public void update(String key) throws SQLException {
         Student student = new Student();
         student.setId(this.sid);
         student.setUsername(this.email);
+        student.setFirstName(this.firstName);
+        student.setLastName(this.lastName);
         student.setMajorCode(this.major);
         student.setPhoneNumber(this.phone);
         student.setAdvised(this.advised);
@@ -148,26 +172,26 @@ public class StudentBean implements Serializable {
         StudentRepository.delete(ds, s);
         students = (HashMap<String, Student>) StudentRepository.readAll(ds); // reload the updated info
     }
-    
-    public void setAllStudentsToNotAdvised() throws SQLException{
+
+    public void setAllStudentsToNotAdvised() throws SQLException {
         /*
         students = (HashMap<String, Student>) StudentRepository.readAll(ds);
         for(int i = 0; i < students.size(); i++){
             students.get(i).setAdvised(false);
             StudentRepository.adminUpdate(ds, students.get(i), students.get(i).getUsername());
         }
-        */
+         */
         StudentRepository.updateAllToNotAdvised(ds);
-       students = (HashMap<String, Student>) StudentRepository.readAll(ds);
-       
+        students = (HashMap<String, Student>) StudentRepository.readAll(ds);
+
     }
-    
-    public void markStudentAsAdvised(Student student) throws SQLException{
+
+    public void markStudentAsAdvised(Student student) throws SQLException {
         student.setAdvised(true);
         StudentRepository.adminUpdate(ds, student, student.getUsername());
-        
+
         students = (HashMap<String, Student>) StudentRepository.readAll(ds);
-        
+
     }
 
 }

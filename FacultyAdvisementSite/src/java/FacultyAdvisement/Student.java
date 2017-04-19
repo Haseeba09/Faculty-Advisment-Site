@@ -6,11 +6,14 @@ import java.util.List;
  *
  * @author abilb
  */
-public class Student  {
+public class Student {
+
     //the username takes the format of an email
-    private String username; 
-    private String password; 
-    private String id; 
+    private String username;
+    private String password;
+    private String id;
+    private String firstName;
+    private String lastName;
     private String majorCode;
     private String phoneNumber;
     private boolean resetPassword;
@@ -25,9 +28,7 @@ public class Student  {
     public void setCompletedCourses(List<Course> completedCourses) {
         this.completedCourses = completedCourses;
     }
-    
-    
-    
+
     public boolean isAdvised() {
         return advised;
     }
@@ -35,7 +36,7 @@ public class Student  {
     public void setAdvised(boolean advised) {
         this.advised = advised;
     }
-    private boolean edit = false; 
+    private boolean edit = false;
 
     public boolean isEdit() {
         return edit;
@@ -44,6 +45,7 @@ public class Student  {
     public void setEdit(boolean edit) {
         this.edit = edit;
     }
+
     public String getUsername() {
         return username;
     }
@@ -66,6 +68,22 @@ public class Student  {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getMajorCode() {
@@ -99,7 +117,5 @@ public class Student  {
     public void setEditable(boolean editable) {
         this.editable = editable;
     }
-   
-    
-    
+
 }

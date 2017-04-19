@@ -28,8 +28,8 @@ import org.apache.commons.mail.HtmlEmail;
 public class StudentRepository {
 
     public static void create(DataSource ds, Student student) throws SQLException {
-        String studentSQL = "INSERT INTO STUDENT(STUID, EMAIL, MAJORCODE, PHONE, ADVISED) "
-                + "VALUES (?, ?, ?, ?, \'false\')";
+        String studentSQL = "INSERT INTO STUDENT(STUID, EMAIL, FIRSTNAME, LASTNAME, MAJORCODE, PHONE, ADVISED) "
+                + "VALUES (?, ?, ?, ?, ?, ?, \'false\')";
         String userSQL = "INSERT INTO USERTABLE(PASSWORD, USERNAME, VERIFIED) VALUES (?, ?, ?)"; //haseeb was here
 
         String groupSQL = "INSERT INTO GROUPTABLE(GROUPNAME, USERNAME) VALUES (\'customergroup\', ?)";
@@ -52,8 +52,10 @@ public class StudentRepository {
 
             sqlStatement.setString(1, student.getId());
             sqlStatement.setString(2, student.getUsername());
-            sqlStatement.setString(3, student.getMajorCode());
-            sqlStatement.setString(4, student.getPhoneNumber());
+            sqlStatement.setString(3, student.getFirstName());
+            sqlStatement.setString(4, student.getLastName());
+            sqlStatement.setString(5, student.getMajorCode());
+            sqlStatement.setString(6, student.getPhoneNumber());
 
             sqlStatement.executeUpdate();
 
@@ -102,6 +104,8 @@ public class StudentRepository {
                 Student s = new Student();
                 s.setId(result.getString("STUID"));
                 s.setUsername(result.getString("EMAIL"));
+                s.setFirstName(result.getString("FIRSTNAME"));
+                s.setLastName(result.getString("LASTNAME"));
                 s.setMajorCode(result.getString("MAJORCODE"));
                 s.setPhoneNumber(result.getString("PHONE"));
                 if (result.getString("ADVISED").equals("true")) {
@@ -128,11 +132,13 @@ public class StudentRepository {
 
             PreparedStatement ps;
             ps = conn.prepareStatement(
-                    "Update STUDENT set EMAIL=?, MAJORCODE=?, PHONE=?, ADVISED=? where STUID=?"
+                    "Update STUDENT set EMAIL=?, FIRSTNAME=?, LASTNAME=?, MAJORCODE=?, PHONE=?, ADVISED=? where STUID=?"
             );
             ps.setString(1, student.getUsername());
-            ps.setString(2, student.getMajorCode());
-            ps.setString(3, student.getPhoneNumber());
+            ps.setString(2, student.getFirstName());
+            ps.setString(3, student.getLastName());
+            ps.setString(4, student.getMajorCode());
+            ps.setString(5, student.getPhoneNumber());
             if (student.isAdvised()) {
                 ps.setString(4, "true");
             } else {
@@ -191,7 +197,7 @@ public class StudentRepository {
     }
 
     public static void update(DataSource ds, Student student) throws SQLException {
-        String studentSQL = "UPDATE STUDENT SET STUID = ?, MAJORCODE = ?, PHONE = ? WHERE EMAIL = ?";
+        String studentSQL = "UPDATE STUDENT SET STUID = ?, FIRSTNAME = ?, LASTNAME = ?, MAJORCODE = ?, PHONE = ? WHERE EMAIL = ?";
 
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
@@ -207,9 +213,11 @@ public class StudentRepository {
             //Student Information
             PreparedStatement sqlStatement = conn.prepareStatement(studentSQL);
             sqlStatement.setString(1, student.getId());
-            sqlStatement.setString(2, student.getMajorCode());
-            sqlStatement.setString(3, student.getPhoneNumber());
-            sqlStatement.setString(4, student.getUsername());
+            sqlStatement.setString(2, student.getFirstName());
+            sqlStatement.setString(3, student.getLastName());
+            sqlStatement.setString(4, student.getMajorCode());
+            sqlStatement.setString(5, student.getPhoneNumber());
+            sqlStatement.setString(6, student.getUsername());
 
             sqlStatement.executeUpdate();
 
@@ -298,6 +306,8 @@ public class StudentRepository {
             ResultSet result = sqlStatement.executeQuery();
             while (result.next()) {
                 student.setId(result.getString("STUID"));
+                student.setFirstName(result.getString("firstname"));
+                student.setLastName(result.getString("lastname"));
                 student.setMajorCode(result.getString("majorcode"));
                 student.setPhoneNumber(result.getString("phone"));
                 student.setUsername(key);
@@ -334,6 +344,8 @@ public class StudentRepository {
             ResultSet result = sqlStatement.executeQuery();
             while (result.next()) {
                 student.setId(key);
+                student.setFirstName(result.getString("firstname"));
+                student.setLastName(result.getString("lastname"));
                 student.setMajorCode(result.getString("majorcode"));
                 student.setPhoneNumber(result.getString("phone"));
                 student.setUsername(result.getString("email"));
