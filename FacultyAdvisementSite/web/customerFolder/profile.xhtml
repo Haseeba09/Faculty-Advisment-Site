@@ -16,8 +16,8 @@
                 <b:navLink icon-awesome="home" value="Home" outcome="/customerFolder/profile"></b:navLink>
                 <b:navLink icon-awesome="calendar" value="Advisement" outcome="/customerFolder/advisement"></b:navLink>
                 <b:navLink icon-awesome="unlock" value="Password Reset" outcome="/customerFolder/resetMyPassword"></b:navLink>
-                 <b:navLink icon-awesome="envelope-o" value="Request Imagine" outcome="/customerFolder/imagine"></b:navLink>
-                 <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>               
+                <b:navLink icon-awesome="envelope-o" value="Request Imagine" outcome="/customerFolder/imagine"></b:navLink>
+                <b:navLink icon-awesome="sign-out" value="Logout" outcome="/logout"></b:navLink>               
             </b:navbarLinks>
         </b:navBar>
         <b:container>
@@ -83,6 +83,40 @@
                             </b:row>
                             <b:row>
                                 <b:column small-screen="2">
+                                    <h:outputText value="First Name:" style="font-size: large;"/>
+                                </b:column>
+                                <b:column small-screen="3">
+                                    <b:inputText id="firstName" value="#{userBean.student.firstName}" rendered="#{userBean.student.edit}">
+                                        <f:facet name="prepend">
+                                            <b:iconAwesome name="id-card-o" />
+                                        </f:facet>
+                                    </b:inputText>
+                                    <h:outputText value="#{userBean.student.firstName}" style="font-size: large;" rendered="#{!userBean.student.edit}"/>
+                                </b:column>
+                                <b:column small-screen="3">
+                                    <h:message for="firstName" errorStyle="color: red" rendered="#{userBean.student.edit}"/>
+                                    <h:panelGroup rendered="#{!userBean.student.edit}"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column small-screen="2">
+                                    <h:outputText value="Last Name:" style="font-size: large;"/>
+                                </b:column>
+                                <b:column small-screen="3">
+                                    <b:inputText id="lastName" value="#{userBean.student.lastName}" rendered="#{userBean.student.edit}">
+                                        <f:facet name="prepend">
+                                            <b:iconAwesome name="id-card-o" />
+                                        </f:facet>
+                                    </b:inputText>
+                                    <h:outputText value="#{userBean.student.lastName}" style="font-size: large;" rendered="#{!userBean.student.edit}"/>
+                                </b:column>
+                                <b:column small-screen="3">
+                                    <h:message for="lastName" errorStyle="color: red" rendered="#{userBean.student.edit}"/>
+                                    <h:panelGroup rendered="#{!userBean.student.edit}"/>
+                                </b:column>
+                            </b:row>
+                            <b:row>
+                                <b:column small-screen="2">
                                     <h:outputText value="Major Code:" style="font-size: large;"/>
                                 </b:column>
                                 <b:column small-screen="3">
@@ -128,38 +162,38 @@
                     </h:form>
                 </b:row>
             </b:jumbotron>
-                <h:form id="completedCoursesForm">
-                    <b:panel id="panel1" look="info"  title="Completed Courses" titleStyle="color: white;"> 
-                    
-                        <b:dataTable value="#{userBean.completedCourses}" var="course" searching="true">
-                            <b:dataTableColumn label="Course Name" value="#{course.name}" data-search="#{course.name}" data-order="#{course.name}" order="asc"/>
-                            <b:dataTableColumn label="Course Subject" value="#{course.subject}"/>
-                            <b:dataTableColumn label="Course Number" value="#{course.number}" />
-                            <b:dataTableColumn label="Course Credits" value="#{course.credits}"  />
-                            <b:dataTableColumn label="Delete" orderable="false">
-                                <b:commandButton value="Delete" iconAwesome="trash-o" action="#{userBean.removeCompletedCourse(course)}">
-                                          <f:ajax execute="@form" render="@form :availableCoursesForm" />
-                                </b:commandButton>
-                            </b:dataTableColumn>
-                        </b:dataTable>
-                        
-                     </b:panel>
-                </h:form>
-             <h:form id="availableCoursesForm">
-                 <b:panel id="panel2" collapsible="true" look="info" title="Available Courses" titleStyle="color: white;"> 
-                         
-                        <b:dataTable  value="#{userBean.availableCourses}" var="course" paginated='true'>
-                            <b:dataTableColumn label="Course Name" value="#{course.name}" searchable='true' order="asc"/>
-                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
-                            <b:dataTableColumn label="Course Number" value="#{course.number}" />
-                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" />
-                            <b:dataTableColumn label="Add" orderable="false">
-                                <b:commandButton value="Add" iconAwesome="plus" action="#{userBean.addCompletedCourse(course)}">
-                                    <f:ajax execute="@form" render="@form :completedCoursesForm" />
-                                </b:commandButton>
-                            
-                            </b:dataTableColumn>
-                        </b:dataTable>
+            <h:form id="completedCoursesForm">
+                <b:panel id="panel1" look="info"  title="Completed Courses" titleStyle="color: white;"> 
+
+                    <b:dataTable value="#{userBean.completedCourses}" var="course" searching="true">
+                        <b:dataTableColumn label="Course Name" value="#{course.name}" data-search="#{course.name}" data-order="#{course.name}" order="asc"/>
+                        <b:dataTableColumn label="Course Subject" value="#{course.subject}"/>
+                        <b:dataTableColumn label="Course Number" value="#{course.number}" />
+                        <b:dataTableColumn label="Course Credits" value="#{course.credits}"  />
+                        <b:dataTableColumn label="Delete" orderable="false">
+                            <b:commandButton value="Delete" iconAwesome="trash-o" action="#{userBean.removeCompletedCourse(course)}">
+                                <f:ajax execute="@form" render="@form :availableCoursesForm" />
+                            </b:commandButton>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+
+                </b:panel>
+            </h:form>
+            <h:form id="availableCoursesForm">
+                <b:panel id="panel2" collapsible="true" look="info" title="Available Courses" titleStyle="color: white;"> 
+
+                    <b:dataTable  value="#{userBean.availableCourses}" var="course" paginated='true'>
+                        <b:dataTableColumn label="Course Name" value="#{course.name}" searchable='true' order="asc"/>
+                        <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
+                        <b:dataTableColumn label="Course Number" value="#{course.number}" />
+                        <b:dataTableColumn label="Course Credits" value="#{course.credits}" />
+                        <b:dataTableColumn label="Add" orderable="false">
+                            <b:commandButton value="Add" iconAwesome="plus" action="#{userBean.addCompletedCourse(course)}">
+                                <f:ajax execute="@form" render="@form :completedCoursesForm" />
+                            </b:commandButton>
+
+                        </b:dataTableColumn>
+                    </b:dataTable>
                 </b:panel>
             </h:form>  
         </b:container>

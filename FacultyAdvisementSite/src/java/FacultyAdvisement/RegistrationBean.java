@@ -42,7 +42,7 @@ public class RegistrationBean implements Serializable {
 
     public void create() throws SQLException {
 
-        String studentSQL = "INSERT INTO STUDENT(STUID, email, majorcode, phone, advised) VALUES(?, ?, ?, ?, ?)";
+        String studentSQL = "INSERT INTO STUDENT(STUID, email, firstname, lastname, majorcode, phone, advised) VALUES(?, ?, ?, ?, ?, ?, ?)";
         String userSQL = "INSERT INTO USERTABLE(USERNAME, PASSWORD, VERIFIED) VALUES(?, ?, ?)";
         String groupSQL = "INSERT INTO GROUPTABLE(groupname, username) VALUES(?, ?)";
 
@@ -63,9 +63,11 @@ public class RegistrationBean implements Serializable {
 
             studentSQLStatement.setString(1, String.valueOf(this.studentID));
             studentSQLStatement.setString(2, this.username);
-            studentSQLStatement.setString(3, String.valueOf(this.majorCode));
-            studentSQLStatement.setString(4, this.phone);
-            studentSQLStatement.setString(5, "false");
+            studentSQLStatement.setString(3, this.firstName);
+            studentSQLStatement.setString(4, this.lastName);
+            studentSQLStatement.setString(5, String.valueOf(this.majorCode));
+            studentSQLStatement.setString(6, this.phone);
+            studentSQLStatement.setString(7, "false");
             studentSQLStatement.execute();
 
             userSQLStatement.setString(1, this.username);
@@ -82,6 +84,8 @@ public class RegistrationBean implements Serializable {
             this.username = "";
             this.password = "";
             this.studentID = 0;
+            this.firstName = "";
+            this.lastName = "";
             this.majorCode = 0;
             this.phone = "";
             refresh();
@@ -129,10 +133,6 @@ public class RegistrationBean implements Serializable {
             Logger.getLogger(VerificationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void read() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public Map readAll() throws SQLException {
         if (dataSource == null) {
@@ -159,6 +159,8 @@ public class RegistrationBean implements Serializable {
                 Student student = new Student();
                 student.setId(result.getString("STUID"));
                 student.setUsername(result.getString("email"));
+                student.setFirstName(result.getString("firstname"));
+                student.setLastName(result.getString("lastname"));
                 student.setMajorCode(result.getString("majorcode"));
                 student.setPhoneNumber(result.getString("phone"));
                 temporaryStudents.put(student.getUsername(), student);
@@ -169,14 +171,6 @@ public class RegistrationBean implements Serializable {
         }
 
         return temporaryStudents;
-    }
-
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void delete() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void validate() {
@@ -198,10 +192,6 @@ public class RegistrationBean implements Serializable {
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(RegistrationBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public String returnHome() {
-        return "newjsf"; //this goes nowhere
     }
 
     private void refresh() {
@@ -236,6 +226,22 @@ public class RegistrationBean implements Serializable {
         this.studentID = studentID;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
     public int getMajorCode() {
         return majorCode;
     }
@@ -267,6 +273,12 @@ public class RegistrationBean implements Serializable {
     @Min(10000000)
     private int studentID;
 
+    @Pattern(regexp = "[a-zA-Z]{2,60}", message = "Name must be 2-60 characters.")
+    private String firstName;
+    
+    @Pattern(regexp = "[a-zA-Z]{2,60}", message = "Name must be 2-60 characters.")
+    private String lastName;
+    
     private int majorCode;
 
     @Pattern(regexp = "\\d{10}", message = "Phone should be in the form dddddddddd (where d is digit).")

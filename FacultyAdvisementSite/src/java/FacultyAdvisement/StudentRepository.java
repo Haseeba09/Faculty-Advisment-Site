@@ -140,11 +140,11 @@ public class StudentRepository {
             ps.setString(4, student.getMajorCode());
             ps.setString(5, student.getPhoneNumber());
             if (student.isAdvised()) {
-                ps.setString(4, "true");
+                ps.setString(6, "true");
             } else {
-                ps.setString(4, "false");
+                ps.setString(6, "false");
             }
-            ps.setString(5, student.getId());
+            ps.setString(7, student.getId());
             ps.executeUpdate();
 
             ps = conn.prepareStatement(

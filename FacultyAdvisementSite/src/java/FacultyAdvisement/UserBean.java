@@ -149,6 +149,28 @@ public class UserBean implements Serializable {
             }
         }
 
+        pattern = Pattern.compile("[a-zA-Z]{2,60}");
+        matcher = pattern.matcher(student.getFirstName());
+        if (!matcher.matches()) {
+            FacesMessage facesMsg = new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR,
+                    "Name must be 2-60 characters.", null);
+            FacesContext.getCurrentInstance().addMessage(
+                    "studentForm:firstName", facesMsg);
+            flag = false;
+        }
+        
+        pattern = Pattern.compile("[a-zA-Z]{2,60}");
+        matcher = pattern.matcher(student.getLastName());
+        if (!matcher.matches()) {
+            FacesMessage facesMsg = new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR,
+                    "Name must be 2-60 characters.", null);
+            FacesContext.getCurrentInstance().addMessage(
+                    "studentForm:lastName", facesMsg);
+            flag = false;
+        }
+        
         pattern = Pattern.compile("[0-9]{10}");
         matcher = pattern.matcher(student.getPhoneNumber());
         if (!matcher.matches()) {

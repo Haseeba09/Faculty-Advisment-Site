@@ -72,18 +72,49 @@
                     </b:row>
                     <b:row>
                         <b:column small-screen="2">
+                            <h:outputText value="First Name:" />
+                        </b:column>
+                        <b:column small-screen="5">
+                            <b:inputText id="firstName" placeholder="First Name"
+                                         required="true" value="#{registrationBean.firstName}"
+                                         requiredMessage="This field should not left blank."
+                                         type="text">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="id-card" />
+                                </f:facet>
+                            </b:inputText>
+                        </b:column>
+                        <b:column small-screen="5" styleClass="message">
+                            <h:message for="firstName" errorStyle="color: red" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column small-screen="2">
+                            <h:outputText value="Last Name:" />
+                        </b:column>
+                        <b:column small-screen="5">
+                            <b:inputText id="lastName" placeholder="Last Name"
+                                         required="true" value="#{registrationBean.lastName}"
+                                         requiredMessage="This field should not left blank."
+                                         type="text">
+                                <f:facet name="prepend">
+                                    <b:iconAwesome name="id-card" />
+                                </f:facet>
+                            </b:inputText>
+                        </b:column>
+                        <b:column small-screen="5" styleClass="message">
+                            <h:message for="lastName" errorStyle="color: red" />
+                        </b:column>
+                    </b:row>
+                    <b:row>
+                        <b:column small-screen="2">
                             <h:outputText value="Major Code:" />
                         </b:column>
                         <b:column small-screen="5">
                             <b:selectOneMenu id="majorCode" value="#{registrationBean.majorCode}"
                                              required="#{param['signUp:home']==null}"
                                              requiredMessage="This field should have one item selected.">
-                                <f:selectItem itemLabel="- please select - " />
-                                <f:selectItem itemLabel="6100" />
-                                <f:selectItem itemLabel="6101" />
-                                <f:selectItem itemLabel="6102" />
-                                <f:selectItem itemLabel="6110" />
-                                <f:selectItem itemLabel="6660" />
+                                <f:selectItems value="#{utility.availableMajors}"/>
                                 <f:facet name="prepend">
                                     <b:iconAwesome name="graduation-cap" />
                                 </f:facet>
@@ -113,7 +144,7 @@
                     <b:row>
                         <b:column span="5" offset="2">
                             <b:commandButton id="signUpButton"
-                                action="#{registrationBean.validate()}"
+                                             action="#{registrationBean.validate()}"
                                              iconAwesome="user-plus" value="Sign Up" 
                                              look="info" style="width:100%" />
                         </b:column>
