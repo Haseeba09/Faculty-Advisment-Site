@@ -21,6 +21,7 @@ import javax.annotation.Resource;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.sql.DataSource;
@@ -34,7 +35,7 @@ import org.apache.commons.mail.HtmlEmail;
  * @author abilb
  */
 @Named(value = "signupBean")
-@SessionScoped
+@ViewScoped
 public class SignupBean implements Serializable{
     
     @Resource(name = "jdbc/ds_wsp")
@@ -68,11 +69,9 @@ public class SignupBean implements Serializable{
         username = p.getName();
         student = new Student();
         this.appointment = appointmentBean.getAppointment();
-        if(desiredCoureses == null){
-            
-            desiredCoureses = new ArrayList<>();
+        desiredCoureses = new ArrayList<>();
         
-            }
+            
         try
         {
             desiredCoureses = DesiredCourseRepository.readDesiredCourses(ds, Long.toString(appointment.aID));
