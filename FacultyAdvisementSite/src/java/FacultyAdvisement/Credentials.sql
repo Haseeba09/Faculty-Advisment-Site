@@ -1,7 +1,12 @@
-drop table completed;
-drop table suggested;
-drop table corequisite;
-Drop Table Prerequisite;
+
+DROP TABLE PREREQUISITE;
+DROP TABLE COREQUISITE;
+DROP TABLE SUGGESTED;
+DROP TABLE DESIRED;
+DROP TABLE COMPLETED;
+drop table currentcourse;
+
+drop table desired;
 drop table course;
 
 drop table APPOINTMENT;
