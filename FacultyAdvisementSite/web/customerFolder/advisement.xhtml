@@ -31,9 +31,7 @@
                             <b:inputText value="#{appointment.comment}"/>
                         </b:dataTableColumn>
                         <b:dataTableColumn label="Action">
-                            <b:commandButton action="#{appointmentBean.toSignUp(userBean.student.id, appointment)}" icon-awesome="calendar-plus-o" value="Sign Up">
-                                <f:ajax execute="@form" render="@form :scheduledAppointmentForm" />
-                            </b:commandButton>
+                            <b:commandButton action="#{appointmentBean.toSignUp(userBean.student.id, appointment)}" icon-awesome="calendar-plus-o" value="Sign Up"/>
 
                         </b:dataTableColumn>
 
@@ -50,9 +48,7 @@
                         <b:dataTableColumn label="Comment" value="#{appointment.comment}"/>
                         <b:dataTableColumn label="Action">
                             <b:commandButton action="#{appointmentBean.editDesired(userBean.student.id, appointment)}" icon-awesome="pencil" value="Edit"></b:commandButton>
-                            <b:commandButton action="#{appointmentBean.updateAppointment(userBean.student.id, appointment, true)}" icon-awesome="calendar-minus-o" value="Cancel">
-                                <f:ajax execute="@form" render="@form :availableAppointmentForm" />
-                            </b:commandButton>
+                            <b:commandButton action="#{appointmentBean.updateAppointment(userBean.student.id, appointment, true)}" icon-awesome="calendar-minus-o" value="Cancel"/>
                         </b:dataTableColumn>
                     </b:dataTable>
                 </b:panel>

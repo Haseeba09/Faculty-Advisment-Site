@@ -117,8 +117,6 @@ INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Computer Organization I', 'CMSC', '2833', '3');
 INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
         values ('CMSC', '2833', 'CMSC', '1613');
-INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
-        values ('CMSC', '2613', 'CMSC', '1613');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Calculus I', 'MATH', '2313', '3');
 INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
@@ -129,6 +127,8 @@ INSERT INTO  Corequisite (course_subject, Course_Number, coreq_subject, coreq_nu
         values ('CMSC', '2123', 'MATH', '2313');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Programming II', 'CMSC', '2613', '3');
+INSERT INTO  Prerequisite (course_subject, Course_Number, prereq_subject, prereq_number)
+        values ('CMSC', '2613', 'CMSC', '1613');
 INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
         values ('Programming II Lab', 'CMSC', '2621', '1');
 /*need to add concurrent reccomended*/
