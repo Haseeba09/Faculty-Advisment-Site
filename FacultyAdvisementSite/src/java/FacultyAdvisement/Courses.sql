@@ -277,6 +277,3 @@ INSERT INTO  Course (Course_Name, Subject, Course_Number, Credits)
 
 
 
-
-    INSERT INTO Completed (STUID, subject, course_number) 
-        values ('10000001','CMSC', '1613');

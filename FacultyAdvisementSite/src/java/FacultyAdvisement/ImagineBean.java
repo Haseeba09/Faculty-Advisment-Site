@@ -83,7 +83,7 @@ public class ImagineBean implements Serializable {
                     email.setSubject("Microsoft Imagine Account");
                     email.setMsg(
                             "<font size=\"3\" style=\"font-family:verdana\"> \n"
-                                    + "<ul><li>Student ID: "+ student.getId() +"</li><li>Student Major: " + student.getMajorCode() + "<li>Current Courses: <ol>"+emailCourses+"</ol></li></ul> "
+                                    + "<ul><li>Student Name: "+ student.getFirstName() +" "+ student.getLastName() +"</li><li>Student Major: " + student.getMajorCode() + "<li>Current Courses: <ol>"+emailCourses+"</ol></li></ul> "
                                             + "Student Email if needed for response: " + student.getUsername()
                             + "\n<p align=\"center\">UCO Faculty Advisement</p></font>"
                     );

@@ -20,16 +20,20 @@
         <b:container >
             <b:form id="datePick"> 
 
-
+                <table style="width: 100%">
+                    <tr>
+                        <td style="width: 55%">
                 <b:dateTimePicker label="Create new appointment" time-stepping="10" 
                                   mode="inline" value="#{appointmentBean.appointment.date}"
                                   format="YYYY-MM-DD"/>
-
+                       </td>
+                        <td style="width: 25%; background-color: #dce3ed">
                 <b:dateTimePicker label="Select a time" time-stepping="10"
                                   mode="inline" value="#{appointmentBean.appointment.time}" showDate="false"
                                   format="hh:mm a"/>
-
-
+                        </td>
+                    </tr>
+                </table>
                 <b:commandButton id="create" action="#{appointmentBean.insertAppointment()}" value="Create" >
                     <f:ajax execute="@form" render="@form :appointmentForm" />
                 </b:commandButton> 

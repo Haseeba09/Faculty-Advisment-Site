@@ -30,28 +30,41 @@
                 </b:panel>
             </h:form>
         </b:container>
+        <div id="desired-course">
         <b:container>
-            <b:panel id="available"   collapsible="false" look="info"  title="Available Courses" titleStyle="color: white;"> 
-                    <h:form>
-                        <b:dataTable value="#{signupBean.availableCourses}" var="course">
-                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
-                            <b:dataTableColumn label="Course Number" value="#{course.number}" />
-                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" />
-                            <b:dataTableColumn label="Lookup" orderable="false">
-                                <b:commandButton value="Lookup Course" iconAwesome="plus" action="#{signupBean.lookupCourse(course)}">
-                                         
- 
-                                </b:commandButton>
-                            </b:dataTableColumn>
-                        </b:dataTable>
-                    </h:form>    
-                </b:panel>
-            </b:container>
-            <b:container>
-                
+             
+            <h:form id="desiredCourses">    
+                <b:panel  collapsible="false" look="info" title="Desired Courses" titleStyle="color: white;">
+                    
+                    <h3 style="text-align: center;">Desired Courses</h3>
+                    <b:dataTable  value="#{signupBean.desiredCoureses}" var="course">
+                        <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                        <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
+                        <b:dataTableColumn label="Course Number" value="#{course.number}" />
+                        <b:dataTableColumn label="Course Credits" value="#{course.credits}"  />
+                        
+                         <b:dataTableColumn label="Action" order="asc">
+                             <b:commandButton value="Remove Course" iconAwesome="minus" action="#{signupBean.removeFromDesired(course)}">
+                                       <f:ajax execute="@form" render="@form :available" />
+                             </b:commandButton>
+                         </b:dataTableColumn>
+                    </b:dataTable>
+
+                    <b:commandButton id="Submit" action="#{signupBean.validateSignUp(signupBean.desiredCoureses, appointmentBean.appointment)}" icon-awesome="check" value="Submit">
+                               
+                    </b:commandButton>
+                    
+                    <b:message styleClass="message" for="Submit" errorStyle="color: red" />
+                     
+                    
+                    </b:panel>
+            </h:form>
             
-            <b:panel id="selected" collapsible="false" look="info" title="#{signupBean.courseWithRequisites.course.name} Information" titleStyle="color: white;"> 
+        </b:container>
+            </div>
+        <div id="course-info">
+            <b:container>
+        <b:panel id="selected" collapsible="false" look="info" title="#{signupBean.courseWithRequisites.course.name} Information" titleStyle="color: white;"> 
                     <h:form id="courseinfo" >
                         <h3 style="text-align: center;">Prerequisite Courses</h3>
                         <b:dataTable  value="#{signupBean.courseWithRequisites.prerequisites}" var="course">
@@ -84,37 +97,32 @@
                 </b:panel>
             
         </b:container>
-            
-        <b:container>
-             
-            <h:form id="desiredCourses">    
-                <b:panel  collapsible="false" look="info" title="Desired Courses" titleStyle="color: white;">
-                    
-                    <h3 style="text-align: center;">Desired Courses</h3>
-                    <b:dataTable  value="#{signupBean.desiredCoureses}" var="course">
-                        <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
-                        <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
-                        <b:dataTableColumn label="Course Number" value="#{course.number}" />
-                        <b:dataTableColumn label="Course Credits" value="#{course.credits}"  />
-                        
-                         <b:dataTableColumn label="Action" order="asc">
-                             <b:commandButton value="Remove Course" iconAwesome="minus" action="#{signupBean.removeFromDesired(course)}">
-                                       <f:ajax execute="@form" render="@form :available" />
-                             </b:commandButton>
-                         </b:dataTableColumn>
-                    </b:dataTable>
+            </div>
+        
+                <b:container>
+            <b:panel id="available"   collapsible="false" look="info"  title="Available Courses" titleStyle="color: white;"> 
+                    <h:form>
+                        <b:dataTable value="#{signupBean.availableCourses}" var="course">
+                            <b:dataTableColumn label="Course Name" value="#{course.name}" order="asc"/>
+                            <b:dataTableColumn label="Course Subject" value="#{course.subject}" />
+                            <b:dataTableColumn label="Course Number" value="#{course.number}" />
+                            <b:dataTableColumn label="Course Credits" value="#{course.credits}" />
+                            <b:dataTableColumn label="Lookup" orderable="false">
+                                <b:commandButton value="Lookup Course" iconAwesome="plus" action="#{signupBean.lookupCourse(course)}">
+                                         
+ 
+                                </b:commandButton>
+                            </b:dataTableColumn>
+                        </b:dataTable>
+                    </h:form>    
+                </b:panel>
+            </b:container>
+        
+        
 
-                    <b:commandButton id="Submit" action="#{signupBean.validateSignUp(signupBean.desiredCoureses, appointmentBean.appointment)}" icon-awesome="check" value="Submit">
-                               
-                    </b:commandButton>
-                    
-                    <b:message styleClass="message" for="Submit" errorStyle="color: red" />
-                     
-                    
-                    </b:panel>
-            </h:form>
             
-        </b:container>
+            
+            
          
     </h:body>
 </html>

@@ -26,12 +26,12 @@
                         <b:dataTableColumn label="Hours"   value="#{desired.credits}"/>
                     </b:dataTable>
                 </b:panel>
-                <b:panel title="Student info">
-                    ID: #{appointmentBean.student.id} <br/>
-                    Major Code: #{appointmentBean.student.majorCode}
-                    
-                </b:panel>
+                               
             </b:accordion>
+                    Name: #{appointmentBean.student.firstName} #{appointmentBean.student.lastName} <br/>
+                    ID: #{appointmentBean.student.id} <br/>
+                    Major Code: #{appointmentBean.student.majorCode} <br/>
+                    Comment: #{appointmentBean.appointment.comment}
             <b:form>
                 <h:outputText value="Set students advisment status as complete:" />
                 <b:commandButton iconAwesome="check" value="Complete" action="#{studentBean.markStudentAsAdvised(appointmentBean.student)}"/>

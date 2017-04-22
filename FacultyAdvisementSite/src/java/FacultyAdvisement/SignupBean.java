@@ -103,6 +103,7 @@ public class SignupBean implements Serializable{
     public void lookupCourse(Course course) throws SQLException
     {
         this.setCourseWithRequisites(CourseRepository.readCourseWithRequisites(ds, course));
+        
     
     }
     
