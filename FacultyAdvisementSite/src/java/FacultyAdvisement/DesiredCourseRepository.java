@@ -77,7 +77,7 @@ public class DesiredCourseRepository {
         try
         {
            PreparedStatement ps = conn.prepareStatement(
-                  "SELECT * FROM Course JOIN Desired ON Course.course_number = Desired.course_number and subject = subject where ID = ?"
+                  "SELECT * FROM Course JOIN Desired ON Course.course_number = Desired.course_number and course.subject = desired.course_subject where desired.ID = ?"
                    
            ); 
            
