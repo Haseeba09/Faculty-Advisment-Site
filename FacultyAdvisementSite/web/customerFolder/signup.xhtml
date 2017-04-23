@@ -44,9 +44,7 @@
                         <b:dataTableColumn label="Course Credits" value="#{course.credits}"  />
                         
                          <b:dataTableColumn label="Action" order="asc">
-                             <b:commandButton value="Remove Course" iconAwesome="minus" action="#{signupBean.removeFromDesired(course)}">
-                                       <f:ajax execute="@form" render="@form :available" />
-                             </b:commandButton>
+                             <b:commandButton value="Remove Course" iconAwesome="minus" action="#{signupBean.removeFromDesired(course)}"/>
                          </b:dataTableColumn>
                     </b:dataTable>
 
